@@ -1,4 +1,5 @@
-﻿
+﻿namespace DefaultNamespace;
+
 using Discord;
 using Discord.WebSocket;
 
@@ -17,6 +18,7 @@ public class Program
         var token = Environment.GetEnvironmentVariable("BotToken");;
 
         await _client.LoginAsync(TokenType.Bot, token);
+		await client.RegisterSlashCommand("Ping", "Check bot latency", PingCommand);
         await _client.StartAsync();
 
         // Block this task until the program is closed.

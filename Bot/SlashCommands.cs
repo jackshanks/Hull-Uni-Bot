@@ -2,11 +2,7 @@
 
 using Discord.Commands;
 
-public class MyCommandsModule : ModuleBase<SocketCommandContext>
+async Task PingCommand(ISlashCommandInteraction interaction)
 {
-    [Command("Ping")]
-    public async Task PingAsync()
-    {
-        await ReplyAsync("Pong!");
-    }
+    await interaction.RespondAsync("Pong!");
 }
