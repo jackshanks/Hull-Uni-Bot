@@ -2,7 +2,8 @@
 
 using Discord.Commands;
 
-async Task PingCommand(ISlashCommandInteraction interaction)
-{
-    await interaction.RespondAsync("Pong!");
-}
+public class SlashCommands
+    async Task PingCommand(ISlashCommandInteraction interaction)
+    {
+        await interaction.RespondAsync("Pong!");
+    }
