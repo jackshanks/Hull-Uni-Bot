@@ -16,7 +16,7 @@ public class Program
 
         _client.Log += Log;
         
-        var token = "MTIwMTg2NjkwNzMyMjY3OTMyNg.Gkp4H1.Cl4lxDuAtd7sBCA3LXLvf-ljNHCM2IwDh_JDMM";
+        var token = Environment.GetEnvironmentVariable("BotToken");;
 
         await _client.LoginAsync(TokenType.Bot, token);
         await _client.StartAsync();
