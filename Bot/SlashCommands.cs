@@ -10,7 +10,7 @@ public class SlashCommands
     {
         if (Interaction.Data.Name == "ping")
         {
-            await Interaction.RespondAsync("Pong!");
+            PingCommand(Interaction);
         }
     }
     

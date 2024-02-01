@@ -25,9 +25,9 @@ public class Program
         var Token = Environment.GetEnvironmentVariable("BotToken");;
 
         await _Client.LoginAsync(TokenType.Bot, Token);
-        await Client_Ready();
         await _Client.StartAsync();
         _Client.SlashCommandExecuted += _SlashCommands.SlashCommandExecuted;
+		await Client_Ready();
 
         // Block this task until the program is closed.
         await Task.Delay(-1);
