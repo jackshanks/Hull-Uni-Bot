@@ -1,11 +1,22 @@
-﻿namespace DefaultNamespace;
-
+﻿using Discord;
+using Discord.WebSocket;
 using Discord.Commands;
+namespace Bot;
 
 public class SlashCommands
 {
-    async Task PingCommand(ISlashCommandInteraction interaction)
+
+    public async Task SlashCommandExecuted(SocketSlashCommand Interaction)
     {
-        await interaction.RespondAsync("Pong!");
+        if (Interaction.Data.Name == "Ping")
+        {
+            await Interaction.RespondAsync("Pong!");
+        }
+    }
+    
+    
+    public async Task PingCommand(ISlashCommandInteraction Interaction)
+    {
+        await Interaction.RespondAsync("Pong!");
     }
 }

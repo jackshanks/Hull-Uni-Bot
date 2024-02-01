@@ -1,26 +1,33 @@
-﻿namespace DefaultNamespace;
+﻿using Bot;
+using Discord.Net;
+using Newtonsoft.Json;
+
+namespace DefaultNamespace;
 
 using Discord;
 using Discord.WebSocket;
+using Discord.Commands;
+
 
 public class Program
 {
-    public static Task Main(string[] args) => new Program().MainAsync();
+    public static Task Main(string[] Args) => new Program().MainAsync();
     
-    private DiscordSocketClient _client;
+    private DiscordSocketClient _Client;
 	private SlashCommands _SlashCommands;
 
     public async Task MainAsync()
     {
-        _client = new DiscordSocketClient();
+        _Client = new DiscordSocketClient();
 
-        _client.Log += Log;
+        _Client.Log += Log;
         
-        var token = Environment.GetEnvironmentVariable("BotToken");;
+        var Token = Environment.GetEnvironmentVariable("BotToken");;
 
-        await _client.LoginAsync(TokenType.Bot, token);
-		await _client.RegisterSlashCommand("Ping", "Check bot latency", _SlashCommands.PingCommand);
-        await _client.StartAsync();
+        await _Client.LoginAsync(TokenType.Bot, Token);
+        await Client_Ready();
+        await _Client.StartAsync();
+        _Client.SlashCommandExecuted += _SlashCommands.SlashCommandExecuted;
 
         // Block this task until the program is closed.
         await Task.Delay(-1);
@@ -30,5 +37,23 @@ public class Program
     {
         Console.WriteLine(Msg.ToString());
         return Task.CompletedTask;
+    }
+    
+    public async Task Client_Ready()
+    {
+        // Let's do our global command
+        var GlobalCommand = new SlashCommandBuilder();
+        GlobalCommand.WithName("Ping");
+        GlobalCommand.WithDescription("Lets play table tennis.");
+
+        try
+        {
+            await _Client.CreateGlobalApplicationCommandAsync(GlobalCommand.Build());
+        }
+        catch(ApplicationCommandException Exception)
+        {
+            var json = JsonConvert.SerializeObject(Exception.Errors, Formatting.Indented);
+            Console.WriteLine(json);
+        }
     }
 }
