@@ -26,8 +26,8 @@ public class Program
 
         await _Client.LoginAsync(TokenType.Bot, Token);
         await _Client.StartAsync();
-        _Client.SlashCommandExecuted += _SlashCommands.SlashCommandExecuted;
 		await Client_Ready();
+        _Client.SlashCommandExecuted += _SlashCommands.SlashCommandExecuted;
 
         // Block this task until the program is closed.
         await Task.Delay(-1);
