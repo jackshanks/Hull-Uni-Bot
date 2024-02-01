@@ -14,7 +14,7 @@ public class Program
     public static Task Main(string[] Args) => new Program().MainAsync();
     
     private DiscordSocketClient _Client;
-//	private SlashCommands _SlashCommands;
+	private SlashCommands _SlashCommands;
 
     public async Task MainAsync()
     {
