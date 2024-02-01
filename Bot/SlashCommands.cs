@@ -8,7 +8,7 @@ public class SlashCommands
 
     public async Task SlashCommandExecuted(SocketSlashCommand Interaction)
     {
-        if (Interaction.Data.Name == "Ping")
+        if (Interaction.Data.Name == "ping")
         {
             await Interaction.RespondAsync("Pong!");
         }

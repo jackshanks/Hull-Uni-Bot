@@ -43,7 +43,7 @@ public class Program
     {
         // Let's do our global command
         var GlobalCommand = new SlashCommandBuilder();
-        GlobalCommand.WithName("Ping");
+        GlobalCommand.WithName("ping");
         GlobalCommand.WithDescription("Lets play table tennis.");
 
         try
