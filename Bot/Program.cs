@@ -14,7 +14,7 @@ public class Program
     public static Task Main(string[] Args) => new Program().MainAsync();
     
     private DiscordSocketClient _Client;
-	private SlashCommands _SlashCommands;
+//	private SlashCommands _SlashCommands;
 
     public async Task MainAsync()
     {
@@ -26,8 +26,8 @@ public class Program
 
         await _Client.LoginAsync(TokenType.Bot, Token);
         await _Client.StartAsync();
-		await CreateGlobalCommandAsync();
-        _Client.SlashCommandExecuted += _SlashCommands.SlashCommandExecuted;
+		//await CreateGlobalCommandAsync();
+        //_Client.SlashCommandExecuted += _SlashCommands.SlashCommandExecuted;
 
         // Block this task until the program is closed.
         await Task.Delay(-1);
@@ -38,21 +38,22 @@ public class Program
         Console.WriteLine(Msg.ToString());
         return Task.CompletedTask;
     }
-    
-    public async Task CreateGlobalCommandAsync()
-    {
-        var GlobalCommand = new SlashCommandBuilder();
-        GlobalCommand.WithName("ping");
-        GlobalCommand.WithDescription("Test your connection to the bot.");
 
-        try
-        {
-            await _Client.CreateGlobalApplicationCommandAsync(GlobalCommand.Build());
-        }
-        catch (ApplicationCommandException Exception)
-        {
-            // Handle potential errors during command creation
-            Console.WriteLine(Exception.Message);
-        }
-    }
+//    public async Task CreateGlobalCommandAsync()
+//    {
+//        var GlobalCommand = new SlashCommandBuilder();
+//        GlobalCommand.WithName("ping");
+//        GlobalCommand.WithDescription("Test your connection to the bot.");
+//
+//        try
+//        {
+//            await _Client.CreateGlobalApplicationCommandAsync(GlobalCommand.Build());
+//       }
+//        catch (ApplicationCommandException Exception)
+//        {
+//            // Handle potential errors during command creation
+//            Console.WriteLine(Exception.Message);
+//        }
+// }
+
 }
