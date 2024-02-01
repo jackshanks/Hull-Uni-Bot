@@ -26,7 +26,7 @@ public class Program
 
         await _Client.LoginAsync(TokenType.Bot, Token);
         await _Client.StartAsync();
-		await Client_Ready();
+		await CreateGlobalCommandAsync();
         _Client.SlashCommandExecuted += _SlashCommands.SlashCommandExecuted;
 
         // Block this task until the program is closed.
@@ -39,21 +39,20 @@ public class Program
         return Task.CompletedTask;
     }
     
-    public async Task Client_Ready()
+    public async Task CreateGlobalCommandAsync()
     {
-        // Let's do our global command
         var GlobalCommand = new SlashCommandBuilder();
         GlobalCommand.WithName("ping");
-        GlobalCommand.WithDescription("Lets play table tennis.");
+        GlobalCommand.WithDescription("Test your connection to the bot.");
 
         try
         {
             await _Client.CreateGlobalApplicationCommandAsync(GlobalCommand.Build());
         }
-        catch(ApplicationCommandException Exception)
+        catch (ApplicationCommandException Exception)
         {
-            var json = JsonConvert.SerializeObject(Exception.Errors, Formatting.Indented);
-            Console.WriteLine(json);
+            // Handle potential errors during command creation
+            Console.WriteLine(Exception.Message);
         }
     }
 }
