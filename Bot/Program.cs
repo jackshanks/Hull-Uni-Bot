@@ -34,7 +34,7 @@ public class Program
     {
         if (!msg.Author.IsBot)
         {
-            if (!(Commands.HasStringPrefix(msg,'!', 0) || msg.Author.IsBot))
+            if (!(Discord.Commands.HasStringPrefix(msg,'!', 0) || msg.Author.IsBot))
             {
                 msg.Channel.SendMessageAsync("Hello from your bot!");   
             }
