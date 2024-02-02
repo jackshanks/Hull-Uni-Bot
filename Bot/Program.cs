@@ -46,10 +46,9 @@ public class Program
             await _Client.CreateGlobalApplicationCommandAsync(Ping.Build());
 
         }
-        catch(ApplicationCommandException exception)
+        catch(HttpException httpError)
         { 
-            var json = JsonConvert.SerializeObject(exception.Errors, Formatting.Indented);
-            Console.WriteLine(json);
+            Console.WriteLine(httpError.Reason);
         }
     }
     
