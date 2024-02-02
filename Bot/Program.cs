@@ -12,7 +12,7 @@ public class Program
     {
         _Client = new DiscordSocketClient();
         _Client.Log += Log;
-        _Client.Ready += Client_Ready;
+        await _Client.Ready += Client_Ready;
         _Client.SlashCommandExecuted += SlashCommandHandler;
         
         var Token = Environment.GetEnvironmentVariable("BotToken");
