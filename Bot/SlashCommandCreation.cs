@@ -1,15 +1,22 @@
 ﻿namespace Bot;
 
+using Discord.Commands;
+
 public class SlashCommandCreation
 {
-    private Discord.Guild Guild = _Client.GetGuild(1153315295306465381);
-    
-    public async Task CreateCommands()
+    private Discord.Guild Guild;
+
+    public SlashCommandCreation(Discord.Client client)
     {
-        PingCommand();
+        Guild = _Client.GetGuild(1153315295306465381);
     }
 
-    private async Task PingCommand();
+    public async Task CreateCommands()
+    {
+        await PingCommand(Guild); // Pass Guild as an argument
+    }
+
+    private async Task PingCommand(Discord.Guild guild) // Correct scope and access modifier
     {
         var Ping = new SlashCommandBuilder();
         Ping.WithName("ping");
@@ -17,8 +24,7 @@ public class SlashCommandCreation
 
         try
         {
-            await guild.CreateApplicationCommandAsync(Ping.Build());
-
+            await guild.CreateApplicationCommandAsync(Ping.Build()); // Use passed Guild object
         }
         catch (HttpException httpError)
         {
