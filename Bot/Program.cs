@@ -32,7 +32,7 @@ public class Program
     
     private Task Message(SocketMessage msg)
     {
-        Console.WriteLine(msg.ToString());
+        await msg.Channel.SendMessageAsync("Hello from your bot!");
         return Task.CompletedTask;
     }
 }
