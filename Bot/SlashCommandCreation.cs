@@ -20,7 +20,7 @@ public class SlashCommandCreation
         RoleCommand(_Guild);
         PingCommand(_Guild);
         return Task.CompletedTask;
-    }d
+    }
 
 // ~~ ALL SLASH COMMANDS CREATION ~~
 
