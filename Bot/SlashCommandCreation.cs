@@ -18,7 +18,7 @@ public class SlashCommandCreation
     public Task CreateCommands()
     {
         RoleCommand(_Guild);
-        PingCommand(_Guild);
+        //PingCommand(_Guild);
         return Task.CompletedTask;
     }
 
