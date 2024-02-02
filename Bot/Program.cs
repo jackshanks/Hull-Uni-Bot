@@ -30,12 +30,12 @@ public class Program
         return Task.CompletedTask;
     }
     
-    private Task Message(SocketMessage msg)
+    private Task Message(IUserMessage msg)
     {
         if (!msg.Author.IsBot)
         {
             if (!(HasStringPrefix(msg,'!', 0) ||
-                msg.Author.IsBot))
+                  msg.Author.IsBot))
             {
                 msg.Channel.SendMessageAsync("Hello from your bot!");   
             }
