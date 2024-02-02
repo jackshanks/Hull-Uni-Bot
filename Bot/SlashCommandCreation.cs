@@ -7,8 +7,9 @@ public class SlashCommandCreation
     public async Task CreateCommands()
     {
         PingCommand();
-    } 
+    }
 
+    private async Task PingCommand();
     {
         var Ping = new SlashCommandBuilder();
         Ping.WithName("ping");
@@ -19,8 +20,8 @@ public class SlashCommandCreation
             await guild.CreateApplicationCommandAsync(Ping.Build());
 
         }
-        catch(HttpException httpError)
-        { 
+        catch (HttpException httpError)
+        {
             Console.WriteLine(httpError.Reason);
         }
     }
