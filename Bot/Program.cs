@@ -2,6 +2,8 @@
 using Discord.Net;
 using Discord.WebSocket;
 
+
+
 public class Program
 {
     public static Task Main(string[] Args) => new Program().MainAsync();
@@ -10,6 +12,7 @@ public class Program
     public async Task MainAsync()
     {
         _Client = new DiscordSocketClient();
+        _client.Log += Log;
         
         var Token = Environment.GetEnvironmentVariable("BotToken");;
 
@@ -17,6 +20,12 @@ public class Program
         await _Client.StartAsync();
 
         await Task.Delay(-1);
+    }
+    
+    private Task Log(LogMessage msg)
+    {
+        Console.WriteLine(msg.ToString());
+        return Task.CompletedTask;
     }
     
 }
