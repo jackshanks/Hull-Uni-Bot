@@ -11,12 +11,21 @@ public class SlashCommandHandle
         {
             await PingCommand(Interaction);
         }
+        else if (Interaction.Data.Name == "role-command")
+        {
+            await RoleCommand(Interaction);
+        }
     }
 
 // ~~ ALL SLASH COMMAND EXECUTION ~~
 
-    public Task PingCommand(ISlashCommandInteraction Interaction)
+    private Task PingCommand(ISlashCommandInteraction Interaction)
     {
         return Interaction.RespondAsync("Pong!");
+    }
+
+    private Task RoleCommand(ISlashCommandInteraction Interaction)
+    {
+        return Interaction.RespondAsync("DOESNT WORK YET");
     }
 }
