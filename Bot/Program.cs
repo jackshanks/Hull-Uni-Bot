@@ -32,7 +32,7 @@ public class Program
     
     private Task Message(SocketMessage msg)
     {
-        if (msg.Source != msg.Bot)
+        if (msg.Source != 1201866907322679326)
         {
             Task.Delay(5);
             msg.Channel.SendMessageAsync("Hello from your bot!");   
