@@ -15,6 +15,6 @@ public class SlashCommandHandle
 
     public async Task PingCommand(ISlashCommandInteraction Interaction)
     {
-        await Interaction.RespondAsync("Pong!");
+        Interaction.RespondAsync("Pong!");
     }
 }

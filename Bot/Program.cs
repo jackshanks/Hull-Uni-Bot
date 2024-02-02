@@ -9,14 +9,17 @@ public class Program
     public static Task Main(string[] Args) => new Program().MainAsync();
     private DiscordSocketClient _Client;
     private SlashCommandCreation _CommandCreation;
+    private SlashCommandHandle _CommandHandle;
     
     public async Task MainAsync()
     {
         _Client = new DiscordSocketClient();
         _CommandCreation = new SlashCommandCreation(_Client);
+        _CommandHandle = new _SlashCommandHandle();
+        
         _Client.Log += Log;
         _Client.Ready += () => Task.FromResult(_CommandCreation.CreateCommands());
-        _Client.SlashCommandExecuted += SlashCommandHandler;
+        _Client.SlashCommandExecuted += Task.FromResult(_CommandHandle.SlashCommandExecuted);
         
         var Token = Environment.GetEnvironmentVariable("BotToken");
 
