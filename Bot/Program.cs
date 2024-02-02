@@ -34,8 +34,10 @@ public class Program
     {
         if (!msg.Author.IsBot)
         {
-            Task.Delay(5);
-            msg.Channel.SendMessageAsync("Hello from your bot!");   
+            if (msg.HasCharPrefix('!', ref argPos))
+            {
+                msg.Channel.SendMessageAsync("Hello from your bot!");   
+            }
         }
         return Task.CompletedTask;
     }
