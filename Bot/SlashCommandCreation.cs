@@ -44,8 +44,8 @@ public class SlashCommandCreation
         var RoleCommand = new SlashCommandBuilder();
         RoleCommand.WithName("role");
         RoleCommand.WithDescription("Lets you create your own role");
-        //RoleCommand.AddOption("name", ApplicationCommandOptionType.String, "Please name your role", isRequired: true);
-        //RoleCommand.AddOption("hex", ApplicationCommandOptionType.String, "Please enter the hex code of your role", isRequired: true);
+        RoleCommand.AddOption("name", ApplicationCommandOptionType.String, "Please name your role", isRequired: true);
+        RoleCommand.AddOption("hex", ApplicationCommandOptionType.String, "Please enter the hex code of your role", isRequired: true);
 
         try
         {

@@ -5,16 +5,14 @@ namespace Bot;
 
 public class SlashCommandHandle
 {
-    public async Task SlashCommandExecuted(SocketSlashCommand Interaction)
+    public Task SlashCommandExecuted(SocketSlashCommand Interaction)
     {
-        if (Interaction.Data.Name == "ping")
+        return Interaction.Data.Name switch
         {
-            await PingCommand(Interaction);
-        }
-        else if (Interaction.Data.Name == "role")
-        {
-            await RoleCommand(Interaction);
-        }
+            "ping" => PingCommand(Interaction),
+            "role" => RoleCommand(Interaction),
+            _ => Task.CompletedTask
+        };
     }
 
 // ~~ ALL SLASH COMMAND EXECUTION ~~
