@@ -13,7 +13,14 @@ public class Program
     {
         _Client = new DiscordSocketClient();
         _Client.Log += Log;
-        _Client.MessageRecived += Reply;
+        client.MessageReceived += async (socketMessage) =>
+        {
+            if (socketMessage.Source != SocketMessageSource.Bot)
+            {
+                // Send a message back to the channel
+                await socketMessage.Channel.SendMessageAsync("Hello from your bot!");
+            }
+        };
         
         var Token = Environment.GetEnvironmentVariable("BotToken");;
 
