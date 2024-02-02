@@ -26,9 +26,9 @@ public class SlashCommandCreation
 
     private async Task PingCommand(IGuild Guild)
     {
-        var Ping = new SlashCommandBuilder();
-        Ping.WithName("ping");
-        Ping.WithDescription("Lets play tennis");
+        var Ping = new SlashCommandBuilder()
+            .WithName("ping")
+            .WithDescription("Lets play tennis");
 
         try
         {
@@ -42,9 +42,11 @@ public class SlashCommandCreation
 	
 	private async Task RoleCommand(IGuild Guild)
     {
-        var Role = new SlashCommandBuilder();
-        Role.WithName("role");
-        Role.WithDescription("Lets you change your role");
+        var Role = new SlashCommandBuilder()
+        .WithName("role")
+        .WithDescription("Lets you change your role")
+        .AddOption("name", ApplicationCommandOptionType.String, "Choose the name of the role", isRequired: true)
+        .AddOption("hex", ApplicationCommandOptionType.String, "Choose the colour of the role", isRequired: true);
 
         try
         {
