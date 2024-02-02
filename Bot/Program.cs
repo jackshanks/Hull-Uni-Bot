@@ -28,7 +28,7 @@ public class Program
         _Client.Log += Log;
 
         //When the client turns on, it runs this to create the commands in "SlashCommandCreation.cs"
-        _Client.Ready += () => _CommandCreation.CreateCommands();
+        _Client.Ready += () => Task.FromResult(_CommandCreation.CreateCommands());
         
         //When a slash command is dectected it will run the corrosponding logic
         _Client.SlashCommandExecuted += _CommandHandle.SlashCommandExecuted;

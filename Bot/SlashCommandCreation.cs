@@ -15,11 +15,12 @@ public class SlashCommandCreation
     }
 
 	//Creates all commands with the relevant methods
-    public async Task CreateCommands()
+    public Task CreateCommands()
     {
-        await RoleCommand(_Guild);
-        await PingCommand(_Guild);
-    }
+        RoleCommand(_Guild);
+        PingCommand(_Guild);
+        return Task.CompletedTask;
+    }d
 
 // ~~ ALL SLASH COMMANDS CREATION ~~
 
