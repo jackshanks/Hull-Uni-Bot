@@ -3,8 +3,6 @@ using Discord.Net;
 using Discord.WebSocket;
 using Discord.Commands;
 
-namespace Bot;
-
 public class Program
 {
     public static Task Main(string[] Args) => new Program().MainAsync();
@@ -33,7 +31,7 @@ public class Program
     
     private async Task SlashCommandHandler(SocketSlashCommand command)
     {
-        async command.RespondAsync($"Ping!");
+        command.RespondAsync($"Ping!");
     }
     
     public async Task Client_Ready()
@@ -45,7 +43,7 @@ public class Program
 
         try
         {
-            await client.CreateGlobalApplicationCommandAsync(globalCommand.Build());
+            await _Client.CreateGlobalApplicationCommandAsync(Ping.Build());
 
         }
         catch(ApplicationCommandException exception)
