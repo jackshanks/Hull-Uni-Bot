@@ -31,7 +31,7 @@ public class Program
     
     private async Task SlashCommandHandler(SocketSlashCommand command)
     {
-        command.RespondAsync($"Ping!");
+        command.RespondAsync($"Pong!");
     }
     
     public async Task Client_Ready()
