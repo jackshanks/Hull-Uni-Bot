@@ -34,7 +34,7 @@ public class Program
     {
         if (!msg.Author.IsBot)
         {
-            if (msg.HasCharPrefix('!', ref argPos))
+            if (msg.HasCharPrefix('!'))
             {
                 msg.Channel.SendMessageAsync("Hello from your bot!");   
             }
