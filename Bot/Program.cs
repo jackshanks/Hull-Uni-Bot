@@ -13,6 +13,7 @@ public class Program
     {
         _Client = new DiscordSocketClient();
         _Client.Log += Log;
+        _Client.MessageRecived += Reply;
         
         var Token = Environment.GetEnvironmentVariable("BotToken");;
 
@@ -26,6 +27,14 @@ public class Program
     {
         Console.WriteLine(msg.ToString());
         return Task.CompletedTask;
+    }
+
+    private Task Reply(CocketMessage socketMessage)
+    {
+        if (socketMessage.Source != SocketMessageSource.Bot)
+        {
+            await socketMessage.Channel.SendMessageAsync("Hello from your bot!");
+        }
     }
     
 }
