@@ -7,12 +7,13 @@ public class Program
 {
     public static Task Main(string[] Args) => new Program().MainAsync();
     private DiscordSocketClient _Client;
+    private SlashCommmandCreation _CommandCreation;
     
     public async Task MainAsync()
     {
         _Client = new DiscordSocketClient();
         _Client.Log += Log;
-        _Client.Ready += SlashCommandCreation.CreateCommands();
+        _Client.Ready += _CommandCreation.CreateCommands();
         _Client.SlashCommandExecuted += SlashCommandHandler;
         
         var Token = Environment.GetEnvironmentVariable("BotToken");
