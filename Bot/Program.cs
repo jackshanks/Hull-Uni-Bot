@@ -3,6 +3,7 @@ using Discord;
 using Discord.Net;
 using Discord.WebSocket;
 using Discord.Commands;
+using Discord.Interactions;
 
 public class Program
 {
@@ -15,14 +16,16 @@ public class Program
     //Initialises Classes i have created
     private SlashCommandCreation _CommandCreation;
     private SlashCommandHandle _CommandHandle;
+    private InteractionService _InteractionService;
     
     public async Task MainAsync()
     {
         
         //Creation of the initialised objects above
         _Client = new DiscordSocketClient();
+        _InteractionService = new InteractionService(_Client.Rest);
         _CommandCreation = new SlashCommandCreation(_Client);
-        _CommandHandle = new SlashCommandHandle();
+        _CommandHandle = new SlashCommandHandle(_Client.GetGuild(1153315295306465381));
         
         //If an event/error is dected the "Log" task will run
         _Client.Log += Log;
