@@ -14,7 +14,8 @@ public class Program
     {
         _Client = new DiscordSocketClient();
         _Client.Log += Log;
-        _Client.MessageReceived += Message;
+        _Client.Ready += Client_Ready;
+        _Client.SlashCommandExecuted += SlashCommandHandler;
         
         var Token = Environment.GetEnvironmentVariable("BotToken");;
 
@@ -30,15 +31,28 @@ public class Program
         return Task.CompletedTask;
     }
     
-    private Task Message(SocketMessage msg)
+    private async Task SlashCommandHandler(SocketSlashCommand command)
     {
-        if (!msg.Author.IsBot)
-        {
-            if (!(Discord.Commands.HasStringPrefix(msg,'!', 0) || msg.Author.IsBot))
-            {
-                msg.Channel.SendMessageAsync("Hello from your bot!");   
-            }
-        }
-        return Task.CompletedTask;
+        async command.RespondAsync($"Ping!");
     }
+    
+    public async Task Client_Ready()
+    {
+        
+        var Ping = new SlashCommandBuilder();
+        Ping.WithName("Ping");
+        Ping.WithDescription("Lets play tennis");
+
+        try
+        {
+            await client.CreateGlobalApplicationCommandAsync(globalCommand.Build());
+
+        }
+        catch(ApplicationCommandException exception)
+        { 
+            var json = JsonConvert.SerializeObject(exception.Errors, Formatting.Indented);
+            Console.WriteLine(json);
+        }
+    }
+    
 }
