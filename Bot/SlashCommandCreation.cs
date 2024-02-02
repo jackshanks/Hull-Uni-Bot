@@ -2,7 +2,7 @@
 
 public class SlashCommandCreation
 {
-    private TGuild Guild = _Client.GetGuild(1153315295306465381);
+    private Discord.Guild Guild = _Client.GetGuild(1153315295306465381);
     
     public async Task CreateCommands()
     {
