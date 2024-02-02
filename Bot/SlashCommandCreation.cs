@@ -1,22 +1,24 @@
 ﻿namespace Bot;
-
+using Discord;
+using Discord.Net;
+using Discord.WebSocket;
 using Discord.Commands;
 
 public class SlashCommandCreation
 {
-    private Discord.Guild Guild;
+    private readonly IGuild _Guild;
 
-    public SlashCommandCreation(Discord.Client client)
+    public SlashCommandCreation(DiscordSocketClient Client)
     {
-        Guild = _Client.GetGuild(1153315295306465381);
+        _Guild = Client.GetGuild(1153315295306465381);
     }
 
-    public async Task CreateCommands()
+    public Task CreateCommands()
     {
-        await PingCommand(Guild); // Pass Guild as an argument
+        return PingCommand(_Guild); // Pass Guild as an argument
     }
 
-    private async Task PingCommand(Discord.Guild guild) // Correct scope and access modifier
+    private async Task PingCommand(IGuild Guild) // Correct scope and access modifier
     {
         var Ping = new SlashCommandBuilder();
         Ping.WithName("ping");
@@ -24,11 +26,11 @@ public class SlashCommandCreation
 
         try
         {
-            await guild.CreateApplicationCommandAsync(Ping.Build()); // Use passed Guild object
+            await Guild.CreateApplicationCommandAsync(Ping.Build()); // Use passed Guild object
         }
-        catch (HttpException httpError)
+        catch (HttpException HttpError)
         {
-            Console.WriteLine(httpError.Reason);
+            Console.WriteLine(HttpError.Reason);
         }
     }
 }

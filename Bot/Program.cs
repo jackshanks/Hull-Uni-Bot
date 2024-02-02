@@ -1,4 +1,5 @@
-﻿using Discord;
+﻿namespace Bot;
+using Discord;
 using Discord.Net;
 using Discord.WebSocket;
 using Discord.Commands;
@@ -7,13 +8,13 @@ public class Program
 {
     public static Task Main(string[] Args) => new Program().MainAsync();
     private DiscordSocketClient _Client;
-    private SlashCommmandCreation _CommandCreation;
+    private SlashCommandCreation _CommandCreation;
     
     public async Task MainAsync()
     {
-        _Client = new DiscordSocketClient(_Client);
+        _Client = new DiscordSocketClient();
         _Client.Log += Log;
-        _Client.Ready += _CommandCreation.CreateCommands();
+        _Client.Ready += () => Task.FromResult(_CommandCreation.CreateCommands());
         _Client.SlashCommandExecuted += SlashCommandHandler;
         
         var Token = Environment.GetEnvironmentVariable("BotToken");
