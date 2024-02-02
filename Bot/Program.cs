@@ -12,7 +12,7 @@ public class Program
     {
         _Client = new DiscordSocketClient();
         _Client.Log += Log;
-        await _Client.Ready += Client_Ready;
+        _Client.Ready += Client_Ready;
         _Client.SlashCommandExecuted += SlashCommandHandler;
         
         var Token = Environment.GetEnvironmentVariable("BotToken");
@@ -37,13 +37,15 @@ public class Program
     public async Task Client_Ready()
     {
         
+        var guild = client.GetGuild(1153315295306465381);
+        
         var Ping = new SlashCommandBuilder();
         Ping.WithName("ping");
         Ping.WithDescription("Lets play tennis");
 
         try
         {
-            await _Client.CreateGlobalApplicationCommandAsync(Ping.Build());
+            await guild.CreateApplicationCommandAsync(guildCommand.Build());
 
         }
         catch(HttpException httpError)
