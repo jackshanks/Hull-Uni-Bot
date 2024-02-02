@@ -15,7 +15,7 @@ public class Program
     {
         _Client = new DiscordSocketClient();
         _CommandCreation = new SlashCommandCreation(_Client);
-        _CommandHandle = new _SlashCommandHandle();
+        _CommandHandle = new SlashCommandHandle();
         
         _Client.Log += Log;
         _Client.Ready += () => Task.FromResult(_CommandCreation.CreateCommands());
