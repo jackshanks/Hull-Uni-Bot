@@ -2,14 +2,13 @@
 
 public class SlashCommandCreation
 {
-    private var Guild = _Client.GetGuild(1153315295306465381);
+    private TGuild Guild = _Client.GetGuild(1153315295306465381);
     
     public async Task CreateCommands()
     {
         PingCommand();
-    }
+    } 
 
-    private async Task PingCommand()
     {
         var Ping = new SlashCommandBuilder();
         Ping.WithName("ping");
