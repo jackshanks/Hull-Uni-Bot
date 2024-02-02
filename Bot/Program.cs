@@ -14,7 +14,7 @@ public class Program
     {
         _Client = new DiscordSocketClient();
         _Client.Log += Log;
-        _Client.MessageReceived += Log;
+        _Client.MessageReceived += Message;
         
         var Token = Environment.GetEnvironmentVariable("BotToken");;
 
@@ -25,6 +25,12 @@ public class Program
     }
     
     private Task Log(LogMessage msg)
+    {
+        Console.WriteLine(msg.ToString());
+        return Task.CompletedTask;
+    }
+    
+    private Task Message(socketMessage msg)
     {
         Console.WriteLine(msg.ToString());
         return Task.CompletedTask;
