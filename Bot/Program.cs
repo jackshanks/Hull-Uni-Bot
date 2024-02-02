@@ -12,7 +12,7 @@ public class Program
     public async Task MainAsync()
     {
         _Client = new DiscordSocketClient();
-        _client.Log += Log;
+        _Client.Log += Log;
         
         var Token = Environment.GetEnvironmentVariable("BotToken");;
 
