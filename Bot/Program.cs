@@ -13,7 +13,7 @@ public class Program
     {
         _Client = new DiscordSocketClient();
         _Client.Log += Log;
-        client.MessageReceived += async (socketMessage) =>
+        _Client.MessageReceived += async (socketMessage) =>
         {
             if (socketMessage.Source != SocketMessageSource.Bot)
             {
