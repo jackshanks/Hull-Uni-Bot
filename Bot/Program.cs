@@ -30,7 +30,7 @@ public class Program
         return Task.CompletedTask;
     }
     
-    private Task Message(socketMessage msg)
+    private Task Message(SocketMessage msg)
     {
         Console.WriteLine(msg.ToString());
         return Task.CompletedTask;
