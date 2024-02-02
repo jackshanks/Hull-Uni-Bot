@@ -13,6 +13,7 @@ public class Program
     public async Task MainAsync()
     {
         _Client = new DiscordSocketClient();
+        _CommandCreation = new SlashCommandCreation(_Client);
         _Client.Log += Log;
         _Client.Ready += () => Task.FromResult(_CommandCreation.CreateCommands());
         _Client.SlashCommandExecuted += SlashCommandHandler;
