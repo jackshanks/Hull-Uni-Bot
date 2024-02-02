@@ -11,7 +11,7 @@ public class SlashCommandHandle
         {
             await PingCommand(Interaction);
         }
-        else if (Interaction.Data.Name == "role-command")
+        else if (Interaction.Data.Name == "role")
         {
             await RoleCommand(Interaction);
         }
