@@ -17,7 +17,7 @@ public class Program
         _Client.Ready += Client_Ready;
         _Client.SlashCommandExecuted += SlashCommandHandler;
         
-        var Token = Environment.GetEnvironmentVariable("BotToken");;
+        var Token = Environment.GetEnvironmentVariable("BotToken");
 
         await _Client.LoginAsync(TokenType.Bot, Token);
         await _Client.StartAsync();
