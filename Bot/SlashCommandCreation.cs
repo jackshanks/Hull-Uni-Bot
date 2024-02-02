@@ -6,19 +6,20 @@ using Discord.Commands;
 
 public class SlashCommandCreation
 {
-    private readonly IGuild _Guild;
+    private readonly DiscordSocketClient _Client;
 
     public SlashCommandCreation(DiscordSocketClient Client)
     {
 // Gets the guild information for later use
-        _Guild = Client.GetGuild(1153315295306465381);
+        _Client = Client;
     }
 
 	//Creates all commands with the relevant methods
     public async Task CreateCommands()
     {
-        await RoleCommand(_Guild);
-        await PingCommand(_Guild);
+        var Guild = _Client.GetGuild(1153315295306465381);
+        await RoleCommand(Guild);
+        await PingCommand(Guild);
     }
 
 // ~~ ALL SLASH COMMANDS CREATION ~~
