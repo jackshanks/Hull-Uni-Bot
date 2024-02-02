@@ -51,9 +51,9 @@ public class SlashCommandCreation
         {
             await Guild.CreateApplicationCommandAsync(RoleCommand.Build()); // Use passed Guild object
         }
-        catch (ApplicationCommandException Error)
+        catch (Exception Error)
         {
-            Console.WriteLine(Error.Reason);
+            Console.WriteLine(Error);
         }
     }
 }
