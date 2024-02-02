@@ -24,6 +24,9 @@ public class SlashCommandHandle
 
     private Task RoleCommand(ISlashCommandInteraction Interaction)
     {
-        return Interaction.RespondAsync("DOESNT WORK YET");
+        var RoleName = Interaction.Data.Options.First().Value;
+        var HexCode = Interaction.Data.Options.ElementAt(1).Value;
+        
+        return Interaction.RespondAsync($"You want your role to be called: {RoleName} and your Hex code to be {HexCode}?");
     }
 }
