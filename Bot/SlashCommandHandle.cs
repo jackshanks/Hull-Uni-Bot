@@ -1,4 +1,5 @@
 ﻿using Discord;
+using Discord.Net;
 using Discord.WebSocket;
 using Discord.Commands;
 using Discord.Interactions;
@@ -30,14 +31,19 @@ public class SlashCommandHandle
         return Interaction.RespondAsync("Pong!");
     }
 
-    private Task RoleCommand(ISlashCommandInteraction Interaction)
+    private async Task RoleCommand(ISlashCommandInteraction Interaction)
     {
-        var RoleName = Interaction.Data.Options.First().Value;
-        var HexCode = Interaction.Data.Options.ElementAt(1).Value;
+        SocketGuildUser User = (SocketGuildUser)Interaction.User;
         
-        return Interaction.RespondAsync($"**Role Name:** {RoleName} \n**Hex Code:** {HexCode}\n {Interaction.User}");
+        string RoleName = (string)Interaction.Data.Options.First().Value;
+        uint HexCode = (uint)Interaction.Data.Options.ElementAt(1).Value;
         
-        //var role = context._Guild.CrateRoleAsync($"{Interaction.User}");
-        //await user.AddRoleAsync(role);
+        await Interaction.RespondAsync($"**Role Name:** {RoleName} \n**Hex Code:** {HexCode}");
+
+        var Color = new Color(HexCode);
+
+        var Role = await _Guild.CreateRoleAsync(RoleName, null, Color);
+
+        await User.AddRoleAsync(Role);
     }
 }
