@@ -19,7 +19,7 @@ public class Program
         
         _Client.Log += Log;
         _Client.Ready += () => Task.FromResult(_CommandCreation.CreateCommands());
-        _Client.SlashCommandExecuted += Task.FromResult(_CommandHandle.SlashCommandExecuted);
+        _Client.SlashCommandExecuted += _CommandHandle.SlashCommandExecuted;
         
         var Token = Environment.GetEnvironmentVariable("BotToken");
 
