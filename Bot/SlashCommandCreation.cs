@@ -18,7 +18,7 @@ public class SlashCommandCreation
     public Task CreateCommands()
     {
         RoleCommand(_Guild);
-        //PingCommand(_Guild);
+        PingCommand(_Guild);
         return Task.CompletedTask;
     }
 
@@ -42,19 +42,17 @@ public class SlashCommandCreation
 	
 	private async Task RoleCommand(IGuild Guild)
     {
-        var RoleCommand = new SlashCommandBuilder();
-        RoleCommand.WithName("role");
-        RoleCommand.WithDescription("Lets you create your own role");
-        RoleCommand.AddOption("name", ApplicationCommandOptionType.String, "Please name your role", isRequired: true);
-        RoleCommand.AddOption("hex", ApplicationCommandOptionType.String, "Please enter the hex code of your role", isRequired: true);
+        var Role = new SlashCommandBuilder();
+        Role.WithName("role");
+        Role.WithDescription("Lets you change your role");
 
         try
         {
-            await Guild.CreateApplicationCommandAsync(RoleCommand.Build()); // Use passed Guild object
+            await Guild.CreateApplicationCommandAsync(Role.Build()); // Use passed Guild object
         }
-        catch (Exception Error)
+        catch (HttpException HttpError)
         {
-            Console.WriteLine(Error);
+            Console.WriteLine(HttpError.Reason);
         }
     }
 }
