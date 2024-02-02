@@ -38,7 +38,7 @@ public class Program
     {
         
         var Ping = new SlashCommandBuilder();
-        Ping.WithName("Ping");
+        Ping.WithName("ping");
         Ping.WithDescription("Lets play tennis");
 
         try
