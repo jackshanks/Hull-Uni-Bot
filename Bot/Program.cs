@@ -37,7 +37,7 @@ public class Program
     public async Task Client_Ready()
     {
         
-        var guild = client.GetGuild(1153315295306465381);
+        var guild = _Client.GetGuild(1153315295306465381);
         
         var Ping = new SlashCommandBuilder();
         Ping.WithName("ping");
@@ -45,7 +45,7 @@ public class Program
 
         try
         {
-            await guild.CreateApplicationCommandAsync(guildCommand.Build());
+            await guild.CreateApplicationCommandAsync(Ping.Build());
 
         }
         catch(HttpException httpError)
