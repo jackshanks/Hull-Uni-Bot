@@ -32,6 +32,7 @@ public class Program
     
     private Task Message(SocketMessage msg)
     {
+        Task.Delay(5);
         msg.Channel.SendMessageAsync("Hello from your bot!");
         return Task.CompletedTask;
     }
