@@ -13,8 +13,10 @@ public class SlashCommandHandle
         }
     }
 
-    public async Task PingCommand(ISlashCommandInteraction Interaction)
+// ~~ ALL SLASH COMMAND EXECUTION ~~
+
+    public Task PingCommand(ISlashCommandInteraction Interaction)
     {
-        Interaction.RespondAsync("Pong!");
+        return Interaction.RespondAsync("Pong!");
     }
 }

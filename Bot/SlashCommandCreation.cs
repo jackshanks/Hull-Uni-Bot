@@ -10,15 +10,19 @@ public class SlashCommandCreation
 
     public SlashCommandCreation(DiscordSocketClient Client)
     {
+// Gets the guild information for later use
         _Guild = Client.GetGuild(1153315295306465381);
     }
 
+	//Creates all commands with the relevant methods
     public Task CreateCommands()
     {
         return PingCommand(_Guild); // Pass Guild as an argument
     }
 
-    private async Task PingCommand(IGuild Guild) // Correct scope and access modifier
+// ~~ ALL SLASH COMMANDS CREATION ~~
+
+    private async Task PingCommand(IGuild Guild)
     {
         var Ping = new SlashCommandBuilder();
         Ping.WithName("ping");
@@ -27,6 +31,24 @@ public class SlashCommandCreation
         try
         {
             await Guild.CreateApplicationCommandAsync(Ping.Build()); // Use passed Guild object
+        }
+        catch (HttpException HttpError)
+        {
+            Console.WriteLine(HttpError.Reason);
+        }
+    }
+	
+	private async Task RoleCommand(IGuild Guild)
+    {
+        var RoleCommand = new SlashCommandBuilder();
+        RoleCommand.WithName("role-command");
+        RoleCommand.WithDescription("Lets you create your own role");
+        RoleCommand.AddOption("name", ApplicationCommandOptionType.String, "Please name your role", isRequired: true);
+        RoleCommand.AddOption("hex", ApplicationCommandOptionType.String, "Please enter the hex code of your role", isRequired: true);
+
+        try
+        {
+            await Guild.CreateApplicationCommandAsync(RoleCommand.Build()); // Use passed Guild object
         }
         catch (HttpException HttpError)
         {
