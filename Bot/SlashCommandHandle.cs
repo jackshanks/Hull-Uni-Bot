@@ -3,7 +3,7 @@ using Discord.WebSocket;
 using Discord.Commands;
 namespace Bot;
 
-public class SlashCommands
+public class SlashCommandHandle
 {
     public async Task SlashCommandExecuted(SocketSlashCommand Interaction)
     {
