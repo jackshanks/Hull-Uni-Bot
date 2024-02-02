@@ -3,7 +3,7 @@ using Discord.Net;
 using Discord.WebSocket;
 using Discord.Commands;
 
-
+namespace Bot;
 
 public class Program
 {
@@ -30,7 +30,7 @@ public class Program
         return Task.CompletedTask;
     }
     
-    private Task Message(IUserMessage msg)
+    private Task Message(SocketMessage msg)
     {
         if (!msg.Author.IsBot)
         {
