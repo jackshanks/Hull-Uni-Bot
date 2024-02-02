@@ -11,7 +11,7 @@ public class Program
     
     public async Task MainAsync()
     {
-        _Client = new DiscordSocketClient();
+        _Client = new DiscordSocketClient(_Client);
         _Client.Log += Log;
         _Client.Ready += _CommandCreation.CreateCommands();
         _Client.SlashCommandExecuted += SlashCommandHandler;
