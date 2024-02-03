@@ -49,7 +49,7 @@ public class SlashCommandHandle
 
             var Color = new Color(HexCode);
 
-            Console.WriteLine(Interaction.Data.Options);
+            Console.WriteLine(Interaction.Data.Options.ToString());
 
             await _Guild.CreateRoleAsync(RoleName, null, Color);
 
