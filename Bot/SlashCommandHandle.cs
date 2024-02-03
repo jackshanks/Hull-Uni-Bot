@@ -30,20 +30,37 @@ public class SlashCommandHandle
     {
         return Interaction.RespondAsync("Pong!");
     }
-
+    
+    
     private async Task RoleCommand(ISlashCommandInteraction Interaction)
     {
-        SocketGuildUser User = (SocketGuildUser)Interaction.User;
-        
-        string RoleName = (string)Interaction.Data.Options.First().Value;
-        uint HexCode = (uint)Interaction.Data.Options.ElementAt(1).Value;
-        
-        await Interaction.RespondAsync($"**Role Name:** {RoleName} \n**Hex Code:** {HexCode}");
+        try
+        {
+            SocketGuildUser User = (SocketGuildUser)Interaction.User;
 
-        var Color = new Color(HexCode);
+            string RoleName = (string)Interaction.Data.Options.First().Value;
+            uint HexCode;
 
-        var Role = await _Guild.CreateRoleAsync(RoleName, null, Color);
+            // Validate HexCode input
+            if (!uint.TryParse((string?)Interaction.Data.Options.ElementAt(1).Value, out HexCode))
+            {
+                await Interaction.RespondAsync("Invalid hex code provided. Please enter a valid 6-digit hexadecimal value.");
+                return;
+            }
 
-        await User.AddRoleAsync(Role);
+            await Interaction.RespondAsync($"**Role Name:** {RoleName} \n**Hex Code:** {HexCode}");
+
+            var Color = new Color(HexCode);
+
+            var Role = await _Guild.CreateRoleAsync(RoleName, null, Color);
+
+            await User.AddRoleAsync(Role);
+
+            await Interaction.RespondAsync($"Role {RoleName} has been created and assigned to you!");
+        }
+        catch (Exception ex)
+        {
+            await Interaction.RespondAsync($"An error occurred: {ex.Message}");
+        }
     }
 }
