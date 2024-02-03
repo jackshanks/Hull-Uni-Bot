@@ -41,7 +41,7 @@ public class SlashCommandHandle
             
             SocketGuildUser User = (SocketGuildUser)Interaction.User;
 
-            string RoleName = (string)Interaction.Data.Options.ElementAt(0).Value;
+            string RoleName = ("$"+(string)Interaction.Data.Options.ElementAt(0).Value);
 
             // Validate HexCode input
             if (!uint.TryParse((string?)"6600", out uint HexCode)) //Interaction.Data.Options.ElementAt(1).Value
@@ -51,10 +51,10 @@ public class SlashCommandHandle
             }
 
             Discord.Color Color = new Color(HexCode);
+            
+            var Role = await Guild.CreateRoleAsync(RoleName, null, Color, false, false, null);
 
-            await Guild.CreateRoleAsync(RoleName, null, Color, false, false, null);
-
-            //await User.AddRoleAsync(Role);
+            await User.AddRoleAsync(Role);
 
             await Interaction.RespondAsync($"**Role Name:** {RoleName} \n**Hex Code:** {HexCode}");
         }
