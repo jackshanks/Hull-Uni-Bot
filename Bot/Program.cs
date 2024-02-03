@@ -27,7 +27,7 @@ public class Program
         _CommandCreation = new SlashCommandCreation(_Client);
         _CommandHandle = new SlashCommandHandle(_Client.GetGuild(1153315295306465381));
         
-        //If an event/error is dected the "Log" task will run
+        //If an event/error is detected the "Log" task will run
         _Client.Log += Log;
 
         //When the client turns on, it runs this to create the commands in "SlashCommandCreation.cs"

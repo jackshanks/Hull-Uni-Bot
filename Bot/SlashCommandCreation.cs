@@ -34,9 +34,9 @@ public class SlashCommandCreation
         {
             await Guild.CreateApplicationCommandAsync(Ping.Build()); // Use passed Guild object
         }
-        catch (HttpException HttpError)
+        catch (Exception ex)
         {
-            Console.WriteLine(HttpError.Reason);
+            Console.WriteLine($"An error occurred: {ex.Message} {ex.StackTrace}");
         }
     }
 	
@@ -52,9 +52,9 @@ public class SlashCommandCreation
         {
             await Guild.CreateApplicationCommandAsync(Role.Build()); // Use passed Guild object
         }
-        catch (HttpException HttpError)
+        catch (Exception ex)
         {
-            Console.WriteLine(HttpError.Reason);
+            Console.WriteLine($"An error occurred: {ex.Message} {ex.StackTrace}");
         }
     }
 }
