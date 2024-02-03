@@ -41,11 +41,11 @@ public class SlashCommandHandle
             string RoleName = (string)Interaction.Data.Options.ElementAt(0).Value;
 
             // Validate HexCode input
-            if (!uint.TryParse((string?)"6600", out uint HexCode)) //Interaction.Data.Options.ElementAt(1).Value
-            {
-                await Interaction.RespondAsync("Invalid hex code provided. Please enter a valid 6-digit hexadecimal value.");
-                return;
-            }
+            //if (!uint.TryParse((string?)"6600", out uint HexCode)) //Interaction.Data.Options.ElementAt(1).Value
+            //{
+            //    await Interaction.RespondAsync("Invalid hex code provided. Please enter a valid 6-digit hexadecimal value.");
+            //    return;
+            //}
 
             Discord.Color Color = new Color(0.38f, 0.49f, 0.55f);
 
@@ -55,7 +55,7 @@ public class SlashCommandHandle
 
             //await User.AddRoleAsync(Role);
 
-            await Interaction.RespondAsync($"**Role Name:** {RoleName} \n**Hex Code:** {HexCode}");
+            await Interaction.RespondAsync($"**Role Name:** {RoleName} \n**Hex Code:** {Color}");
         }
         catch (Exception ex)
         {
