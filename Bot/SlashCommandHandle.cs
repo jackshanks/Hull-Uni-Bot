@@ -64,7 +64,7 @@ public class SlashCommandHandle
             
             var Role = await Guild.CreateRoleAsync(RoleName, null, Color, false, false, null);
 
-            ulong RoleId2 = User.Roles.FirstOrDefault(r3 => r3.Name.StartsWith("/"))?.Id ?? 0;
+            ulong RoleId2 = Guild.Roles.FirstOrDefault(r3 => r3.Name.StartsWith("/"))?.Id ?? 0;
 
             if (RoleId2 != 0)
             {
