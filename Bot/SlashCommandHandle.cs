@@ -58,14 +58,14 @@ public class SlashCommandHandle
             // Find the role to delete using SocketRole if an ID is found
             if (RoleId != 0)
             {
-                SocketRole RoleToDelete = Guild.Roles.FirstOrDefault(r => r.Id == RoleId);
+                SocketRole RoleToDelete = Guild.Roles.FirstOrDefault(r2 => r2.Id == RoleId);
                 await RoleToDelete.DeleteAsync();
             }
             
             var Role = await Guild.CreateRoleAsync(RoleName, null, Color, false, false, null);
 
-            ulong RoleId2 = User.Roles.FirstOrDefault(r => r.Name.StartsWith("/"))?.Id ?? 0;
-            SocketRole Role2 = Guild.Roles.FirstOrDefault(r => r.Id == RoleId2);
+            ulong RoleId2 = User.Roles.FirstOrDefault(r3 => r3.Name.StartsWith("/"))?.Id ?? 0;
+            SocketRole Role2 = Guild.Roles.FirstOrDefault(r4=> r4.Id == RoleId2);
             int DesiredPosition = Role2.Position;
 
             await Role.ModifyAsync(p => p.Position = DesiredPosition);
