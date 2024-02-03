@@ -48,15 +48,13 @@ public class SlashCommandHandle
                 return;
             }
 
-            await Interaction.RespondAsync($"**Role Name:** {RoleName} \n**Hex Code:** {HexCode}");
-
             var Color = new Color(HexCode);
 
             var Role = await _Guild.CreateRoleAsync(RoleName, null, Color);
 
             await User.AddRoleAsync(Role);
 
-            await Interaction.RespondAsync($"Role {RoleName} has been created and assigned to you!");
+            await Interaction.RespondAsync($"**Role Name:** {RoleName} \n**Hex Code:** {HexCode}");
         }
         catch (Exception ex)
         {
