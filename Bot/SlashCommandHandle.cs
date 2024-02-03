@@ -39,10 +39,9 @@ public class SlashCommandHandle
             SocketGuildUser User = (SocketGuildUser)Interaction.User;
 
             string RoleName = (string)Interaction.Data.Options.First().Value;
-            uint HexCode;
 
             // Validate HexCode input
-            if (!uint.TryParse((string?)Interaction.Data.Options.ElementAt(1).Value, out HexCode))
+            if (!uint.TryParse((string?)Interaction.Data.Options.ElementAt(1).Value, out uint HexCode))
             {
                 await Interaction.RespondAsync("Invalid hex code provided. Please enter a valid 6-digit hexadecimal value.");
                 return;
@@ -58,7 +57,7 @@ public class SlashCommandHandle
         }
         catch (Exception ex)
         {
-            await Interaction.RespondAsync($"An error occurred: {ex.Message}");
+            await Interaction.RespondAsync($"An error occurred: {ex.Message} {ex.StackTrace}");
         }
     }
 }
