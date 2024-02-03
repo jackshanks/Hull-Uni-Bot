@@ -555,7 +555,9 @@
   },
   "projectFileDependencyGroups": {
     "net6.0": [
-      "Discord.Net >= 3.13.0"
+      "Discord.Net >= 3.13.0",
+      "Discord.Net.Commands >= 3.13.0",
+      "Discord.Net.Rest >= 3.13.0"
     ]
   },
   "packageFolders": {
@@ -596,6 +598,14 @@
         "targetAlias": "net6.0",
         "dependencies": {
           "Discord.Net": {
+            "target": "Package",
+            "version": "[3.13.0, )"
+          },
+          "Discord.Net.Commands": {
+            "target": "Package",
+            "version": "[3.13.0, )"
+          },
+          "Discord.Net.Rest": {
             "target": "Package",
             "version": "[3.13.0, )"
           }

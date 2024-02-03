@@ -37,20 +37,30 @@ public class SlashCommandHandle
         
         try
         {
+            //Define Objects
             var Guild = _Client.GetGuild(1153315295306465381);
-            
             SocketGuildUser User = (SocketGuildUser)Interaction.User;
 
+            //Set the role name and hex code
             string RoleName = ("$"+(string)Interaction.Data.Options.ElementAt(0).Value);
-
             // Validate HexCode input
             if (!uint.TryParse((string?)"6600", out uint HexCode)) //Interaction.Data.Options.ElementAt(1).Value
             {
                 await Interaction.RespondAsync("Invalid hex code provided. Please enter a valid 6-digit hexadecimal value.");
                 return;
             }
-
             Discord.Color Color = new Color(HexCode);
+            
+            
+            // Get the role ID of any role with $
+            ulong RoleId = User.Roles.FirstOrDefault(r => r.Name.StartsWith("$"))?.Id ?? 0;
+
+            // Find the role to delete using SocketRole if an ID is found
+            if (RoleId != 0)
+            {
+                SocketRole RoleToDelete = Guild.Roles.FirstOrDefault(r => r.Id == RoleId);
+                await RoleToDelete.DeleteAsync();
+            }
             
             var Role = await Guild.CreateRoleAsync(RoleName, null, Color, false, false, null);
 

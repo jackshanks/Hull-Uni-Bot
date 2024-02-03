@@ -41,6 +41,14 @@
             "Discord.Net": {
               "target": "Package",
               "version": "[3.13.0, )"
+            },
+            "Discord.Net.Commands": {
+              "target": "Package",
+              "version": "[3.13.0, )"
+            },
+            "Discord.Net.Rest": {
+              "target": "Package",
+              "version": "[3.13.0, )"
             }
           },
           "imports": [
