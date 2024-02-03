@@ -43,8 +43,10 @@ public class SlashCommandHandle
 
             //Set the role name and hex code
             string RoleName = ("$"+(string)Interaction.Data.Options.ElementAt(0).Value);
+            string HexCodeInput = (string)Interaction.Data.Options.ElementAt(1).Value;
+            
             // Validate HexCode input
-            if (!uint.TryParse((string?)"6600", out uint HexCode)) //Interaction.Data.Options.ElementAt(1).Value
+            if (!uint.TryParse((string?)HexCodeInput, out uint HexCode)) //Interaction.Data.Options.ElementAt(1).Value
             {
                 await Interaction.RespondAsync("Invalid hex code provided. Please enter a valid 6-digit hexadecimal value.");
                 return;
