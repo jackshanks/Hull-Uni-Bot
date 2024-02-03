@@ -50,14 +50,7 @@ public class SlashCommandHandle
 
             Discord.Color Color = new Color(HexCode);
 
-            try
-            {
-                await _Guild.CreateRoleAsync(RoleName, null, Color);
-            }
-            catch (Exception ex)
-            {
-                await Interaction.RespondAsync($"An error occurred: {ex.Message} {ex.StackTrace}");
-            }
+            await _Guild.CreateRoleAsync(RoleName, null, Color, false, false, null);
 
             //await User.AddRoleAsync(Role);
 
