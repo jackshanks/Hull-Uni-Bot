@@ -46,12 +46,8 @@ public class SlashCommandHandle
             string HexCodeInput = (string)Interaction.Data.Options.ElementAt(1).Value;
             
             // Validate HexCode input
-            if (!uint.TryParse((string?)HexCodeInput, out uint HexCode)) //Interaction.Data.Options.ElementAt(1).Value
-            {
-                await Interaction.RespondAsync("Invalid hex code provided. Please enter a valid 6-digit hexadecimal value.");
-                return;
-            }
-            Discord.Color Color = new Color(HexCode);
+            uint ColorInt = uint.Parse(HexCodeInput, System.Globalization.NumberStyles.HexNumber);
+            Discord.Color Color = new Color(ColorInt);
             
             
             // Get the role ID of any role with $
@@ -77,11 +73,11 @@ public class SlashCommandHandle
 
             await User.AddRoleAsync(Role);
 
-            await Interaction.RespondAsync($"**Role Name:** {RoleName} \n**Hex Code:** {HexCode}");
+            await Interaction.RespondAsync($"**Role Name:** {RoleName} \n**Hex Code:** {HexCodeInput}");
         }
         catch (Exception ex)
         {
             await Interaction.RespondAsync($"An error occurred: {ex.Message} {ex.StackTrace}");
         }
     }
-}
+}  
