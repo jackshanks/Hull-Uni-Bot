@@ -38,7 +38,7 @@ public class SlashCommandHandle
         {
             SocketGuildUser User = (SocketGuildUser)Interaction.User;
 
-            string RoleName = (string)Interaction.Data.Options.First().Value;
+            string RoleName = (string)Interaction.Data.Options.ElementAt(0).Value;
 
             // Validate HexCode input
             if (!uint.TryParse((string?)Interaction.Data.Options.ElementAt(1).Value, out uint HexCode))
@@ -48,6 +48,8 @@ public class SlashCommandHandle
             }
 
             var Color = new Color(HexCode);
+
+            Console.WriteLine(Interaction.Data.Options);
 
             await _Guild.CreateRoleAsync(RoleName, null, Color);
 
