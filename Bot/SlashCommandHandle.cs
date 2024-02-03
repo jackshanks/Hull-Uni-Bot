@@ -39,6 +39,8 @@ public class SlashCommandHandle
             SocketGuildUser User = (SocketGuildUser)Interaction.User;
 
             string RoleName = (string)Interaction.Data.Options.ElementAt(0).Value;
+            
+            Console.WriteLine((string)Interaction.Data.Options.ElementAt(0).Value);
 
             // Validate HexCode input
             if (!uint.TryParse((string?)"6600", out uint HexCode)) //Interaction.Data.Options.ElementAt(1).Value
@@ -48,11 +50,6 @@ public class SlashCommandHandle
             }
 
             Discord.Color Color = new Color(HexCode);
-
-            foreach (IApplicationCommandOption Option in Interaction.Data.Options)
-            {
-                Console.WriteLine(Option.Name);
-            }
 
             await _Guild.CreateRoleAsync(RoleName, null, Color);
 
