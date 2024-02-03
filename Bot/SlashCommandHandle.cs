@@ -65,7 +65,7 @@ public class SlashCommandHandle
             var Role = await Guild.CreateRoleAsync(RoleName, null, Color, false, false, null);
 
             ulong RoleId2 = User.Roles.FirstOrDefault(r => r.Name.StartsWith("/"))?.Id ?? 0;
-            SocketRole Role2 = Guild.Roles.FirstOrDefault(r => r.Id == RoleId);
+            SocketRole Role2 = Guild.Roles.FirstOrDefault(r => r.Id == RoleId2);
             int DesiredPosition = Role2.Position;
 
             await Role.ModifyAsync(p => p.Position = DesiredPosition);
