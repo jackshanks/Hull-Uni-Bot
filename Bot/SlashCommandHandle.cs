@@ -7,11 +7,11 @@ namespace Bot;
 
 public class SlashCommandHandle
 {
-    private readonly SocketGuild _Guild;
+    private readonly DiscordSocketClient _Client;
     
-    public SlashCommandHandle(SocketGuild GetGuild)
+    public SlashCommandHandle(DiscordSocketClient GetClient)
     {
-        _Guild = GetGuild;
+        _Client = GetClient;
     }
 
     public Task SlashCommandExecuted(SocketSlashCommand Interaction)
@@ -37,6 +37,8 @@ public class SlashCommandHandle
         
         try
         {
+            var Guild = _Client.GetGuild(1153315295306465381);
+            
             SocketGuildUser User = (SocketGuildUser)Interaction.User;
 
             string RoleName = (string)Interaction.Data.Options.ElementAt(0).Value;
@@ -50,7 +52,7 @@ public class SlashCommandHandle
 
             Discord.Color Color = new Color(HexCode);
 
-            await _Guild.CreateRoleAsync(RoleName, null, Color, false, false, null);
+            await Guild.CreateRoleAsync(RoleName, null, Color, false, false, null);
 
             //await User.AddRoleAsync(Role);
 

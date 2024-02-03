@@ -25,7 +25,7 @@ public class Program
         _Client = new DiscordSocketClient();
         _InteractionService = new InteractionService(_Client.Rest);
         _CommandCreation = new SlashCommandCreation(_Client);
-        _CommandHandle = new SlashCommandHandle(_Client.GetGuild(1153315295306465381));
+        _CommandHandle = new SlashCommandHandle(_Client);
         
         //If an event/error is detected the "Log" task will run
         _Client.Log += Log;
