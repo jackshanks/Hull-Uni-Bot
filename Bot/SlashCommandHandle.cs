@@ -64,6 +64,11 @@ public class SlashCommandHandle
             
             var Role = await Guild.CreateRoleAsync(RoleName, null, Color, false, false, null);
 
+
+            int DesiredPosition = 5;
+
+            await Role.ModifyAsync(p => p.Position = DesiredPosition);
+
             await User.AddRoleAsync(Role);
 
             await Interaction.RespondAsync($"**Role Name:** {RoleName} \n**Hex Code:** {HexCode}");
