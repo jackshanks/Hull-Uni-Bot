@@ -32,7 +32,7 @@ public class SlashCommandHandle
     }
     
     
-    private async Task RoleCommand(ISlashCommandInteraction Interaction)
+    private Task RoleCommand(ISlashCommandInteraction Interaction)
     {
         try
         {
@@ -44,21 +44,20 @@ public class SlashCommandHandle
             // Validate HexCode input
             if (!uint.TryParse((string?)Interaction.Data.Options.ElementAt(1).Value, out HexCode))
             {
-                await Interaction.RespondAsync("Invalid hex code provided. Please enter a valid 6-digit hexadecimal value.");
-                return;
+                return Interaction.RespondAsync("Invalid hex code provided. Please enter a valid 6-digit hexadecimal value.");
             }
 
             var Color = new Color(HexCode);
 
-            var Role = await _Guild.CreateRoleAsync(RoleName, null, Color);
+            var Role = _Guild.CreateRoleAsync(RoleName, null, Color);
 
-            await User.AddRoleAsync(Role);
+            //await User.AddRoleAsync(Role);
 
-            await Interaction.RespondAsync($"**Role Name:** {RoleName} \n**Hex Code:** {HexCode}");
+            return Interaction.RespondAsync($"**Role Name:** {RoleName} \n**Hex Code:** {HexCode}");
         }
         catch (Exception ex)
         {
-            await Interaction.RespondAsync($"An error occurred: {ex.Message}");
+            return Interaction.RespondAsync($"An error occurred: {ex.Message}");
         }
     }
 }
