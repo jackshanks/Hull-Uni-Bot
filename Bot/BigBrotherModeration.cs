@@ -10,7 +10,7 @@ using Discord.Interactions;
 public class BigBrotherModeration
 {
     private readonly DiscordSocketClient _Client;
-    private static readonly string[] UnpermittedPhrases = new string[] { "us girls", "us boys" };
+    private static readonly string[] UnpermittedPhrases = new string[] { "us girls", "us boys", "nigger", "nigga" };
 
     public BigBrotherModeration(DiscordSocketClient GetClient)
     {
