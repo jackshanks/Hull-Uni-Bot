@@ -26,10 +26,26 @@ public class SlashCommandHandle
 
 // ~~ ALL SLASH COMMAND EXECUTION ~~
 
-    private Task PingCommand(ISlashCommandInteraction Interaction)
+    private async Task PingCommand(ISlashCommandInteraction Interaction)
     {
-        return Interaction.RespondAsync("Pong!");
+        Dictionary<ulong, DateTime> MessageTimestamps = new Dictionary<ulong, DateTime>();
+        DateTime Now = DateTime.UtcNow;
+
+        // Store the timestamp using the correct interaction object
+        MessageTimestamps[Interaction.User.Id] = Now;
+
+        // Send the "Pinging..." message using the interaction's channel
+        await Interaction.RespondAsync("Pinging...");
+
+        // Retrieve the stored timestamp using the correct interaction object
+        if (MessageTimestamps.TryGetValue(Interaction.User.Id, out DateTime SentTime))
+        {
+            TimeSpan Ping = Now - SentTime;
+            MessageTimestamps.Remove(Interaction.User.Id);
+            await Interaction.RespondAsync($"Pong! Round-trip time: {Ping.TotalMilliseconds}ms.");
+        }
     }
+
     
     
     private async Task RoleCommand(ISlashCommandInteraction Interaction)
