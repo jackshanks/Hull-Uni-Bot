@@ -1,4 +1,6 @@
-﻿namespace Bot;
+﻿using System.Reflection;
+
+namespace Bot;
 using Discord;
 using Discord.Net;
 using Discord.WebSocket;
@@ -15,18 +17,20 @@ public class SlashCommandCreation
     }
 
 	//Creates all commands with the relevant methods
-    public async Task CreateCommands()
+    public Task CreateCommands()
     {
-        var Guild = _Client.GetGuild(1153315295306465381);
-        //await RoleCommand(Guild);
-        //await PingCommand(Guild);
-        foreach(var Method in this.GetType().GetMethods())
+        IGuild Guild = _Client.GetGuild(1153315295306465381);
+
+        Type MyType = typeof(SlashCommandCreation);
+        foreach (var Method in MyType.GetMethods())
         {
             if (Method.IsStatic)
             {
-                await Method.Invoke(Guild);
+                MyType.InvokeMember(Method.Name, BindingFlags.InvokeMethod, null, this, new object[] { Guild });
             }
         }
+
+        return Task.CompletedTask;
     }
 
 // ~~ ALL SLASH COMMANDS CREATION ~~
