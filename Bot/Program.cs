@@ -21,10 +21,13 @@ public class Program
     
     public async Task MainAsync()
     {
-        
-        
+        var Config = new DiscordSocketConfig
+        {
+            GatewayIntents = GatewayIntents.All
+        };
+
         //Creation of the initialised objects above
-        _Client = new DiscordSocketClient();
+        _Client = new DiscordSocketClient(Config);
         _InteractionService = new InteractionService(_Client.Rest);
         _CommandCreation = new SlashCommandCreation(_Client);
         _CommandHandle = new SlashCommandHandle(_Client);
