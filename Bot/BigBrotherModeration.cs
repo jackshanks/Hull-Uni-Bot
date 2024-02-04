@@ -18,19 +18,16 @@ public class BigBrotherModeration
 
     public async Task CheckContents(IMessage Message)
     {
-        
-        Console.WriteLine(Message.Content);
-        
         if (Message.Content.Contains("Us Girls") || Message.Content.Contains("Us Boys"))
         {
             await Message.DeleteAsync();
-            await Message.Author.SendMessageAsync("Your message was deleted because it contained a phrase that is not allowed.", true);
+            await Message.Channel.SendMessageAsync("Your message was deleted because it contained a phrase that is not allowed.", true);
         }
         else
         {
             if (Message.Content != null && Message.Content.Length > 0)
             {
-                await Message.Author.SendMessageAsync(Message.Id.ToString());
+                await Message.Channel.SendMessageAsync(Message.Id.ToString());
             }
         }
     }
