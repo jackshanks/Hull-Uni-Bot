@@ -19,7 +19,7 @@ public class BigBrotherModeration
     public async Task CheckContents(IMessage Message)
     {
         
-        Console.WriteLine(Message.CleanContent);
+        Console.WriteLine(Message.Content);
         
         if (Message.Content.Contains("Us Girls") || Message.Content.Contains("Us Boys"))
         {
