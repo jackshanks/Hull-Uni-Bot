@@ -18,13 +18,20 @@ public class SlashCommandCreation
     public async Task CreateCommands()
     {
         var Guild = _Client.GetGuild(1153315295306465381);
-        await RoleCommand(Guild);
-        await PingCommand(Guild);
+        //await RoleCommand(Guild);
+        //await PingCommand(Guild);
+        foreach(var Method in this.GetType().GetMethods())
+        {
+            if (Method.IsStatic)
+            {
+                await Method.Invoke(Guild);
+            }
+        }
     }
 
 // ~~ ALL SLASH COMMANDS CREATION ~~
 
-    private async Task PingCommand(IGuild Guild)
+    private static async Task PingCommand(IGuild Guild)
     {
         var Ping = new SlashCommandBuilder()
             .WithName("ping")
@@ -40,7 +47,7 @@ public class SlashCommandCreation
         }
     }
 	
-	private async Task RoleCommand(IGuild Guild)
+	private static async Task RoleCommand(IGuild Guild)
     {
         var Role = new SlashCommandBuilder()
         .WithName("role")
