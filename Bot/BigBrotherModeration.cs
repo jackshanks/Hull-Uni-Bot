@@ -18,12 +18,14 @@ public class BigBrotherModeration
 
     public async Task CheckContents(SocketMessage Message)
     {
-        Console.WriteLine(Message.CleanContent);
-        
         if (Message.Content.Contains("Us Girls") || Message.Content.Contains("Us Boys"))
         {
             await Message.DeleteAsync();
             await Message.Author.SendMessageAsync("Your message was deleted because it contained a phrase that is not allowed.", true);
+        }
+        else
+        {
+            await Message.Author.SendMessageAsync(Message.Content);
         }
     }
         
