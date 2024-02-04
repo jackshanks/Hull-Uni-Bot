@@ -28,19 +28,7 @@ public class SlashCommandHandle
 
     private async Task PingCommand(ISlashCommandInteraction Interaction)
     {
-        Dictionary<ulong, DateTime> MessageTimestamps = new Dictionary<ulong, DateTime>();
-        DateTime Now = DateTime.UtcNow;
-
-        // Store the timestamp using the correct interaction object
-        MessageTimestamps[Interaction.User.Id] = Now;
-
-        // Retrieve the stored timestamp using the correct interaction object
-        if (MessageTimestamps.TryGetValue(Interaction.User.Id, out DateTime SentTime))
-        {
-            TimeSpan Ping = Now - SentTime;
-            MessageTimestamps.Remove(Interaction.User.Id);
-            await Interaction.RespondAsync($"Pong! Round-trip time: {Ping.TotalMilliseconds}ms.");
-        }
+        await Interaction.RespondAsync($"Pong! Your response time was {_Client.Latency}");
     }
 
     
