@@ -21,7 +21,8 @@ public class BigBrotherModeration
         if (Message.Content.Contains("Us Girls") || Message.Content.Contains("Us Boys"))
         {
             await Message.DeleteAsync();
-            await Message.Channel.SendMessageAsync("Your message was deleted because it contained a phrase that is not allowed.", true);
+            await Message.Channel.SendMessageAsync(
+                "Your message was deleted because it contained a phrase that is not allowed.", true);
         }
         else
         {
@@ -31,5 +32,4 @@ public class BigBrotherModeration
             }
         }
     }
-        
 }
