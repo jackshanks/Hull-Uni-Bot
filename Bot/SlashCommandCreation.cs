@@ -1,6 +1,4 @@
-﻿using System.Reflection;
-
-namespace Bot;
+﻿namespace Bot;
 using Discord;
 using Discord.Net;
 using Discord.WebSocket;
@@ -16,26 +14,17 @@ public class SlashCommandCreation
         _Client = Client;
     }
 
-	//Creates all commands with the relevant methods
-    public Task CreateCommands()
+    //Creates all commands with the relevant methods
+    public async Task CreateCommands()
     {
-        IGuild Guild = _Client.GetGuild(1153315295306465381);
-
-        Type MyType = typeof(SlashCommandCreation);
-        foreach (var Method in MyType.GetMethods())
-        {
-            if (Method.IsStatic)
-            {
-                MyType.InvokeMember(Method.Name, BindingFlags.InvokeMethod, null, this, new object[] { Guild });
-            }
-        }
-
-        return Task.CompletedTask;
+        var Guild = _Client.GetGuild(1153315295306465381);
+        await RoleCommand(Guild);
+        await PingCommand(Guild);
     }
 
 // ~~ ALL SLASH COMMANDS CREATION ~~
 
-    private static async Task PingCommand(IGuild Guild)
+    private async Task PingCommand(IGuild Guild)
     {
         var Ping = new SlashCommandBuilder()
             .WithName("ping")
@@ -51,13 +40,13 @@ public class SlashCommandCreation
         }
     }
 	
-	private static async Task RoleCommand(IGuild Guild)
+    private async Task RoleCommand(IGuild Guild)
     {
         var Role = new SlashCommandBuilder()
-        .WithName("role")
-        .WithDescription("Lets you change your role")
-        .AddOption("name", ApplicationCommandOptionType.String, "Choose the name of the role", isRequired: true)
-        .AddOption("hex", ApplicationCommandOptionType.String, "Choose the colour of the role", isRequired: true);
+            .WithName("role")
+            .WithDescription("Lets you change your role")
+            .AddOption("name", ApplicationCommandOptionType.String, "Choose the name of the role", isRequired: true)
+            .AddOption("hex", ApplicationCommandOptionType.String, "Choose the colour of the role", isRequired: true);
 
         try
         {
