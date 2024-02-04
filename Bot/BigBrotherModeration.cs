@@ -18,7 +18,7 @@ public class BigBrotherModeration
 
     public async Task CheckContents(SocketMessage Message)
     {
-        Console.WriteLine("Message Detected");
+        Console.WriteLine(Message.ToString());
 
         if (Message.Content.Contains("Us Girls") || Message.Content.Contains("Us Boys"))
         {
