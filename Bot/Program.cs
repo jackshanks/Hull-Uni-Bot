@@ -21,9 +21,15 @@ public class Program
     
     public async Task MainAsync()
     {
+        DiscordSocketConfig Config = new DiscordSocketConfig
+        {
+            AlwaysDownloadUsers = true,
+            MessageCacheSize = 100
+        };
+        
         
         //Creation of the initialised objects above
-        _Client = new DiscordSocketClient();
+        _Client = new DiscordSocketClient(Config);
         _InteractionService = new InteractionService(_Client.Rest);
         _CommandCreation = new SlashCommandCreation(_Client);
         _CommandHandle = new SlashCommandHandle(_Client);
