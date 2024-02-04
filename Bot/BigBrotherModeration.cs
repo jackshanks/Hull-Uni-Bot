@@ -16,10 +16,11 @@ public class BigBrotherModeration
         _Client = GetClient;
     }
 
-    public async Task CheckContents(SocketMessage Message)
+    public async Task CheckContents(IMessage Message)
     {
-        Console.WriteLine(Message.Id.ToString());
-
+        
+        Console.WriteLine(Message.CleanContent);
+        
         if (Message.Content.Contains("Us Girls") || Message.Content.Contains("Us Boys"))
         {
             await Message.DeleteAsync();
