@@ -34,9 +34,6 @@ public class SlashCommandHandle
         // Store the timestamp using the correct interaction object
         MessageTimestamps[Interaction.User.Id] = Now;
 
-        // Send the "Pinging..." message using the interaction's channel
-        await Interaction.RespondAsync("Pinging...");
-
         // Retrieve the stored timestamp using the correct interaction object
         if (MessageTimestamps.TryGetValue(Interaction.User.Id, out DateTime SentTime))
         {
