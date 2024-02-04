@@ -19,7 +19,7 @@ public class BigBrotherModeration
     public async Task CheckContents(SocketMessage Message)
     {
         Console.WriteLine("Message Detected");
-        
+
         if (Message.Content.Contains("Us Girls") || Message.Content.Contains("Us Boys"))
         {
             await Message.DeleteAsync();
@@ -27,7 +27,7 @@ public class BigBrotherModeration
         }
         else
         {
-            if (Message.Content != null)
+            if (Message.Content != null && Message.Content.Length > 0)
             {
                 await Message.Author.SendMessageAsync(Message.Content);
             }
