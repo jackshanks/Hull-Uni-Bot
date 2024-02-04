@@ -17,6 +17,7 @@ public class Program
     private SlashCommandCreation _CommandCreation;
     private SlashCommandHandle _CommandHandle;
     private InteractionService _InteractionService;
+    private BigBrotherModeration _BigBrotherModeration;
     
     public async Task MainAsync()
     {
@@ -26,6 +27,7 @@ public class Program
         _InteractionService = new InteractionService(_Client.Rest);
         _CommandCreation = new SlashCommandCreation(_Client);
         _CommandHandle = new SlashCommandHandle(_Client);
+        _BigBrotherModeration = new BigBrotherModeration(_Client);
         
         //If an event/error is detected the "Log" task will run
         _Client.Log += Log;
@@ -39,6 +41,7 @@ public class Program
         
         //When a slash command is dectected it will run the corrosponding logic
         _Client.SlashCommandExecuted += _CommandHandle.SlashCommandExecuted;
+        _Client.MessageReceived += _BigBrotherModeration.CheckContents;
         
         //Runs the bot
         var Token = Environment.GetEnvironmentVariable("BotToken");
