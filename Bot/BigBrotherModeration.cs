@@ -19,10 +19,11 @@ public class BigBrotherModeration
 
     public async Task CheckContents(IMessage Message)
     {
-        if (UnpermittedPhrases.Any(Phrase => Message.Content.ToLower().Contains(Phrase)))
+        if (UnpermittedPhrases.Any(Phrase => Message.CleanContent.ToLower().Contains(Phrase)))
         {
             await Message.DeleteAsync();
             await Message.Channel.SendMessageAsync($"{Message.Author.Mention}, your message was deleted because it contained a phrase that is not allowed.");
         }
+        //if (Message.Content.ToLower().Contains(""))
     }
 }
