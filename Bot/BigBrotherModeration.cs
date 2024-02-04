@@ -10,7 +10,8 @@ using Discord.Interactions;
 public class BigBrotherModeration
 {
     private readonly DiscordSocketClient _Client;
-    
+    private static readonly string[] UnpermittedPhrases = new string[] { "us girls" };
+
     public BigBrotherModeration(DiscordSocketClient GetClient)
     {
         _Client = GetClient;
@@ -18,7 +19,7 @@ public class BigBrotherModeration
 
     public async Task CheckContents(IMessage Message)
     {
-        if (Message.Content.Contains("Us Girls") || Message.Content.Contains("Us Boys"))
+        if (UnpermittedPhrases.Any(Phrase => Message.Content.ToLower().Contains(Phrase)))
         {
             await Message.DeleteAsync();
             await Message.Channel.SendMessageAsync($"{Message.Author.Mention}, your message was deleted because it contained a phrase that is not allowed.");
