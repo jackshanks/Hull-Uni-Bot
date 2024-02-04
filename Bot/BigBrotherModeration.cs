@@ -20,9 +20,8 @@ public class BigBrotherModeration
     public async Task CheckContents(IMessage Message)
     {
         Console.WriteLine(Message.CleanContent.ToLower().Trim());
-        if (UnpermittedPhrases.Any(Phrase => Message.CleanContent.ToLower().Trim().Contains(Phrase)))
+        if (UnpermittedPhrases.Any(Phrase => Message.CleanContent.ToLower().Replace(" ", "").Contains(Phrase)))
         {
-            Console.WriteLine(Message.CleanContent.ToLower().Trim());
             await Message.DeleteAsync();
             await Message.Channel.SendMessageAsync($"{Message.Author.Mention}, your message was deleted because it contained a phrase that is not allowed.");
         }
