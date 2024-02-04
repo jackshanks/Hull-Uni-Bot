@@ -29,7 +29,7 @@ public class BigBrotherModeration
         {
             if (Message.Content != null && Message.Content.Length > 0)
             {
-                await Message.Author.SendMessageAsync(Message.Content);
+                await Message.Author.SendMessageAsync(Message.ToString());
             }
         }
     }
