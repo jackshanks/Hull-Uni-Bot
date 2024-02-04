@@ -49,6 +49,10 @@
             "Discord.Net.Rest": {
               "target": "Package",
               "version": "[3.13.0, )"
+            },
+            "FFMpegCore": {
+              "target": "Package",
+              "version": "[5.1.0, )"
             }
           },
           "imports": [
