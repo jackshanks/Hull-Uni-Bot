@@ -18,6 +18,8 @@ public class BigBrotherModeration
 
     public async Task CheckContents(SocketMessage Message)
     {
+        Console.WriteLine("Message Detected");
+        
         if (Message.Content.Contains("Us Girls") || Message.Content.Contains("Us Boys"))
         {
             await Message.DeleteAsync();
