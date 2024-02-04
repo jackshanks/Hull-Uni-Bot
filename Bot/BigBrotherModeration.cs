@@ -19,7 +19,6 @@ public class BigBrotherModeration
 
     public async Task CheckContents(IMessage Message)
     {
-        Console.WriteLine(Message.CleanContent.ToLower().Trim());
         if (UnpermittedPhrases.Any(Phrase => Message.CleanContent.ToLower().Replace(" ", "").Contains(Phrase)))
         {
             await Message.DeleteAsync();
