@@ -28,7 +28,7 @@ public class SlashCommandHandle
 
     private async Task PingCommand(ISlashCommandInteraction Interaction)
     {
-        await Interaction.RespondAsync($"Pong! Your response time was {_Client.Latency}");
+        await Interaction.RespondAsync($"Pong! Your response time was {_Client.Latency}ms");
     }
 
     
