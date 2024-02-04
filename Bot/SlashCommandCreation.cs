@@ -20,6 +20,7 @@ public class SlashCommandCreation
         var Guild = _Client.GetGuild(1153315295306465381);
         await RoleCommand(Guild);
         await PingCommand(Guild);
+        await JoinChannel(Guild);
     }
 
 // ~~ ALL SLASH COMMANDS CREATION ~~
@@ -48,6 +49,22 @@ public class SlashCommandCreation
             .AddOption("name", ApplicationCommandOptionType.String, "Choose the name of the role", isRequired: true)
             .AddOption("hex", ApplicationCommandOptionType.String, "Choose the colour of the role", isRequired: true);
 
+        try
+        {
+            await Guild.CreateApplicationCommandAsync(Role.Build()); // Use passed Guild object
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"An error occurred: {ex.Message} {ex.StackTrace}");
+        }
+    }
+    
+    private async Task JoinChannel(IGuild Guild)
+    {
+        var Role = new SlashCommandBuilder()
+            .WithName("join")
+            .WithDescription("Joins the voice channel");
+        
         try
         {
             await Guild.CreateApplicationCommandAsync(Role.Build()); // Use passed Guild object

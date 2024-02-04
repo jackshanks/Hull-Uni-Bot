@@ -20,6 +20,7 @@ public class SlashCommandHandle
         {
             "ping" => PingCommand(Interaction),
             "role" => RoleCommand(Interaction),
+            "join" => JoinChannel(Interaction),
             _ => Task.CompletedTask
         };
     }
@@ -80,5 +81,14 @@ public class SlashCommandHandle
         {
             await Interaction.RespondAsync($"An error occurred: {ex.Message} {ex.StackTrace}");
         }
+    }
+    
+    private async Task JoinChannel(ISlashCommandInteraction Interaction)
+    {
+        var VoiceChannel = (Interaction.User as IGuildUser)?.VoiceChannel;
+        
+        if (VoiceChannel== null) { await Interaction.RespondAsync("User must be in a voice channel, or a voice channel must be passed as an argument."); return; }
+        
+        var AudioClient = await VoiceChannel.ConnectAsync();
     }
 }  
