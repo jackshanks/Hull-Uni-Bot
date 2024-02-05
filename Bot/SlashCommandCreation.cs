@@ -21,6 +21,7 @@ public class SlashCommandCreation
         await RoleCommand(Guild);
         await PingCommand(Guild);
         await JoinChannel(Guild);
+        await SimonFact(Guild);
     }
 
 // ~~ ALL SLASH COMMANDS CREATION ~~
