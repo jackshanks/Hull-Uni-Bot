@@ -3,15 +3,27 @@ using Discord.Net;
 using Discord.WebSocket;
 using Discord.Commands;
 using Discord.Interactions;
+using FFMpegCore;
 namespace Bot;
 
 public class SlashCommandHandle
 {
     private readonly DiscordSocketClient _Client;
+    private Random _Random;
+    private string[] _SimonFacts;
     
     public SlashCommandHandle(DiscordSocketClient GetClient)
     {
         _Client = GetClient;
+        _Random = new Random();
+        _SimonFacts = new[]
+        {
+            "created the hamburger!", 
+            "doesn't need to use the toilet!",
+            "was born on top a sacred mountain!",
+            "is loved by everyone across the world!",
+            "learnt to drive when he was 3!",
+        };
     }
 
     public Task SlashCommandExecuted(SocketSlashCommand Interaction)
@@ -21,6 +33,7 @@ public class SlashCommandHandle
             "ping" => PingCommand(Interaction),
             "role" => RoleCommand(Interaction),
             "join" => JoinChannel(Interaction),
+            "simon-fact" => SimonFact(Interaction),
             _ => Task.CompletedTask
         };
     }
@@ -91,4 +104,12 @@ public class SlashCommandHandle
         
         var AudioClient = await VoiceChannel.ConnectAsync();
     }
+    
+    private async Task SimonFact(ISlashCommandInteraction Interaction)
+    {
+        var RandomInt = _Random.Next(0, _SimonFacts.Length);
+        await Interaction.RespondAsync($"Did you know that Simon {_SimonFacts[RandomInt]}");
+    }
+
+    
 }  

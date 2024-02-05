@@ -74,4 +74,21 @@ public class SlashCommandCreation
             Console.WriteLine($"An error occurred: {ex.Message} {ex.StackTrace}");
         }
     }
+    
+    private async Task SimonFact(IGuild Guild)
+    {
+        var SimonFact = new SlashCommandBuilder()
+            .WithName("simon-fact")
+            .WithDescription("Get a random fact about simon!");
+
+        try
+        {
+            await Guild.CreateApplicationCommandAsync(SimonFact.Build()); // Use passed Guild object
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"An error occurred: {ex.Message} {ex.StackTrace}");
+        }
+    }
+    
 }
