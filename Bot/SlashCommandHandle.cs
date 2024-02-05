@@ -23,6 +23,11 @@ public class SlashCommandHandle
             "was born on top a sacred mountain!",
             "is loved by everyone across the world!",
             "learnt to drive when he was 3!",
+            "doesn't have a spacebar; he simply stares at the words until they separate out of sheer respect!",
+            "is a skilled amateur chess player who frequently participates in global tournaments!",
+            "completed a charity unicycle ride along a significant section of the Great Wall of China!",
+            "enjoys experimenting with unique recipes, including a watermelon-infused pizza that became an international hit!",
+            "participated in a community hopscotch event, impressively lasting for several hours and gaining global recognition!"
         };
     }
 
