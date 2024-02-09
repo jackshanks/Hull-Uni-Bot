@@ -1,13 +1,43 @@
 ﻿using Discord.WebSocket;
+using Microsoft.Data.Sqlite;
+
 
 namespace Bot;
 
 public class LecturerPokemon
 {
-    private readonly DiscordSocketClient _Client;
-    
+    public DiscordSocketClient Client { get; }
+    public string BotDirectory { get; }
+    private  SqliteCommand Command { get; }
+
     public LecturerPokemon(DiscordSocketClient Client)
     {
-        _Client = Client;
+        this.Client = Client;
+        BotDirectory = Directory.GetCurrentDirectory();
+        
+        using (var Connection = new SqliteConnection("Data Source=Pokemon Database.db"))
+        {
+            Connection.Open();
+            Command = Connection.CreateCommand();
+            Command.CommandText =
+                @"
+                SELECT LecturerNames
+                FROM Lecturers
+                WHERE LecturerName = 'Test'
+                ";
+        }
+    }
+
+    public void GetLecturerInfo(string LecturerName = "")
+    {
+        using (var Reader = Command.ExecuteReader())
+        {
+            while (Reader.Read())
+            {
+                var Name = Reader.GetString(0);
+
+                Console.WriteLine($"Lecturer with the name: {Name}!");
+            }
+        }
     }
 }

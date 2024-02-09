@@ -11,11 +11,13 @@ public class SlashCommandHandle
     private readonly DiscordSocketClient _Client;
     private Random _Random;
     private string[] _SimonFacts;
+    private LecturerPokemon _LecturerPokemon;
     
-    public SlashCommandHandle(DiscordSocketClient GetClient)
+    public SlashCommandHandle(DiscordSocketClient GetClient, LecturerPokemon LecturerPokemon)
     {
         _Client = GetClient;
         _Random = new Random();
+        _LecturerPokemon = LecturerPokemon;
         _SimonFacts = new[]
         {
             "created the hamburger!", 
@@ -39,6 +41,7 @@ public class SlashCommandHandle
             "role" => RoleCommand(Interaction),
             "join" => JoinChannel(Interaction),
             "simon-fact" => SimonFact(Interaction),
+            "tutordex" => TutorDex(Interaction),
             _ => Task.CompletedTask
         };
     }
@@ -50,7 +53,11 @@ public class SlashCommandHandle
         await Interaction.RespondAsync($"Pong! Your response time was {_Client.Latency}ms");
     }
 
-    
+    private async Task TutorDex(ISlashCommandInteraction Interaction)
+    {
+        _LecturerPokemon.GetLecturerInfo();
+    }
+
     
     private async Task RoleCommand(ISlashCommandInteraction Interaction)
     {

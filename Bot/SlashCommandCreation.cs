@@ -91,4 +91,20 @@ public class SlashCommandCreation
         }
     }
     
+    private async Task TutorDex(IGuild Guild)
+    {
+        var Ping = new SlashCommandBuilder()
+            .WithName("tutordex")
+            .WithDescription("Find that lecturer!");
+
+        try
+        {
+            await Guild.CreateApplicationCommandAsync(Ping.Build()); // Use passed Guild object
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"An error occurred: {ex.Message} {ex.StackTrace}");
+        }
+    }
+    
 }

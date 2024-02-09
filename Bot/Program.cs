@@ -18,6 +18,7 @@ public class Program
     private SlashCommandHandle _CommandHandle;
     private InteractionService _InteractionService;
     private BigBrotherModeration _BigBrotherModeration;
+    private LecturerPokemon _LecturerPokemon;
     
     public async Task MainAsync()
     {
@@ -31,8 +32,9 @@ public class Program
         //Creation of the initialised objects above
         _Client = new DiscordSocketClient(Config);
         _InteractionService = new InteractionService(_Client.Rest);
+        _LecturerPokemon = new LecturerPokemon(_Client);
         _CommandCreation = new SlashCommandCreation(_Client);
-        _CommandHandle = new SlashCommandHandle(_Client);
+        _CommandHandle = new SlashCommandHandle(_Client, _LecturerPokemon);
         _BigBrotherModeration = new BigBrotherModeration(_Client);
         
         //If an event/error is detected the "Log" task will run
