@@ -19,7 +19,7 @@ public class SlashCommandCreation
         var Guild = _Client.GetGuild(1153315295306465381);
 
         await Task.WhenAll(
-            RoleCommand(Guild), PingCommand(Guild), JoinChannel(Guild), SimonFact(Guild)
+            RoleCommand(Guild), PingCommand(Guild), JoinChannel(Guild), SimonFact(Guild), TutorDex(Guild)
         );
     }
 
