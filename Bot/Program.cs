@@ -26,6 +26,8 @@ public class Program
             GatewayIntents = GatewayIntents.All
         };
 
+        Console.WriteLine(Directory.GetCurrentDirectory());
+
         //Creation of the initialised objects above
         _Client = new DiscordSocketClient(Config);
         _InteractionService = new InteractionService(_Client.Rest);

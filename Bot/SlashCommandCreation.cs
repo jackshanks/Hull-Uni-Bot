@@ -10,7 +10,6 @@ public class SlashCommandCreation
 
     public SlashCommandCreation(DiscordSocketClient Client)
     {
-// Gets the guild information for later use
         _Client = Client;
     }
 
@@ -18,10 +17,10 @@ public class SlashCommandCreation
     public async Task CreateCommands()
     {
         var Guild = _Client.GetGuild(1153315295306465381);
-        await RoleCommand(Guild);
-        await PingCommand(Guild);
-        await JoinChannel(Guild);
-        await SimonFact(Guild);
+
+        await Task.WhenAll(
+            RoleCommand(Guild), PingCommand(Guild), JoinChannel(Guild), SimonFact(Guild)
+        );
     }
 
 // ~~ ALL SLASH COMMANDS CREATION ~~
