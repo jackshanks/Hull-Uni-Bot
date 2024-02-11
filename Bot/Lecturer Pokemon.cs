@@ -11,39 +11,41 @@ namespace Bot;
 public class LecturerPokemon
 {
     public DiscordSocketClient Client { get; }
-    public string BotDirectory { get; }
-    private  SqliteCommand Command { get; }
+    private  SqliteCommand Command { get; set; }
+    private string DataBaseDirectory { get; }
+
+    private SqliteConnection Sqlite { get; }
 
     public LecturerPokemon(DiscordSocketClient Client)
     {
         this.Client = Client;
-        BotDirectory = Directory.GetCurrentDirectory();
-        
-        using (var Connection = new SqliteConnection("Data Source=Pokemon Database.db"))
-        {
-            Connection.Open();
-            Command = Connection.CreateCommand();
-            Command.CommandText =
-                @"
-                SELECT LecturerNames
-                FROM Lecturers
-                WHERE LecturerName = 'Test'
-                ";
-        }
+        DataBaseDirectory = Directory.GetCurrentDirectory() + "/Pokemon Database.db";
+        Sqlite = new SqliteConnection($"Data Source={DataBaseDirectory}");
+        Command = Sqlite.CreateCommand();
+
     }
 
     public string GetLecturerInfo(string LecturerName = "")
     {
+        string Name = "";
+        Sqlite.OpenAsync();
+        Command = Sqlite.CreateCommand();
+        Command.CommandText =
+            @"
+                SELECT LecturerNames
+                FROM Lecturers
+                WHERE LecturerName = 'Test'
+            ";
+        
         using (var Reader = Command.ExecuteReader())
         {
             while (Reader.Read())
             {
-                var Name = Reader.GetString(0);
-
-                return Name;
+                Name = Reader.GetString(0);
             }
         }
 
-        return "null";
+        Sqlite.CloseAsync();
+        return Name;
     }
-}
+} 
