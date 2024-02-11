@@ -45,11 +45,13 @@ public class LecturerPokemon
         {
             while (await Reader.ReadAsync())
             {
+                await Task.Delay(1000);
                 Name = Reader.GetString(0);
             }
         }
 
         await Sqlite.CloseAsync();
+        await Task.Delay(1000);
         return Name;
     }
 } 
