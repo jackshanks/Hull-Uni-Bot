@@ -43,7 +43,7 @@ public class LecturerPokemon
         {
             while (await Reader.ReadAsync())
             {
-                Name = Reader.GetString(0);
+                Name = Reader.GetString(1);
             }
         }
 
