@@ -49,8 +49,8 @@ public class LecturerPokemon
                 NameBuilder.AppendLine(Reader.GetString(0));
             }
         }
-
-        await Sqlite.CloseAsync();
+        
         return await Task.FromResult(NameBuilder.ToString());
+        await Sqlite.CloseAsync();
     }
 }   
