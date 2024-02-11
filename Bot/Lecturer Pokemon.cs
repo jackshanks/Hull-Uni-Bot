@@ -25,11 +25,11 @@ public class LecturerPokemon
 
     }
 
-    public string GetLecturerInfo(string LecturerName = "")
+    public async Task<string> GetLecturerInfo(string LecturerName = "")
     {
         string Name = "";
-        string Input = "test"; 
-        Sqlite.OpenAsync();
+        const string Input = "test"; 
+        await Sqlite.OpenAsync();
         Command = Sqlite.CreateCommand();
         Command.CommandText =
             @"
@@ -38,16 +38,16 @@ public class LecturerPokemon
                 WHERE LecturerName = '$LecturerName'
             ";
         Command.Parameters.AddWithValue("$LecturerName", Input);
-        
-        using (var Reader = Command.ExecuteReader())
+
+        await using (var Reader = await Command.ExecuteReaderAsync())
         {
-            while (Reader.Read())
+            while (await Reader.ReadAsync())
             {
                 Name = Reader.GetString(0);
             }
         }
 
-        Sqlite.CloseAsync();
+        await Sqlite.CloseAsync();
         return Name;
     }
 } 
