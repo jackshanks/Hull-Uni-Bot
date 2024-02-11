@@ -35,7 +35,7 @@ public class LecturerPokemon
             @"
                 SELECT LecturerNames
                 FROM Lecturers
-                WHERE LecturerName = '$LecturerName'
+                WHERE LecturerNames = '$LecturerName'
             ";
         Command.Parameters.AddWithValue("$LecturerName", Input);
 
@@ -43,7 +43,7 @@ public class LecturerPokemon
         {
             while (await Reader.ReadAsync())
             {
-                Name = Reader.GetString(1);
+                Name = Reader.GetString(0);
             }
         }
 
