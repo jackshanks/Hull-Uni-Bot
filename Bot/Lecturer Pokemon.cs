@@ -28,14 +28,16 @@ public class LecturerPokemon
     public string GetLecturerInfo(string LecturerName = "")
     {
         string Name = "";
+        string Input = "test"; 
         Sqlite.OpenAsync();
         Command = Sqlite.CreateCommand();
         Command.CommandText =
             @"
                 SELECT LecturerNames
                 FROM Lecturers
-                WHERE LecturerName = 'Test'
+                WHERE LecturerName = '$LecturerName'
             ";
+        Command.Parameters.AddWithValue("$LecturerName", Input);
         
         using (var Reader = Command.ExecuteReader())
         {
