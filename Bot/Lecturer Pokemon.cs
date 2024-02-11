@@ -45,7 +45,7 @@ public class LecturerPokemon
         {
             while (await Reader.ReadAsync())
             {
-                await Task.Delay(1000);
+                await Task.Delay(10000);
                 Name = Reader.GetString(0);
             }
         }
