@@ -1,4 +1,8 @@
-﻿using Discord.WebSocket;
+﻿using Discord;
+using Discord.Net;
+using Discord.WebSocket;
+using Discord.Commands;
+using Discord.Interactions;
 using Microsoft.Data.Sqlite;
 
 
@@ -28,7 +32,7 @@ public class LecturerPokemon
         }
     }
 
-    public void GetLecturerInfo(string LecturerName = "")
+    public string GetLecturerInfo(string LecturerName = "")
     {
         using (var Reader = Command.ExecuteReader())
         {
@@ -36,8 +40,10 @@ public class LecturerPokemon
             {
                 var Name = Reader.GetString(0);
 
-                Console.WriteLine($"Lecturer with the name: {Name}!");
+                return Name;
             }
         }
+
+        return "null";
     }
 }

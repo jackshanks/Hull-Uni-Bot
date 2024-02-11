@@ -55,7 +55,7 @@ public class SlashCommandHandle
 
     private async Task TutorDex(ISlashCommandInteraction Interaction)
     {
-        _LecturerPokemon.GetLecturerInfo();
+        await Interaction.RespondAsync($"The lecturer you asked for is called {_LecturerPokemon.GetLecturerInfo}");
     }
 
     
