@@ -35,8 +35,10 @@ public class LecturerPokemon
             @"
                 SELECT LecturerNames
                 FROM Lecturers
-                WHERE LecturerNames = '$LecturerName'
             ";
+        
+        //WHERE LecturerNames = '$LecturerName'
+        
         Command.Parameters.AddWithValue("$LecturerName", Input);
 
         await using (var Reader = await Command.ExecuteReaderAsync())
