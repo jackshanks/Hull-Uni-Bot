@@ -1,5 +1,4 @@
-﻿using System.Text;
-using Discord;
+﻿using Discord;
 using Discord.Net;
 using Discord.WebSocket;
 using Discord.Commands;
@@ -29,7 +28,7 @@ public class LecturerPokemon
     public async Task<string> GetLecturerInfo(string LecturerName = "")
     {
         string Name = "";
-        const string Input = "test"; 
+        const string Input = "Test"; 
         await Sqlite.OpenAsync();
         Command = Sqlite.CreateCommand();
         Command.CommandText =
@@ -40,17 +39,16 @@ public class LecturerPokemon
             ";
         
         Command.Parameters.AddWithValue("$LecturerName", Input);
-        StringBuilder NameBuilder = new StringBuilder();
 
         await using (var Reader = await Command.ExecuteReaderAsync())
         {
             while (await Reader.ReadAsync())
             {
-                NameBuilder.AppendLine(Reader.GetString(0));
+                Name = Reader.GetString(0);
             }
         }
         
-        return await Task.FromResult(NameBuilder.ToString());
         await Sqlite.CloseAsync();
+        return await Task.FromResult(Name);
     }
 }   
