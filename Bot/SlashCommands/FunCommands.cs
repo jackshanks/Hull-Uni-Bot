@@ -41,7 +41,7 @@ public class FunCommands : InteractionModuleBase<SocketInteractionContext>
         if (CurrentRole != null) { CurrentRole.DeleteAsync(); }
         
         var NewRoleTemp = Guild.CreateRoleAsync(RoleName, null, Color);
-        var NewRole = Context.Guild.Roles.FirstOrDefault(X => X.Name==NewRoleTemp.ToString());
+        var NewRole = Context.Guild.Roles.FirstOrDefault(X => X.Id==(ulong)NewRoleTemp.Id);
         
         
         var WantedPosition =  Guild.Roles.FirstOrDefault(X => X.Name.StartsWith("/")) ?? null;
