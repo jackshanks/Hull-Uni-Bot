@@ -1,4 +1,5 @@
-﻿using Discord.Interactions;
+﻿using Discord;
+using Discord.Interactions;
 using System;
 using System.Threading.Tasks;
 using Discord.WebSocket;
@@ -28,7 +29,32 @@ public class FunCommands : InteractionModuleBase<SocketInteractionContext>
 
     [SlashCommand("role", "Use this to change your role")]
     public Task RoleCommand(string Name, string Hex)
-        => RespondAsync("I need to fix this soz xoxoxo");
+    {
+        string RoleName = ("$" + Name);
+        
+        uint ColorInt = uint.Parse(Hex, System.Globalization.NumberStyles.HexNumber);
+        Color Color = new Color(ColorInt);
+        
+        ulong RoleId = Context.Guild.CurrentUser.Roles.FirstOrDefault(R => R.Name.StartsWith("$"))?.Id ?? 0;
+        if (RoleId != 0)
+        {
+            SocketRole RoleToDelete = Context.Guild.Roles.FirstOrDefault(r2 => r2.Id == RoleId);
+            RoleToDelete?.DeleteAsync();
+        }
+        
+        var Role = Context.Guild.CreateRoleAsync(RoleName, null, Color);
+        ulong RoleId2 = Context.Guild.Roles.FirstOrDefault(r3 => r3.Name.StartsWith("/"))?.Id ?? 0;
+        
+        if (RoleId2 != 0)
+        {
+            SocketRole Role2 = Context.Guild.Roles.FirstOrDefault(r4=> r4.Id == RoleId2);
+            Context.Guild.GetRole(RoleId2).ModifyAsync(P => P.Position = Role2.Position);
+        }
+        
+        (Context.User as IGuildUser)?.AddRoleAsync(Role as IRole);
+        
+        return RespondAsync($"**Role Name:** {RoleName} \n**Hex Code:** {Hex}");
+    }
 
     [SlashCommand("simon-fact", "Get a random fact Simon!")]
     public Task SimonFact()
