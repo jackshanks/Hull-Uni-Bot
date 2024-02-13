@@ -31,8 +31,8 @@ public class FunCommands : InteractionModuleBase<SocketInteractionContext>
     [SlashCommand("role", "Use this to change your role")]
     public Task RoleCommand(string Name, string Hex)
     {
-        var Guild = Context.Guild;
-        var User = Context.Guild.GetUser(Context.User.Id);
+        var Guild = Context.Client.GetGuild(1153315295306465381);
+        var User = Guild.GetUser(Context.User.Id);
         string RoleName = "$" + Name;
         
         Color Color = new Color(uint.Parse(Hex, System.Globalization.NumberStyles.HexNumber));
