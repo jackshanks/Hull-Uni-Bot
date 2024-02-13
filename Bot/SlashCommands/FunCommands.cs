@@ -31,31 +31,27 @@ public class FunCommands : InteractionModuleBase<SocketInteractionContext>
     [SlashCommand("role", "Use this to change your role")]
     public Task RoleCommand(string Name, string Hex)
     {
-        var Guild = Context.Client.GetGuild(1153315295306465381);
+        var Guild = Context.Guild;
         var User = Guild.GetUser(Context.User.Id);
         string RoleName = "$" + Name;
         
         Color Color = new Color(uint.Parse(Hex, System.Globalization.NumberStyles.HexNumber));
         
-        ulong CurrentRoleId = User.Roles.FirstOrDefault(R => R.Name.StartsWith("$"))?.Id ?? 0;
-        if (CurrentRoleId != 0)
+        var CurrentRole = User.Roles.FirstOrDefault(X => X.Name.StartsWith("$")) ?? null;
+        if (CurrentRole != null) { CurrentRole.DeleteAsync(); }
+        
+        var NewRoleTemp = Guild.CreateRoleAsync(RoleName, null, Color);
+        var NewRole = Context.Guild.Roles.FirstOrDefault(X => X.Name==NewRoleTemp.ToString());
+        
+        
+        var WantedPosition =  Guild.Roles.FirstOrDefault(X => X.Name.StartsWith("/")) ?? null;
+        
+        if (WantedPosition != null && NewRole != null)
         {
-            SocketRole RoleToDelete = Guild.Roles.FirstOrDefault(r2 => r2.Id == CurrentRoleId);
-            RoleToDelete?.DeleteAsync();
-        }
-        
-        var NewRole = Guild.CreateRoleAsync(RoleName, null, Color);
-        var NewRoleId = Guild.Roles.FirstOrDefault(F => F.Name.StartsWith(NewRole.ToString()!))?.Id ?? 0;
-        
-        ulong WantedPositionId = Guild.Roles.FirstOrDefault(X => X.Name.StartsWith("/"))?.Id ?? 0;
-        
-        if (WantedPositionId != 0)
-        {
-            SocketRole Role2 = Guild.Roles.FirstOrDefault(r4=> r4.Id == WantedPositionId);
-            Guild.GetRole(NewRoleId).ModifyAsync(P => P.Position = Role2.Position);
+            NewRole.ModifyAsync(P => P.Position = WantedPosition.Position);
         }
 
-        User.AddRoleAsync(Context.Guild.GetRole(NewRoleId));
+        User.AddRoleAsync(NewRole);
         
         return RespondAsync($"**Role Name:** {RoleName} \n**Hex Code:** {Hex}");
     }
