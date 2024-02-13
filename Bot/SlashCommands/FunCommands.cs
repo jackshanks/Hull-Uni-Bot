@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Interactions;
 using System;
+using System.Runtime.Loader;
 using System.Threading.Tasks;
 using Discord.WebSocket;
 
@@ -32,26 +33,27 @@ public class FunCommands : InteractionModuleBase<SocketInteractionContext>
     {
         string RoleName = ("$" + Name);
         
-        uint ColorInt = uint.Parse(Hex, System.Globalization.NumberStyles.HexNumber);
-        Color Color = new Color(ColorInt);
+        Color Color = new Color(uint.Parse(Hex, System.Globalization.NumberStyles.HexNumber));
         
-        ulong RoleId = Context.Guild.CurrentUser.Roles.FirstOrDefault(R => R.Name.StartsWith("$"))?.Id ?? 0;
-        if (RoleId != 0)
+        ulong CurrentRoleId = Context.Guild.CurrentUser.Roles.FirstOrDefault(R => R.Name.StartsWith("$"))?.Id ?? 0;
+        if (CurrentRoleId != 0)
         {
-            SocketRole RoleToDelete = Context.Guild.Roles.FirstOrDefault(r2 => r2.Id == RoleId);
+            SocketRole RoleToDelete = Context.Guild.Roles.FirstOrDefault(r2 => r2.Id == CurrentRoleId);
             RoleToDelete?.DeleteAsync();
         }
         
-        var Role = Context.Guild.CreateRoleAsync(RoleName, null, Color);
-        ulong RoleId2 = Context.Guild.Roles.FirstOrDefault(r3 => r3.Name.StartsWith("/"))?.Id ?? 0;
+        var NewRole = Context.Guild.CreateRoleAsync(RoleName, null, Color);
+        var NewRoleId = Context.Guild.Roles.FirstOrDefault(F => F.Name.StartsWith(NewRole.ToString()!))?.Id ?? 0;
         
-        if (RoleId2 != 0)
+        ulong WantedPositionId = Context.Guild.Roles.FirstOrDefault(r3 => r3.Name.StartsWith("/"))?.Id ?? 0;
+        
+        if (WantedPositionId != 0)
         {
-            SocketRole Role2 = Context.Guild.Roles.FirstOrDefault(r4=> r4.Id == RoleId2);
-            Context.Guild.GetRole(RoleId2).ModifyAsync(P => P.Position = Role2.Position);
+            SocketRole Role2 = Context.Guild.Roles.FirstOrDefault(r4=> r4.Id == WantedPositionId);
+            Context.Guild.GetRole(NewRoleId).ModifyAsync(P => P.Position = Role2.Position);
         }
-        
-        (Context.User as IGuildUser)?.AddRoleAsync(Role as IRole);
+
+        Context.Guild.CurrentUser.AddRoleAsync(Context.Guild.GetRole(NewRoleId));
         
         return RespondAsync($"**Role Name:** {RoleName} \n**Hex Code:** {Hex}");
     }
