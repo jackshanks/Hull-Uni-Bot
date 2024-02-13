@@ -32,11 +32,12 @@ public class FunCommands : InteractionModuleBase<SocketInteractionContext>
     public Task RoleCommand(string Name, string Hex)
     {
         var Guild = Context.Guild;
+        var User = Context.Guild.GetUser(Context.User.Id);
         string RoleName = "$" + Name;
         
         Color Color = new Color(uint.Parse(Hex, System.Globalization.NumberStyles.HexNumber));
         
-        ulong CurrentRoleId = Guild.CurrentUser.Roles.FirstOrDefault(R => R.Name.StartsWith("$"))?.Id ?? 0;
+        ulong CurrentRoleId = User.Roles.FirstOrDefault(R => R.Name.StartsWith("$"))?.Id ?? 0;
         if (CurrentRoleId != 0)
         {
             SocketRole RoleToDelete = Guild.Roles.FirstOrDefault(r2 => r2.Id == CurrentRoleId);
@@ -54,7 +55,7 @@ public class FunCommands : InteractionModuleBase<SocketInteractionContext>
             Guild.GetRole(NewRoleId).ModifyAsync(P => P.Position = Role2.Position);
         }
 
-        Guild.CurrentUser.AddRoleAsync(Context.Guild.GetRole(NewRoleId));
+        User.AddRoleAsync(Context.Guild.GetRole(NewRoleId));
         
         return RespondAsync($"**Role Name:** {RoleName} \n**Hex Code:** {Hex}");
     }
