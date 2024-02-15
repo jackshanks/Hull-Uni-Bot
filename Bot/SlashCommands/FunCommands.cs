@@ -37,7 +37,7 @@ public class FunCommands : InteractionModuleBase<SocketInteractionContext>
 
         Context.Guild.CreateRoleAsync(RoleName, null, Color);
         
-        var Role = Context.Guild.Roles.FirstOrDefault(X => X.Name == RoleName);
+        IRole Role = Context.Guild.Roles.FirstOrDefault(X => X.Name == RoleName);
         (User as IGuildUser)!.AddRoleAsync(Role);
         
         
