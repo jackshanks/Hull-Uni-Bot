@@ -31,27 +31,15 @@ public class FunCommands : InteractionModuleBase<SocketInteractionContext>
     [SlashCommand("role", "Use this to change your role")]
     public Task RoleCommand(string Name, string Hex)
     {
-        var Guild = Context.Guild;
-        var User = Guild.GetUser(Context.User.Id);
+        var User = Context.User;
         string RoleName = "$" + Name;
-        
         Color Color = new Color(uint.Parse(Hex, System.Globalization.NumberStyles.HexNumber));
-        
-        var CurrentRole = User.Roles.FirstOrDefault(X => X.Name.StartsWith("$")) ?? null;
-        if (CurrentRole != null) { CurrentRole.DeleteAsync(); }
-        
-        var NewRoleTemp = Guild.CreateRoleAsync(RoleName, null, Color);
-        var NewRole = Context.Guild.Roles.FirstOrDefault(X => X.Id==(ulong)NewRoleTemp.Id);
-        
-        
-        var WantedPosition =  Guild.Roles.FirstOrDefault(X => X.Name.StartsWith("/")) ?? null;
-        
-        if (WantedPosition != null && NewRole != null)
-        {
-            NewRole.ModifyAsync(P => P.Position = WantedPosition.Position);
-        }
 
-        User.AddRoleAsync(NewRole);
+        Context.Guild.CreateRoleAsync(RoleName, null, Color);
+        
+        var Role = Context.Guild.Roles.FirstOrDefault(X => X.Name == RoleName);
+        (User as IGuildUser)!.AddRoleAsync(Role);
+        
         
         return RespondAsync($"**Role Name:** {RoleName} \n**Hex Code:** {Hex}");
     }
