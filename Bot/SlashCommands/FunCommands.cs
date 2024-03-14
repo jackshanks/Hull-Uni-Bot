@@ -1,9 +1,11 @@
 ﻿using Discord;
 using Discord.Interactions;
+using Discord.WebSocket;
 using System;
 using System.Runtime.Loader;
 using System.Threading.Tasks;
 using Bot.LogHandle;
+using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.Logging;
 
@@ -97,5 +99,21 @@ public class FunCommands : InteractionModuleBase<SocketInteractionContext>
             }
         }
         return ReplyAsync("Error, role not found.");
+    }
+    
+    [SlashCommand("colour-role", "Choose your colour!")]
+    public async Task ColourRole()
+    {
+        var menuBuilder = new SelectMenuBuilder()
+            .WithPlaceholder("Select an option")
+            .WithCustomId("colour-role")
+            .WithMinValues(1)
+            .WithMaxValues(10)
+            .AddOption("Red", "red");
+
+        var builder = new ComponentBuilder()
+            .WithSelectMenu(menuBuilder);
+
+        await ReplyAsync("Select your colour!", components: builder.Build());
     }
 }

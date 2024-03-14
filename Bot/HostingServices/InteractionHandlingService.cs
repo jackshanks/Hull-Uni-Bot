@@ -33,7 +33,8 @@ namespace Bot.HostingServices
             _Discord.Ready += () => _Interactions.RegisterCommandsToGuildAsync(1153315295306465381);
             _Discord.InteractionCreated += OnInteractionAsync;
             _Discord.UserJoined += HandleUserJoin;
-
+            _Discord.SelectMenuExecuted += MyMenuHandler;
+            
             await _Interactions.AddModulesAsync(Assembly.GetEntryAssembly(), _Services);
         }
 
@@ -66,6 +67,12 @@ namespace Bot.HostingServices
         private async Task HandleUserJoin(SocketGuildUser user)
         {
             await user.AddRoleAsync(1211131520786636820);
+        }
+
+        private async Task MyMenuHandler(SocketMessageComponent arg)
+        {
+            var text = string.Join(", ", arg.Data.Values);
+            await arg.RespondAsync($"You have selected {text}");
         }
     }
 }
