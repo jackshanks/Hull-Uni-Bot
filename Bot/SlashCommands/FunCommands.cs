@@ -59,7 +59,7 @@ public class FunCommands : InteractionModuleBase<SocketInteractionContext>
     public Task GameRole([Choice ("League of Legends", "lol"), 
                           Choice("Valorant","valorant"),
                           Choice("Overwatch","overwatch"),
-                          Choice("Helldivers 2","HellDivers"),
+                          Choice("Helldivers 2","helldivers"),
                           Choice("Stardew Vally","stardew")]string roleName)
             
     {
