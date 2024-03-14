@@ -28,38 +28,44 @@ namespace Bot.HostingServices
             _Interactions.Log += Msg => LogHelper.OnLogAsync(Logger, Msg);
         }
 
-        public async Task StartAsync(CancellationToken CancellationToken)
+        public async Task StartAsync(CancellationToken cancellationToken)
         {
             _Discord.Ready += () => _Interactions.RegisterCommandsToGuildAsync(1153315295306465381);
             _Discord.InteractionCreated += OnInteractionAsync;
+            _Discord.UserJoined += HandleUserJoin;
 
             await _Interactions.AddModulesAsync(Assembly.GetEntryAssembly(), _Services);
         }
 
-        public Task StopAsync(CancellationToken CancellationToken)
+        public Task StopAsync(CancellationToken cancellationToken)
         {
             _Interactions.Dispose();
             return Task.CompletedTask;
         }
 
-        private async Task OnInteractionAsync(SocketInteraction Interaction)
+        private async Task OnInteractionAsync(SocketInteraction interaction)
         {
             try
             {
-                var Context = new SocketInteractionContext(_Discord, Interaction);
-                var Result = await _Interactions.ExecuteCommandAsync(Context, _Services);
+                var context = new SocketInteractionContext(_Discord, interaction);
+                var result = await _Interactions.ExecuteCommandAsync(context, _Services);
 
-                if (!Result.IsSuccess)
-                    await Context.Channel.SendMessageAsync(Result.ToString());
+                if (!result.IsSuccess)
+                    await context.Channel.SendMessageAsync(result.ToString());
             }
             catch
             {
-                if (Interaction.Type == InteractionType.ApplicationCommand)
+                if (interaction.Type == InteractionType.ApplicationCommand)
                 {
-                    await Interaction.GetOriginalResponseAsync()
+                    await interaction.GetOriginalResponseAsync()
                         .ContinueWith(Msg => Msg.Result.DeleteAsync());
                 }
             }
+        }
+
+        private async Task HandleUserJoin(SocketGuildUser user)
+        {
+            await user.AddRoleAsync(1211131520786636820);
         }
     }
 }
