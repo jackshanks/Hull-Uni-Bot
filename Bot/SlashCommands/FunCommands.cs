@@ -101,7 +101,7 @@ public class FunCommands : InteractionModuleBase<SocketInteractionContext>
         return ReplyAsync("Error, role not found.");
     }
     
-    [Command("spawner")]
+    [SlashCommand("spawner","Create the colour role menu")]
     public async Task ColourRole()
     {
         var menuBuilder = new SelectMenuBuilder()
