@@ -60,7 +60,8 @@ public class FunCommands : InteractionModuleBase<SocketInteractionContext>
                           Choice("Valorant","valorant"),
                           Choice("Overwatch","overwatch"),
                           Choice("Helldivers 2","helldivers"),
-                          Choice("Stardew Vally","stardew")]string roleName)
+                          Choice("Stardew Vally","stardew"),
+                          Choice("Lethal Company","lethal")]string roleName)
             
     {
         SocketRole role;
@@ -73,6 +74,7 @@ public class FunCommands : InteractionModuleBase<SocketInteractionContext>
             "valorant" => 1217811869159395469,
             "helldivers" => 1217811907126231131,
             "stardew" => 1217811946733310065,
+            "lethal" => 1213923585937113100,
             _ => 0
         };
 
