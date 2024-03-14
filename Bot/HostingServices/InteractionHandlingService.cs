@@ -73,15 +73,28 @@ namespace Bot.HostingServices
         {
             var user = arg.User;
             var text = string.Join(", ", arg.Data.Values);
+
+            switch (arg.Data.CustomId)
+            {
+                case "colour-role":
+                    await AddColour(arg);
+                    break;
+                    
+            }
+        }
+
+        private async Task AddColour(SocketMessageComponent arg)
+        {
+            var text = string.Join(", ", arg.Data.Values);
             switch (text)
             {
                 case "red":
                     //await (user as SocketGuildUser).AddRoleAsync(1217889821905649746);
-                    await arg.RespondAsync($"Added {text} role!");
+                    await arg.RespondAsync($"Added {text} role!", ephemeral:true);
                     break;
                 case "yellow":
                     //await (user as SocketGuildUser).AddRoleAsync(1217897797903188069);
-                    await arg.RespondAsync($"Added {text} role!");
+                    await arg.RespondAsync($"Added {text} role!", ephemeral:true);
                     break;
             }
         }

@@ -114,6 +114,6 @@ public class FunCommands : InteractionModuleBase<SocketInteractionContext>
         var builder = new ComponentBuilder()
             .WithSelectMenu(menuBuilder);
 
-        await RespondAsync("Select your colour!", components: builder.Build(), ephemeral:true);
+        await RespondAsync("Select your colour!", components: builder.Build());
     }
 }
