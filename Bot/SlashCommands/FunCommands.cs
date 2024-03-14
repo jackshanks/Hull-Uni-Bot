@@ -56,7 +56,12 @@ public class FunCommands : InteractionModuleBase<SocketInteractionContext>
     }
 
     [SlashCommand("game-role", "Add games you are interested in!")]
-    public Task GameRole(string roleName)
+    public Task GameRole([Choice ("League of Legends", "lol"), 
+                          Choice("Valorant","valorant"),
+                          Choice("Overwatch","overwatch"),
+                          Choice("Helldivers 2","HellDivers"),
+                          Choice("Stardew Vally","stardew")]string roleName)
+            
     {
         SocketRole role;
         var user = Context.User;
@@ -64,15 +69,31 @@ public class FunCommands : InteractionModuleBase<SocketInteractionContext>
         ulong roleId = roleName switch
         {
             "overwatch" => 1216878995916853409,
+            "lol" => 1217811848385138748,
+            "valorant" => 1217811869159395469,
+            "helldivers" => 1217811907126231131,
+            "stardew" => 1217811946733310065,
             _ => 0
-        };  
+        };
 
         if (roleId != 0)
-        { role = Context.Guild.GetRole(roleId); }
-        else
-        { return ReplyAsync("Error, role not found."); }
-        
-        (user as IGuildUser)?.AddRoleAsync(role);
-        return ReplyAsync($"You have been granted the {role?.Name} role.");
+        {
+            role = Context.Guild.GetRole(roleId);
+            if (user is SocketGuildUser sgu)
+            {
+                if (sgu.Roles.Any(userRole => userRole.Id == role.Id))
+                {
+                    (user as IGuildUser)?.RemoveRoleAsync(role);
+                    return RespondAsync($"You already have the {role.Name} role so it has been removed.",
+                        ephemeral: true);
+                }
+                else
+                {
+                    (user as IGuildUser)?.AddRoleAsync(role);
+                    return RespondAsync($"The role {role.Name} has been added.", ephemeral: true);
+                }
+            }
+        }
+        return ReplyAsync("Error, role not found.");
     }
 }
