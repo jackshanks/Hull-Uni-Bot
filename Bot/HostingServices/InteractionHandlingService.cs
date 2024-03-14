@@ -76,10 +76,10 @@ namespace Bot.HostingServices
             switch (text)
             {
                 case "red":
-                    await (user as IGuildUser).AddRoleAsync(1217889821905649746);
+                    await (user as SocketGuildUser).AddRoleAsync(1217889821905649746);
                     break;
                 case "yellow":
-                    await (user as IGuildUser).AddRoleAsync(1217897797903188069);
+                    await (user as SocketGuildUser).AddRoleAsync(1217897797903188069);
                     break;
             }
         }
