@@ -108,14 +108,12 @@ public class FunCommands : InteractionModuleBase<SocketInteractionContext>
         var menuBuilder = new SelectMenuBuilder()
             .WithPlaceholder("Select an option")
             .WithCustomId("colour-role")
-            .WithMinValues(1)
-            .WithMaxValues(1)
             .AddOption("Red", "red")
             .AddOption("Yellow", "yellow");
 
         var builder = new ComponentBuilder()
             .WithSelectMenu(menuBuilder);
 
-        await RespondAsync("Select your colour!", components: builder.Build());
+        await RespondAsync("Select your colour!", components: builder.Build(), ephemeral:true);
     }
 }
