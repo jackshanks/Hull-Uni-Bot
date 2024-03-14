@@ -71,8 +71,17 @@ namespace Bot.HostingServices
 
         private async Task MyMenuHandler(SocketMessageComponent arg)
         {
+            var user = arg.User;
             var text = string.Join(", ", arg.Data.Values);
-            await arg.RespondAsync($"You have selected {text}");
+            switch (text)
+            {
+                case "red":
+                    await (user as IGuildUser).AddRoleAsync(1217889821905649746);
+                    break;
+                case "yellow":
+                    await (user as IGuildUser).AddRoleAsync(1217897797903188069);
+                    break;
+            }
         }
     }
 }

@@ -101,6 +101,7 @@ public class FunCommands : InteractionModuleBase<SocketInteractionContext>
         return ReplyAsync("Error, role not found.");
     }
     
+    [DefaultMemberPermissions(GuildPermission.Administrator)]
     [SlashCommand("spawner","Create the colour role menu")]
     public async Task ColourRole()
     {
@@ -109,11 +110,12 @@ public class FunCommands : InteractionModuleBase<SocketInteractionContext>
             .WithCustomId("colour-role")
             .WithMinValues(1)
             .WithMaxValues(1)
-            .AddOption("Red", "red");
+            .AddOption("Red", "red")
+            .AddOption("Yellow", "yellow");
 
         var builder = new ComponentBuilder()
             .WithSelectMenu(menuBuilder);
 
-        await ReplyAsync("Select your colour!", components: builder.Build());
+        await RespondAsync("Select your colour!", components: builder.Build());
     }
 }
