@@ -65,7 +65,8 @@ namespace Bot.HostingServices
         
         private async Task OnUserJoined(SocketGuildUser user)
         {
-            var Unverified = user.Guild.GetRole(user.Guild.Roles.FirstOrDefault(x => x.Name == "Unverified"));
+            var UnverifiedId = user.Guild.Roles.FirstOrDefault(x => x.Name == "Unverified");
+            SocketRole Unverified = user.Guild.GetRole(UnverifiedId)
             if (Unverified != null)
             {
                 await user.AddRolesAsync(Unverified);
