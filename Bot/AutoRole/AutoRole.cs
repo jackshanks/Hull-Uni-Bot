@@ -1,4 +1,6 @@
-﻿namespace DefaultNamespace;
+﻿using Discord;
+
+namespace Bot.AutoRole;
 
 public class AutoRole : DiscordSocketClient
 {
