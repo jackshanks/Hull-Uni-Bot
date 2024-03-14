@@ -69,6 +69,8 @@ namespace Bot.HostingServices
             {
                 await user.AddRolesAsync(unverified);
             }
+
+            return Task;
         }
     }
 }
