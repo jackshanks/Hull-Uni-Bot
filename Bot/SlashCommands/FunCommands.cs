@@ -48,44 +48,6 @@ public class FunCommands : InteractionModuleBase<SocketInteractionContext>
     public Task PingCommand()
         => RespondAsync($"Pong! Your response time was {Context.Client.Latency} ms");
 
-    [SlashCommand("role", "Use this to change your role")]
-    public Task RoleCommand(string Name, string Hex)
-    {
-        var Guild = _Discord.GetGuild(1153315295306465381);
-        SocketGuildUser User = (SocketGuildUser)Context.User;
-
-        //Set the role name and hex code
-        string RoleName = ("$"+Name);
-        Color Color = new Color(uint.Parse(Hex, System.Globalization.NumberStyles.HexNumber));
-            
-            
-        // Get the role ID of any role with $
-        ulong RoleId = User.Roles.FirstOrDefault(X => X.Name.StartsWith("$"))?.Id ?? 0;
-
-        // Find the role to delete using SocketRole if an ID is found
-        if (RoleId != 0)
-        {
-            SocketRole RoleToDelete = Guild.Roles.FirstOrDefault(X => X.Id == RoleId)!;
-            RoleToDelete.DeleteAsync();
-        }
-            
-        var Role = Guild.CreateRoleAsync(RoleName, null, Color);
-        var HopeRole = Guild.GetRole((ulong)Role.Id);
-
-        ulong RoleId2 = Guild.Roles.FirstOrDefault(X => X.Name.StartsWith("/"))?.Id ?? 0;
-
-        if (RoleId2 != 0)
-        {
-            SocketRole Role2 = Guild.Roles.FirstOrDefault(X=> X.Id == RoleId2)!;
-            HopeRole.ModifyAsync(X => X.Position = Role2.Position);
-
-        }
-
-        User.AddRoleAsync(HopeRole);
-
-        return RespondAsync($"**Role Name:** {RoleName} \n**Hex Code:** {Hex}");
-    }
-
     [SlashCommand("simon-fact", "Get a random fact Simon!")]
     public Task SimonFact()
     {
@@ -93,4 +55,24 @@ public class FunCommands : InteractionModuleBase<SocketInteractionContext>
         return RespondAsync($"Did you know that Simon {_SimonFacts[RandomInt]}");
     }
 
+    [SlashCommand("game-role", "Add games you are interested in!")]
+    public Task GameRole(string roleName)
+    {
+        SocketRole role;
+        var user = Context.User;
+
+        ulong roleId = roleName switch
+        {
+            "overwatch" => 1216878995916853409,
+            _ => 0
+        };  
+
+        if (roleId != 0)
+        { role = Context.Guild.GetRole(roleId); }
+        else
+        { return ReplyAsync("Error, role not found."); }
+        
+        (user as IGuildUser)?.AddRoleAsync(role);
+        return ReplyAsync($"You have been granted the {role?.Name} role.");
+    }
 }

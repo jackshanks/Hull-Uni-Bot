@@ -2730,19 +2730,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Jacks\\.nuget\\packages\\": {}
+    "C:\\Users\\jackl\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Jacks\\Documents\\GitHub\\Hull-Uni-Bot\\Bot\\Bot.csproj",
+      "projectUniqueName": "C:\\Users\\jackl\\Documents\\.Code\\Hull-Uni-Bot\\Bot\\Bot.csproj",
       "projectName": "Bot",
-      "projectPath": "C:\\Users\\Jacks\\Documents\\GitHub\\Hull-Uni-Bot\\Bot\\Bot.csproj",
-      "packagesPath": "C:\\Users\\Jacks\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Jacks\\Documents\\GitHub\\Hull-Uni-Bot\\Bot\\obj\\",
+      "projectPath": "C:\\Users\\jackl\\Documents\\.Code\\Hull-Uni-Bot\\Bot\\Bot.csproj",
+      "packagesPath": "C:\\Users\\jackl\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\jackl\\Documents\\.Code\\Hull-Uni-Bot\\Bot\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Jacks\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\jackl\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
@@ -2814,12 +2814,30 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[6.0.27, 6.0.27]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Host.win-x64",
+            "version": "[6.0.27, 6.0.27]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[6.0.27, 6.0.27]"
+          },
+          {
+            "name": "Microsoft.WindowsDesktop.App.Ref",
+            "version": "[6.0.27, 6.0.27]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.102\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.201\\RuntimeIdentifierGraph.json"
       }
     }
   }

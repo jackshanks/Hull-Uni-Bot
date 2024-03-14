@@ -32,7 +32,6 @@ namespace Bot.HostingServices
         {
             _Discord.Ready += () => _Interactions.RegisterCommandsToGuildAsync(1153315295306465381);
             _Discord.InteractionCreated += OnInteractionAsync;
-            _Discord.UserJoined += OnUserJoined; 
 
             await _Interactions.AddModulesAsync(Assembly.GetEntryAssembly(), _Services);
         }
@@ -60,16 +59,6 @@ namespace Bot.HostingServices
                     await Interaction.GetOriginalResponseAsync()
                         .ContinueWith(Msg => Msg.Result.DeleteAsync());
                 }
-            }
-        }
-        
-        private async Task OnUserJoined(SocketGuildUser user)
-        {
-            var UnverifiedId = user.Guild.Roles.FirstOrDefault(x => x.Name == "Unverified");
-            SocketRole Unverified = user.Guild.GetRole(UnverifiedId);
-            if (Unverified != null)
-            {
-                await user.AddRolesAsync(Unverified);
             }
         }
     }
