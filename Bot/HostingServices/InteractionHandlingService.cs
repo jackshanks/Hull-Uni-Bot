@@ -62,7 +62,7 @@ namespace Bot.HostingServices
             }
         }
         
-        protected override async Task OnMemberJoined(SocketGuildUser user)
+        protected async Task OnMemberJoined(SocketGuildUser user)
         {
             var unverified = user.Guild.Roles.FirstOrDefault(x => x.Name == "Unverified");
             if (unverified != null)
