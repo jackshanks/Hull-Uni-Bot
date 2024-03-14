@@ -101,14 +101,14 @@ public class FunCommands : InteractionModuleBase<SocketInteractionContext>
         return ReplyAsync("Error, role not found.");
     }
     
-    [SlashCommand("colour-role", "Choose your colour!")]
+    [Command("spawner")]
     public async Task ColourRole()
     {
         var menuBuilder = new SelectMenuBuilder()
             .WithPlaceholder("Select an option")
             .WithCustomId("colour-role")
             .WithMinValues(1)
-            .WithMaxValues(10)
+            .WithMaxValues(1)
             .AddOption("Red", "red");
 
         var builder = new ComponentBuilder()
