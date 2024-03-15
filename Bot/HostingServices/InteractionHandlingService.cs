@@ -37,7 +37,7 @@ namespace Bot.HostingServices
             
             await _Interactions.AddModulesAsync(Assembly.GetEntryAssembly(), _Services);
         }
-
+        
         public Task StopAsync(CancellationToken cancellationToken)
         {
             _Interactions.Dispose();
@@ -68,34 +68,36 @@ namespace Bot.HostingServices
         {
             await user.AddRoleAsync(1211131520786636820);
         }
-
-        private async Task MyMenuHandler(SocketMessageComponent arg)
+        
+        private async Task MyMenuHandler(SocketMessageComponent interaction)
         {
-            var user = arg.User;
-            var text = string.Join(", ", arg.Data.Values);
-
-            switch (arg.Data.CustomId)
+            var user = interaction.User;
+            try
             {
-                case "colour-role":
-                    await AddColour(arg);
-                    break;
-                    
+                string selectedColour = interaction.Data.ToString()!;
+
+                switch (selectedColour)
+                {
+                    case "red":
+                        // Add the red role to the user
+                        await ((user as IGuildUser)!).AddRoleAsync(1217889821905649746);
+                        await interaction.RespondAsync("You have selected the red role!",ephemeral:true);
+                        break;
+                    case "yellow":
+                        // Add the yellow role to the user
+                        await ((user as IGuildUser)!).AddRoleAsync(1217897797903188069);
+                        await interaction.RespondAsync("You have selected the yellow role!",ephemeral:true);
+                        break;
+                    default:
+                        await interaction.RespondAsync("Invalid selection. Please try again.");
+                        break;
+                }
             }
-        }
-
-        private async Task AddColour(SocketMessageComponent arg)
-        {
-            var text = string.Join(", ", arg.Data.Values);
-            switch (text)
+            catch (Exception ex)
             {
-                case "red":
-                    //await (user as SocketGuildUser).AddRoleAsync(1217889821905649746);
-                    await arg.RespondAsync($"Added {text} role!", ephemeral:true);
-                    break;
-                case "yellow":
-                    //await (user as SocketGuildUser).AddRoleAsync(1217897797903188069);
-                    await arg.RespondAsync($"Added {text} role!", ephemeral:true);
-                    break;
+                // Log any errors
+                Console.WriteLine(ex.Message);
+                await interaction.RespondAsync("An error occurred while processing your request. Please try again later.");
             }
         }
     }
