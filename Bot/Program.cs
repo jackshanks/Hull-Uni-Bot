@@ -23,7 +23,7 @@ using IHost botHost = Host.CreateDefaultBuilder(args)
         services.AddHostedService<DiscordStartupService>();         // Add the discord startup service
         services.AddLavaNode(x => {
             x.SelfDeaf = false;
-            x.Hostname = "0.0.0.0";
+            x.Hostname = "127.0.0.1";
             x.Port = 2333;
             x.Authorization = "youshallnotpass";
         });
