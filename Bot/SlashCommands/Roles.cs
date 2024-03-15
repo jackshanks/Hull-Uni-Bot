@@ -33,7 +33,7 @@ public class RoleCommands : InteractionModuleBase<SocketInteractionContext>
     }
     
     [DefaultMemberPermissions(GuildPermission.Administrator)]
-    [SlashCommand("spawner","Create the colour role menu")]
+    [SlashCommand("spawner-colour","Create the colour role menu")]
     public async Task ColourRole()
     {
         var menuBuilder = new SelectMenuBuilder()
@@ -45,6 +45,21 @@ public class RoleCommands : InteractionModuleBase<SocketInteractionContext>
         var builder = new ComponentBuilder().WithSelectMenu(menuBuilder);
 
         await RespondAsync("Select your colour!", components: builder.Build());
+    }
+    
+    [DefaultMemberPermissions(GuildPermission.Administrator)]
+    [SlashCommand("spawner-game","Create the game role menu")]
+    public async Task GameRole()
+    {
+        var menuBuilder = new SelectMenuBuilder()
+            .WithPlaceholder("Select an option").WithCustomId("colour-role")
+            .AddOption("League of Legends", "lol").AddOption("Valorant", "valorant")
+            .AddOption("Overwatch", "overwatch").AddOption("Helldivers 2", "helldivers")
+            .AddOption("Stardew Valley", "stardew").AddOption("Lethal Company", "lethal");
+
+        var builder = new ComponentBuilder().WithSelectMenu(menuBuilder);
+
+        await RespondAsync("Select your game roles!", components: builder.Build());
     }
     
     [ComponentInteraction("colour-role")]
@@ -80,5 +95,24 @@ public class RoleCommands : InteractionModuleBase<SocketInteractionContext>
             Console.WriteLine(ex.Message);
             await RespondAsync("An error occurred while processing your request. Please try again later.");
         }
+    }
+
+    [ComponentInteraction("game-role")]
+    public async Task GameRole(string selectedRole)
+    {
+        var user = Context.User as IGuildUser;
+
+        var roleIdMap = new Dictionary<string, ulong>()
+        {
+            { "overwatch", 1216878995916853409 }, { "lol", 1217811848385138748 }, {"valorant", 1217811869159395469},
+            {"helldivers", 1217811907126231131}, {"stardew", 1217811946733310065}, {"lethal", 1213923585937113100}
+        };
+        
+        if (roleIdMap.TryGetValue(selectedRole, out var addRoleId))
+        {
+            await user!.AddRoleAsync(addRoleId);
+            await RespondAsync($"You have selected the {selectedRole} role!", ephemeral: true);
+        }
+        else { await RespondAsync("Invalid selection. Please try again."); }
     }
 }
