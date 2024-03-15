@@ -17,8 +17,6 @@ public class RoleCommands : InteractionModuleBase<SocketInteractionContext>
     private readonly DiscordSocketClient _Discord;
     private readonly InteractionService _Interactions;
     private readonly IServiceProvider _Services;
-    private readonly Random _Random;
-    private readonly string[] _SimonFacts;
 
     public RoleCommands(
         DiscordSocketClient discord,
@@ -52,7 +50,7 @@ public class RoleCommands : InteractionModuleBase<SocketInteractionContext>
     public async Task GameRole()
     {
         var menuBuilder = new SelectMenuBuilder()
-            .WithPlaceholder("Select an option").WithCustomId("colour-role")
+            .WithPlaceholder("Select an option").WithCustomId("game-role")
             .AddOption("League of Legends", "lol").AddOption("Valorant", "valorant")
             .AddOption("Overwatch", "overwatch").AddOption("Helldivers 2", "helldivers")
             .AddOption("Stardew Valley", "stardew").AddOption("Lethal Company", "lethal");
