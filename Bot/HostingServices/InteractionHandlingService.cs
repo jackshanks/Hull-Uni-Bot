@@ -33,7 +33,6 @@ namespace Bot.HostingServices
             _Discord.Ready += () => _Interactions.RegisterCommandsToGuildAsync(1153315295306465381);
             _Discord.InteractionCreated += OnInteractionAsync;
             _Discord.UserJoined += HandleUserJoin;
-            _Discord.SelectMenuExecuted += MyMenuHandler;
             
             await _Interactions.AddModulesAsync(Assembly.GetEntryAssembly(), _Services);
         }
@@ -64,41 +63,6 @@ namespace Bot.HostingServices
             }
         }
 
-        private async Task HandleUserJoin(SocketGuildUser user)
-        {
-            await user.AddRoleAsync(1211131520786636820);
-        }
-        
-        private async Task MyMenuHandler(SocketMessageComponent interaction)
-        {
-            var user = interaction.User;
-            try
-            {
-                string selectedColour = interaction.Data.ToString()!;
-
-                switch (selectedColour)
-                {
-                    case "red":
-                        // Add the red role to the user
-                        await ((user as IGuildUser)!).AddRoleAsync(1217889821905649746);
-                        await interaction.RespondAsync("You have selected the red role!",ephemeral:true);
-                        break;
-                    case "yellow":
-                        // Add the yellow role to the user
-                        await ((user as IGuildUser)!).AddRoleAsync(1217897797903188069);
-                        await interaction.RespondAsync("You have selected the yellow role!",ephemeral:true);
-                        break;
-                    default:
-                        await interaction.RespondAsync("Invalid selection. Please try again.");
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                // Log any errors
-                Console.WriteLine(ex.Message);
-                await interaction.RespondAsync("An error occurred while processing your request. Please try again later.");
-            }
-        }
+        private async Task HandleUserJoin(SocketGuildUser user) { await user.AddRoleAsync(1211131520786636820); }
     }
 }

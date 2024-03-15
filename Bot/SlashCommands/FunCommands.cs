@@ -116,4 +116,37 @@ public class FunCommands : InteractionModuleBase<SocketInteractionContext>
 
         await RespondAsync("Select your colour!", components: builder.Build());
     }
+
+    [ComponentInteraction("colour-role")]
+    private async Task MyMenuHandler(SocketMessageComponent interaction)
+    {
+        var user = interaction.User;
+        try
+        {
+            var selectedColour = interaction.Data.ToString()!;
+
+            switch (selectedColour)
+            {
+                case "red":
+                    // Add the red role to the user
+                    await ((user as IGuildUser)!).AddRoleAsync(1217889821905649746);
+                    await interaction.RespondAsync("You have selected the red role!",ephemeral:true);
+                    break;
+                case "yellow":
+                    // Add the yellow role to the user
+                    await ((user as IGuildUser)!).AddRoleAsync(1217897797903188069);
+                    await interaction.RespondAsync("You have selected the yellow role!",ephemeral:true);
+                    break;
+                default:
+                    await interaction.RespondAsync("Invalid selection. Please try again.");
+                    break;
+            }
+        }
+        catch (Exception ex)
+        {
+            // Log any errors
+            Console.WriteLine(ex.Message);
+            await interaction.RespondAsync("An error occurred while processing your request. Please try again later.");
+        }
+    }
 }
