@@ -6,20 +6,20 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Discord;
 
-var Config = new DiscordSocketConfig
+var config = new DiscordSocketConfig
 {
     GatewayIntents = GatewayIntents.All
 };
 
-using IHost BotHost = Host.CreateDefaultBuilder(args)
-    .ConfigureServices(Services =>
+using IHost botHost = Host.CreateDefaultBuilder(args)
+    .ConfigureServices(services =>
     {
         
-        Services.AddSingleton(new DiscordSocketClient(Config));
-        Services.AddSingleton<InteractionService>();        // Add the interaction service to services
-        Services.AddHostedService<InteractionHandlingService>();    // Add the slash command handler
-        Services.AddHostedService<DiscordStartupService>();         // Add the discord startup service
+        services.AddSingleton(new DiscordSocketClient(config));
+        services.AddSingleton<InteractionService>();        // Add the interaction service to services
+        services.AddHostedService<InteractionHandlingService>();    // Add the slash command handler
+        services.AddHostedService<DiscordStartupService>();         // Add the discord startup service
     })
     .Build();
 
-await BotHost.RunAsync();
+await botHost.RunAsync();
