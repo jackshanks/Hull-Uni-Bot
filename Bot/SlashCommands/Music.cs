@@ -34,7 +34,7 @@ namespace Bot.SlashCommands
         }
         
         
-        [Command("join", RunMode = RunMode.Async)]
+        [SlashCommand("join", "Gets the bot to join the voice channel", runMode: Discord.Interactions.RunMode.Async)]
         public async Task JoinChannel(IVoiceChannel channel = null)
         {
             // Get the audio channel
