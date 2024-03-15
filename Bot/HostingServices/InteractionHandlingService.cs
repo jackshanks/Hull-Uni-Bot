@@ -24,7 +24,6 @@ namespace Bot.HostingServices
             _Discord = Discord;
             _Interactions = Interactions;
             _Services = Services;
-            
             _Interactions.Log += Msg => LogHelper.OnLogAsync(Logger, Msg);
         }
 
