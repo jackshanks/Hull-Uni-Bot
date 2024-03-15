@@ -23,10 +23,11 @@ using IHost botHost = Host.CreateDefaultBuilder(args)
         services.AddHostedService<DiscordStartupService>();         // Add the discord startup service
         services.AddLavaNode(x => {
             x.SelfDeaf = false;
-            x.Hostname = "lavalink4-netherlands.alfari.id";
+            x.Hostname = "lavalink3-frankfurt.alfari.id";
             x.Port = 80;
             x.Authorization = "catfein";
         });
+        
     })
     .Build();
 
