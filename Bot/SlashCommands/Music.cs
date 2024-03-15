@@ -35,14 +35,12 @@ namespace Bot.SlashCommands
             InteractionService interactions,
             IServiceProvider services,
             ILogger<InteractionService> logger,
-            LavaNode lavaNode,
-            AudioService audioService)
+            LavaNode lavaNode)
         {
             _discord = discord;
             _interactions = interactions;
             _services = services;
             _lavaNode = lavaNode;
-            _audioService = audioService;
             _interactions.Log += Msg => LogHelper.OnLogAsync(logger, Msg);
         }
         
