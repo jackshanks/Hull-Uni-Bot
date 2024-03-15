@@ -23,9 +23,9 @@ using IHost botHost = Host.CreateDefaultBuilder(args)
         services.AddHostedService<DiscordStartupService>();         // Add the discord startup service
         services.AddLavaNode(x => {
             x.SelfDeaf = false;
-            x.Hostname = "lavalink.chompubot.work";
-            x.Port = 30216;
-            x.Authorization = "somboytiger";
+            x.Hostname = "0.0.0.0";
+            x.Port = 2333;
+            x.Authorization = "youshallnotpass";
         });
         
     })
