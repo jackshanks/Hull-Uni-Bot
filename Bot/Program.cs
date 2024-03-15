@@ -24,7 +24,7 @@ using IHost botHost = Host.CreateDefaultBuilder(args)
         services.AddLavaNode(x => {
             x.SelfDeaf = false;
             x.Hostname = "lavalink4-netherlands.alfari.id";
-            x.Port = 443;
+            x.Port = 80;
             x.Authorization = "catfein";
         });
     })
