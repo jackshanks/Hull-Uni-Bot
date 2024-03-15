@@ -31,34 +31,28 @@ public class RoleCommands : InteractionModuleBase<SocketInteractionContext>
     }
     
     [DefaultMemberPermissions(GuildPermission.Administrator)]
-    [SlashCommand("spawner-colour","Create the colour role menu")]
+    [SlashCommand("spawner-main","Create the colour role menu")]
     public async Task ColourRole()
     {
-        var menuBuilder = new SelectMenuBuilder()
+        var menuBuilder1 = new SelectMenuBuilder()
             .WithPlaceholder("Select an option").WithCustomId("colour-role")
             .AddOption("Red", "red").AddOption("Yellow", "yellow").AddOption("Green", "green")
             .AddOption("Cyan", "cyan").AddOption("Blue", "blue").AddOption("Dark Blue", "darkblue")
             .AddOption("Purple", "purple").AddOption("Pink", "pink").AddOption("Silver", "silver")
             .AddOption("Orange", "orange");
 
-        var builder = new ComponentBuilder().WithSelectMenu(menuBuilder);
-
-        await RespondAsync("Select your colour!", components: builder.Build());
-    }
-    
-    [DefaultMemberPermissions(GuildPermission.Administrator)]
-    [SlashCommand("spawner-game","Create the game role menu")]
-    public async Task GameRole()
-    {
-        var menuBuilder = new SelectMenuBuilder()
+        var builder1 = new ComponentBuilder().WithSelectMenu(menuBuilder1);
+        
+        var menuBuilder2 = new SelectMenuBuilder()
             .WithPlaceholder("Select an option").WithCustomId("game-role")
             .AddOption("League of Legends", "lol").AddOption("Valorant", "valorant")
             .AddOption("Overwatch", "overwatch").AddOption("Helldivers 2", "helldivers")
             .AddOption("Stardew Valley", "stardew").AddOption("Lethal Company", "lethal");
+        
+        var builder2 = new ComponentBuilder().WithSelectMenu(menuBuilder2);
 
-        var builder = new ComponentBuilder().WithSelectMenu(menuBuilder);
-
-        await RespondAsync("Select your game roles!", components: builder.Build());
+        await RespondAsync("Select your colour!", components: builder1.Build());
+        await RespondAsync("Select your game roles!", components: builder2.Build());
     }
     
     [ComponentInteraction("colour-role")]
