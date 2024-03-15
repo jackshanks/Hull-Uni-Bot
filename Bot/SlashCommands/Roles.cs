@@ -38,7 +38,8 @@ public class RoleCommands : InteractionModuleBase<SocketInteractionContext>
             .WithPlaceholder("Select an option").WithCustomId("colour-role")
             .AddOption("Red", "red").AddOption("Yellow", "yellow").AddOption("Green", "green")
             .AddOption("Cyan", "cyan").AddOption("Blue", "blue").AddOption("Dark Blue", "darkblue")
-            .AddOption("Purple", "purple").AddOption("Pink", "pink").AddOption("Silver", "silver");
+            .AddOption("Purple", "purple").AddOption("Pink", "pink").AddOption("Silver", "silver")
+            .AddOption("Orange", "orange");
 
         var builder = new ComponentBuilder().WithSelectMenu(menuBuilder);
 
@@ -72,7 +73,8 @@ public class RoleCommands : InteractionModuleBase<SocketInteractionContext>
             {
                 {"red", 1217889821905649746}, {"yellow", 1217897797903188069}, {"green", 1218192603330117713}, 
                 {"cyan", 1218192706354806915}, {"blue", 1218192806577967174}, {"darkblue", 1218192942439858176},
-                {"purple", 1218193017530482739}, {"pink", 1218193095540211773}, {"silver", 1218193213622452344}
+                {"purple", 1218193017530482739}, {"pink", 1218193095540211773}, {"silver", 1218193213622452344},
+                {"orange", 1218217701160517692}
             };
 
             foreach (var userRole in userroles)
