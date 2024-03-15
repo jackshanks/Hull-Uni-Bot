@@ -5,6 +5,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Discord;
+using Victoria;
+using Victoria.Node;
 
 var config = new DiscordSocketConfig
 {
@@ -19,6 +21,9 @@ using IHost botHost = Host.CreateDefaultBuilder(args)
         services.AddSingleton<InteractionService>();        // Add the interaction service to services
         services.AddHostedService<InteractionHandlingService>();    // Add the slash command handler
         services.AddHostedService<DiscordStartupService>();         // Add the discord startup service
+        services.AddLavaNode(x => {
+            x.SelfDeaf = false;
+        });
     })
     .Build();
 
