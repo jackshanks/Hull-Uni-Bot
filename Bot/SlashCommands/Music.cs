@@ -37,7 +37,6 @@ namespace Bot.SlashCommands
         [SlashCommand("join", "Gets the bot to join the voice channel", runMode: Discord.Interactions.RunMode.Async)]
         public async Task JoinChannel(IVoiceChannel channel = null)
         {
-            // Get the audio channel
             channel = channel ?? (Context.User as IGuildUser)?.VoiceChannel;
             if (channel == null)
             {
@@ -45,8 +44,7 @@ namespace Bot.SlashCommands
                     "User must be in a voice channel, or a voice channel must be passed as an argument.");
                 return;
             }
-
-            // For the next step with transmitting audio, you would want to pass this Audio Client in to a service.
+            
             var audioClient = await channel.ConnectAsync();
         }
     }

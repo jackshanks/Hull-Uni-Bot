@@ -54,6 +54,10 @@
               "target": "Package",
               "version": "[5.1.0, )"
             },
+            "Lavalink4NET": {
+              "target": "Package",
+              "version": "[4.0.14, )"
+            },
             "Microsoft.Data.Sqlite": {
               "target": "Package",
               "version": "[8.0.1, )"
@@ -77,6 +81,10 @@
             "SQLite": {
               "target": "Package",
               "version": "[3.13.0, )"
+            },
+            "Victoria": {
+              "target": "Package",
+              "version": "[6.0.1026, )"
             },
             "libsodium": {
               "target": "Package",
