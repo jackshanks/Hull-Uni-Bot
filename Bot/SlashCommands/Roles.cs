@@ -51,7 +51,7 @@ public class RoleCommands : InteractionModuleBase<SocketInteractionContext>
         
         var builder2 = new ComponentBuilder().WithSelectMenu(menuBuilder2);
 
-        await RespondAsync("Select your colour!", components: builder1.Build());
+        await ReplyAsync("Select your colour!", components: builder1.Build());
         await RespondAsync("Select your game roles!", components: builder2.Build());
     }
     
