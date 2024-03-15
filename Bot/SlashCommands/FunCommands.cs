@@ -118,7 +118,7 @@ public class FunCommands : InteractionModuleBase<SocketInteractionContext>
     }
 
     [ComponentInteraction("colour-role")]
-    private async Task MyMenuHandler(SocketMessageComponent interaction)
+    public async Task MyMenuHandler(SocketMessageComponent interaction)
     {
         var user = interaction.User;
         try
