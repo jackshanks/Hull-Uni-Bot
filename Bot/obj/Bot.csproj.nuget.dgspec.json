@@ -70,9 +70,17 @@
               "target": "Package",
               "version": "[8.0.0, )"
             },
+            "Opus": {
+              "target": "Package",
+              "version": "[1.0.0, )"
+            },
             "SQLite": {
               "target": "Package",
               "version": "[3.13.0, )"
+            },
+            "libsodium": {
+              "target": "Package",
+              "version": "[1.0.19, )"
             }
           },
           "imports": [

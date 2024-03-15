@@ -148,6 +148,51 @@
           }
         }
       },
+      "libsodium/1.0.19": {
+        "type": "package",
+        "runtimeTargets": {
+          "runtimes/linux-arm/native/libsodium.so": {
+            "assetType": "native",
+            "rid": "linux-arm"
+          },
+          "runtimes/linux-arm64/native/libsodium.so": {
+            "assetType": "native",
+            "rid": "linux-arm64"
+          },
+          "runtimes/linux-musl-arm/native/libsodium.so": {
+            "assetType": "native",
+            "rid": "linux-musl-arm"
+          },
+          "runtimes/linux-musl-arm64/native/libsodium.so": {
+            "assetType": "native",
+            "rid": "linux-musl-arm64"
+          },
+          "runtimes/linux-musl-x64/native/libsodium.so": {
+            "assetType": "native",
+            "rid": "linux-musl-x64"
+          },
+          "runtimes/linux-x64/native/libsodium.so": {
+            "assetType": "native",
+            "rid": "linux-x64"
+          },
+          "runtimes/osx-arm64/native/libsodium.dylib": {
+            "assetType": "native",
+            "rid": "osx-arm64"
+          },
+          "runtimes/osx-x64/native/libsodium.dylib": {
+            "assetType": "native",
+            "rid": "osx-x64"
+          },
+          "runtimes/win-x64/native/libsodium.dll": {
+            "assetType": "native",
+            "rid": "win-x64"
+          },
+          "runtimes/win-x86/native/libsodium.dll": {
+            "assetType": "native",
+            "rid": "win-x86"
+          }
+        }
+      },
       "Microsoft.Data.Sqlite/8.0.1": {
         "type": "package",
         "dependencies": {
@@ -775,6 +820,17 @@
           }
         }
       },
+      "Opus/1.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/netcoreapp3.1/libsodium.dll": {},
+          "lib/netcoreapp3.1/opus.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/libsodium.dll": {},
+          "lib/netcoreapp3.1/opus.dll": {}
+        }
+      },
       "SQLite/3.13.0": {
         "type": "package",
         "compile": {
@@ -1285,6 +1341,30 @@
         "instances.3.0.0.nupkg.sha512",
         "instances.nuspec",
         "lib/netstandard2.0/Instances.dll"
+      ]
+    },
+    "libsodium/1.0.19": {
+      "sha512": "tupm/HViwBN6Knd/gckR+cLaJGR39GLmiU4iDMM5hp/1BoczMr8fwJhSU+3/C2V4hi9nBK/4FICRKtTLU30TCA==",
+      "type": "package",
+      "path": "libsodium/1.0.19",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "AUTHORS",
+        "ChangeLog",
+        "LICENSE",
+        "libsodium.1.0.19.nupkg.sha512",
+        "libsodium.nuspec",
+        "runtimes/linux-arm/native/libsodium.so",
+        "runtimes/linux-arm64/native/libsodium.so",
+        "runtimes/linux-musl-arm/native/libsodium.so",
+        "runtimes/linux-musl-arm64/native/libsodium.so",
+        "runtimes/linux-musl-x64/native/libsodium.so",
+        "runtimes/linux-x64/native/libsodium.so",
+        "runtimes/osx-arm64/native/libsodium.dylib",
+        "runtimes/osx-x64/native/libsodium.dylib",
+        "runtimes/win-x64/native/libsodium.dll",
+        "runtimes/win-x86/native/libsodium.dll"
       ]
     },
     "Microsoft.Data.Sqlite/8.0.1": {
@@ -2238,6 +2318,19 @@
         "packageIcon.png"
       ]
     },
+    "Opus/1.0.0": {
+      "sha512": "0VBlW7vOk+0r1w+iZcgEaLEkL9dCIxkbSdgfPFLmNZtlEUNIZ+YrytEUN6FkgRQwivCEi1vlwTUyTVB45d5HfA==",
+      "type": "package",
+      "path": "opus/1.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netcoreapp3.1/libsodium.dll",
+        "lib/netcoreapp3.1/opus.dll",
+        "opus.1.0.0.nupkg.sha512",
+        "opus.nuspec"
+      ]
+    },
     "SQLite/3.13.0": {
       "sha512": "MJfRiz2p6aMVOxrxGMdVzhpzI0oxTgZSwC8eVuOpV8L7yYaFUu8q/OFYwv9P0/aZ/pdEu24O6gma6wZJMTun9A==",
       "type": "package",
@@ -2726,7 +2819,9 @@
       "Microsoft.Extensions.Configuration >= 8.0.0",
       "Microsoft.Extensions.Hosting >= 8.0.0",
       "Microsoft.Extensions.Hosting.Abstractions >= 8.0.0",
-      "SQLite >= 3.13.0"
+      "Opus >= 1.0.0",
+      "SQLite >= 3.13.0",
+      "libsodium >= 1.0.19"
     ]
   },
   "packageFolders": {
@@ -2798,9 +2893,17 @@
             "target": "Package",
             "version": "[8.0.0, )"
           },
+          "Opus": {
+            "target": "Package",
+            "version": "[1.0.0, )"
+          },
           "SQLite": {
             "target": "Package",
             "version": "[3.13.0, )"
+          },
+          "libsodium": {
+            "target": "Package",
+            "version": "[1.0.19, )"
           }
         },
         "imports": [
