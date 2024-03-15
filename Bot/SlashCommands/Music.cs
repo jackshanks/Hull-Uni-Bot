@@ -45,7 +45,7 @@ namespace Bot.SlashCommands
         }
         
         
-        [SlashCommand("Join", "Join the channel", runMode: Discord.Interactions.RunMode.Async)]
+        [SlashCommand("join", "Join the channel", runMode: Discord.Interactions.RunMode.Async)]
         public async Task JoinAsync() {
             if (_lavaNode.HasPlayer(Context.Guild)) {
                 await ReplyAsync("I'm already connected to a voice channel!");
@@ -67,7 +67,7 @@ namespace Bot.SlashCommands
             }
         }
 
-        [SlashCommand("Leave", "Leave a voice channel.")]
+        [SlashCommand("leave", "Leave a voice channel.")]
         public async Task LeaveAsync() {
             if (!_lavaNode.TryGetPlayer(Context.Guild, out var player)) {
                 await ReplyAsync("I'm not connected to any voice channels!");
@@ -89,7 +89,7 @@ namespace Bot.SlashCommands
             }
         }
 
-        [SlashCommand("Play","Play a track.")]
+        [SlashCommand("play","Play a track.")]
         public async Task PlayAsync([Remainder] string searchQuery) {
             if (string.IsNullOrWhiteSpace(searchQuery)) {
                 await ReplyAsync("Please provide search terms.");
@@ -150,7 +150,7 @@ namespace Bot.SlashCommands
             }
         }
 
-        [SlashCommand("Pause", "Pause the player")]
+        [SlashCommand("pause", "Pause the player")]
         public async Task PauseAsync() {
             if (!_lavaNode.TryGetPlayer(Context.Guild, out var player)) {
                 await ReplyAsync("I'm not connected to a voice channel.");
@@ -171,7 +171,7 @@ namespace Bot.SlashCommands
             }
         }
 
-        [SlashCommand("Resume", "Restart the player")]
+        [SlashCommand("resume", "Restart the player")]
         public async Task ResumeAsync() {
             if (!_lavaNode.TryGetPlayer(Context.Guild, out var player)) {
                 await ReplyAsync("I'm not connected to a voice channel.");
@@ -192,7 +192,7 @@ namespace Bot.SlashCommands
             }
         }
 
-        [SlashCommand("Stop", "Force stop the player")]
+        [SlashCommand("stop", "Force stop the player")]
         public async Task StopAsync() {
             if (!_lavaNode.TryGetPlayer(Context.Guild, out var player)) {
                 await ReplyAsync("I'm not connected to a voice channel.");
@@ -213,7 +213,7 @@ namespace Bot.SlashCommands
             }
         }
 
-        [SlashCommand("Skip","Skip the track.")]
+        [SlashCommand("skip","Skip the track.")]
         public async Task SkipAsync() {
             if (!_lavaNode.TryGetPlayer(Context.Guild, out var player)) {
                 await ReplyAsync("I'm not connected to a voice channel.");
@@ -235,7 +235,7 @@ namespace Bot.SlashCommands
             }
         }
 
-        [SlashCommand("Seek", "?")]
+        [SlashCommand("seek", "?")]
         public async Task SeekAsync(TimeSpan timeSpan) {
             if (!_lavaNode.TryGetPlayer(Context.Guild, out var player)) {
                 await ReplyAsync("I'm not connected to a voice channel.");
@@ -256,7 +256,7 @@ namespace Bot.SlashCommands
             }
         }
 
-        [SlashCommand("NowPlaying", "Find the current song that is playing.")]
+        [SlashCommand("nowplaying", "Find the current song that is playing.")]
         public async Task NowPlayingAsync() {
             if (!_lavaNode.TryGetPlayer(Context.Guild, out var player)) {
                 await ReplyAsync("I'm not connected to a voice channel.");
