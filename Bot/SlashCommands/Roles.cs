@@ -37,13 +37,10 @@ public class RoleCommands : InteractionModuleBase<SocketInteractionContext>
     public async Task ColourRole()
     {
         var menuBuilder = new SelectMenuBuilder()
-            .WithPlaceholder("Select an option")
-            .WithCustomId("colour-role")
-            .AddOption("Red", "red").AddOption("Yellow", "yellow")
-            .AddOption("Green", "green").AddOption("Cyan", "cyan")
-            .AddOption("Blue", "blue").AddOption("Dark Blue", "darkblue")
-            .AddOption("Purple", "purple").AddOption("Pink", "pink")
-            .AddOption("Silver", "silver");
+            .WithPlaceholder("Select an option").WithCustomId("colour-role")
+            .AddOption("Red", "red").AddOption("Yellow", "yellow").AddOption("Green", "green")
+            .AddOption("Cyan", "cyan").AddOption("Blue", "blue").AddOption("Dark Blue", "darkblue")
+            .AddOption("Purple", "purple").AddOption("Pink", "pink").AddOption("Silver", "silver");
 
         var builder = new ComponentBuilder().WithSelectMenu(menuBuilder);
 
@@ -56,6 +53,8 @@ public class RoleCommands : InteractionModuleBase<SocketInteractionContext>
         try
         {
             var user = Context.User as IGuildUser;
+            IReadOnlyCollection<ulong> userroles = user!.RoleIds;
+            
             var roleIdMap = new Dictionary<string, ulong>
             {
                 {"red", 1217889821905649746}, {"yellow", 1217897797903188069}, {"green", 1218192603330117713}, 
@@ -63,9 +62,15 @@ public class RoleCommands : InteractionModuleBase<SocketInteractionContext>
                 {"purple", 1218193017530482739}, {"pink", 1218193095540211773}, {"silver", 1218193213622452344}
             };
 
-            if (roleIdMap.TryGetValue(selectedRole, out ulong roleId))
+            foreach (var userRole in userroles)
             {
-                await user!.AddRoleAsync(roleId);
+                if (roleIdMap.TryGetValue(Context.Guild.GetRole(userRole).Name, out var removeRoleId))
+                { await user!.RemoveRoleAsync(removeRoleId); }
+            }
+
+            if (roleIdMap.TryGetValue(selectedRole, out var addRoleId))
+            {
+                await user!.AddRoleAsync(addRoleId);
                 await RespondAsync($"You have selected the {selectedRole} role!", ephemeral: true);
             }
             else { await RespondAsync("Invalid selection. Please try again."); }
