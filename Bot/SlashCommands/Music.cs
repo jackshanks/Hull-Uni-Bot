@@ -24,18 +24,15 @@ namespace Bot.SlashCommands
         private readonly DiscordSocketClient _discord;
         private readonly InteractionService _interactions;
         private readonly IServiceProvider _services;
-        private readonly IAudioClient _audioClient;
         private static readonly IEnumerable<int> Range = Enumerable.Range(1900, 2000);
 
         public Music(
             DiscordSocketClient discord,
             InteractionService interactions,
             IServiceProvider services,
-            ILogger<InteractionService> logger,
-            IAudioClient audioClient)
+            ILogger<InteractionService> logger)
         {
             _discord = discord;
-            _audioClient = _discord.GetGuild(1153315295306465381).AudioClient;
             _interactions = interactions;
             _services = services;
             _interactions.Log += Msg => LogHelper.OnLogAsync(logger, Msg);
@@ -70,7 +67,7 @@ namespace Bot.SlashCommands
                         var audioStream = await response.Content.ReadAsStreamAsync();
 
                         // Create a PCM stream from the downloaded audio
-                        var pcmStream = _audioClient.CreatePCMStream(AudioApplication.Music);
+                        var pcmStream = _discord.GetGuild(1153315295306465381).AudioClient.CreatePCMStream(AudioApplication.Music);
 
                         // Start sending audio data asynchronously
                         Task musicTask = Task.Run(async () =>
@@ -83,7 +80,7 @@ namespace Bot.SlashCommands
                             {
                                 // Cleanup after playback is complete
                                 pcmStream.Dispose();
-                                await _audioClient.StopAsync(); // Stop audio output if necessary
+                                await _discord.GetGuild(1153315295306465381).AudioClient.StopAsync(); // Stop audio output if necessary
                             }
                         });
 
