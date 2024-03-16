@@ -84,7 +84,7 @@ namespace Bot.SlashCommands
                 
                 if (process.ExitCode != 0)
                 {
-                    throw new Exception("FFmpeg decoding failed.");
+                    throw new Exception($"FFmpeg decoding failed.{Directory.GetCurrentDirectory()}");
                 }
                 
                 using (var fileStream = File.OpenRead(tempFilePath))
