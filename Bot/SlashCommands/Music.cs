@@ -1,6 +1,7 @@
 ﻿
 
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,10 @@ using Discord.Interactions;
 using Bot.HostingServices;
 using Bot.LogHandle;
 using Discord.WebSocket;
+using Discord.Audio;
+using Discord.Net;
 using Microsoft.Extensions.Logging;
+using NAudio.Wave;
 using RunMode = Discord.Commands.RunMode;
 
 namespace Bot.SlashCommands
@@ -40,11 +44,60 @@ namespace Bot.SlashCommands
             var user = Context.User as IGuildUser;
             if (user?.VoiceChannel != null)
             {
-                await ReplyAsync($"Connected to {user.VoiceChannel.Name}");
+                await RespondAsync($"Connected to {user.VoiceChannel.Name}");
                 await user.VoiceChannel.ConnectAsync();
                 Console.WriteLine($"Joined voice channel: {user.VoiceChannel.Name}");
             }
             else { await ReplyAsync("You are not connected to a voice channel."); }
+        }
+
+        [SlashCommand("play", "Play your music!")]
+        public async Task Play()
+        {
+            var user = Context.User as IGuildUser;
+            var audioUrl = "https://www.youtube.com/watch?v=otwRNo9b4Ao&pp=ygUWcG9ybmh1YiBub2lzZSAyNCBob3Vycw%3D%3D";
+
+            await using (var pcmStream = await GetAudioStreamAsync(audioUrl))
+            {
+                using (var waveOut = new WaveOutEvent())
+                {
+                    var audioClient = await user.VoiceChannel.ConnectAsync();
+                    await using (var audioOutStream = audioClient.CreatePCMStream(AudioApplication.Music))
+                    {
+                        await pcmStream.CopyToAsync(audioOutStream);
+                    }
+                }
+            }
+        }
+        
+        
+        public static async Task<Stream> GetAudioStreamAsync(string url)
+        {
+            var tempFilePath = Path.Combine(Path.GetTempPath(), "audio.pcm");
+            var ffmpegCommand = $"-i {url} -vn -acodec pcm_s16le {tempFilePath}";
+
+            try
+            {
+                var process = Process.Start("ffmpeg", ffmpegCommand);
+                process.WaitForExit();
+                
+                if (process.ExitCode != 0)
+                {
+                    throw new Exception("FFmpeg decoding failed.");
+                }
+                
+                using (var fileStream = File.OpenRead(tempFilePath))
+                {
+                    return fileStream;
+                }
+            }
+            finally
+            {
+                if (File.Exists(tempFilePath))
+                {
+                    File.Delete(tempFilePath);
+                }
+            }
         }
     }
 }
