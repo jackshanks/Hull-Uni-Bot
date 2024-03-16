@@ -77,31 +77,21 @@ namespace Bot.SlashCommands
                             {
                                 using (var ms = new MemoryStream(await response.Content.ReadAsByteArrayAsync()))
                                 {
+                                    
                                     var audioClient = (await user.VoiceChannel.ConnectAsync());
                                     var audioOutStream = audioClient.CreateOpusStream((int)AudioApplication.Mixed);
+                                    
+                                    const int chunkSize = 256; // Adjust chunk size as needed
+                                    byte[] buffer = new byte[chunkSize];
+                                    int bytesRead;
+                                    while ((bytesRead = await ms.ReadAsync(buffer, 0, chunkSize)) > 0)
+                                    {
+                                        // Write only the number of bytes actually read
+                                        await audioOutStream.WriteAsync(buffer, 0, bytesRead);
+                                    }
 
-                                    CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
-
-                                    try
-                                    {
-                                        await ms.CopyToAsync(audioOutStream, cancellationTokenSource.Token);
-                                        await ReplyAsync("Finished playing audio.");
-                                    }
-                                    catch (OperationCanceledException)
-                                    {
-                                        // Handle cancellation (e.g., user disconnects)
-                                        Console.WriteLine("Playback cancelled.");
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        // Handle other errors
-                                        Console.WriteLine($"Error playing audio: {ex.Message}");
-                                        await ReplyAsync($"An error occurred while playing audio. {ex.Message}");
-                                    }
-                                    finally
-                                    {
-                                        cancellationTokenSource.Cancel();
-                                    }
+                                    await ms.CopyToAsync(audioOutStream);
+                                    await ReplyAsync("Finished playing audio.");
                                 }
                             }
                             else
