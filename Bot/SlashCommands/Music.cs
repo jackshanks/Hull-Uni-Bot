@@ -73,7 +73,7 @@ namespace Bot.SlashCommands
         
         public static async Task<Stream> GetAudioStreamAsync(string url)
         {
-            var tempFilePath = Path.Combine(Path.GetTempPath(), "audio.pcm");
+            var tempFilePath = Path.Combine("termius/Hull-Uni-Bot/Bot", "audio.pcm");
             var ffmpegCommand = $"-i {url} -vn -acodec pcm_s16le {tempFilePath}";
 
             try
