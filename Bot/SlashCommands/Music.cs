@@ -67,6 +67,7 @@ namespace Bot.SlashCommands
 
             ydl.OverwriteFiles = true;
             ydl.OutputFileTemplate = "mp3.%(ext)s";
+            ydl.YoutubeDLPath = "/usr/bin/yt-dlp";
             ydl.OutputFolder = "Hull-Uni-Bot/Bot";
             var result = await ydl.RunAudioDownload("https://www.youtube.com/watch?v=9_WYvlxQJlI", AudioConversionFormat.Mp3);
             
