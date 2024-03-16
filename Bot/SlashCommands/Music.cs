@@ -13,7 +13,6 @@ using Bot.LogHandle;
 using Discord.WebSocket;
 using Discord.Audio;
 using Discord.Net;
-using PortAudioSharp;
 using Microsoft.Extensions.Logging;
 using RunMode = Discord.Commands.RunMode;
 
