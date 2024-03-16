@@ -148,61 +148,6 @@
           }
         }
       },
-      "Lavalink4NET/4.0.14": {
-        "type": "package",
-        "dependencies": {
-          "Lavalink4NET.Abstractions": "4.0.14",
-          "Lavalink4NET.Protocol": "4.0.14",
-          "Lavalink4NET.Rest": "4.0.14",
-          "Microsoft.Extensions.Caching.Memory": "7.0.0",
-          "Microsoft.Extensions.Hosting.Abstractions": "7.0.0",
-          "Microsoft.Extensions.Logging.Abstractions": "7.0.0",
-          "Microsoft.Extensions.Options": "7.0.1",
-          "System.Net.Http.Json": "7.0.1"
-        },
-        "compile": {
-          "lib/net6.0/Lavalink4NET.dll": {}
-        },
-        "runtime": {
-          "lib/net6.0/Lavalink4NET.dll": {}
-        }
-      },
-      "Lavalink4NET.Abstractions/4.0.14": {
-        "type": "package",
-        "compile": {
-          "lib/net6.0/Lavalink4NET.Abstractions.dll": {}
-        },
-        "runtime": {
-          "lib/net6.0/Lavalink4NET.Abstractions.dll": {}
-        }
-      },
-      "Lavalink4NET.Protocol/4.0.14": {
-        "type": "package",
-        "dependencies": {
-          "System.Text.Json": "7.0.3"
-        },
-        "compile": {
-          "lib/net6.0/Lavalink4NET.Protocol.dll": {}
-        },
-        "runtime": {
-          "lib/net6.0/Lavalink4NET.Protocol.dll": {}
-        }
-      },
-      "Lavalink4NET.Rest/4.0.14": {
-        "type": "package",
-        "dependencies": {
-          "Lavalink4NET.Abstractions": "4.0.14",
-          "Lavalink4NET.Protocol": "4.0.14",
-          "Microsoft.Extensions.Caching.Abstractions": "7.0.0",
-          "Microsoft.Extensions.Http": "7.0.0"
-        },
-        "compile": {
-          "lib/net6.0/Lavalink4NET.Rest.dll": {}
-        },
-        "runtime": {
-          "lib/net6.0/Lavalink4NET.Rest.dll": {}
-        }
-      },
       "libsodium/1.0.19": {
         "type": "package",
         "runtimeTargets": {
@@ -275,48 +220,6 @@
           "lib/net6.0/Microsoft.Data.Sqlite.dll": {
             "related": ".xml"
           }
-        }
-      },
-      "Microsoft.Extensions.Caching.Abstractions/7.0.0": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.Extensions.Primitives": "7.0.0"
-        },
-        "compile": {
-          "lib/net6.0/Microsoft.Extensions.Caching.Abstractions.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net6.0/Microsoft.Extensions.Caching.Abstractions.dll": {
-            "related": ".xml"
-          }
-        },
-        "build": {
-          "buildTransitive/net6.0/_._": {}
-        }
-      },
-      "Microsoft.Extensions.Caching.Memory/7.0.0": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.Extensions.Caching.Abstractions": "7.0.0",
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "7.0.0",
-          "Microsoft.Extensions.Logging.Abstractions": "7.0.0",
-          "Microsoft.Extensions.Options": "7.0.0",
-          "Microsoft.Extensions.Primitives": "7.0.0"
-        },
-        "compile": {
-          "lib/net6.0/Microsoft.Extensions.Caching.Memory.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net6.0/Microsoft.Extensions.Caching.Memory.dll": {
-            "related": ".xml"
-          }
-        },
-        "build": {
-          "buildTransitive/net6.0/_._": {}
         }
       },
       "Microsoft.Extensions.Configuration/8.0.0": {
@@ -675,28 +578,6 @@
         },
         "runtime": {
           "lib/net6.0/Microsoft.Extensions.Hosting.Abstractions.dll": {
-            "related": ".xml"
-          }
-        },
-        "build": {
-          "buildTransitive/net6.0/_._": {}
-        }
-      },
-      "Microsoft.Extensions.Http/7.0.0": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "7.0.0",
-          "Microsoft.Extensions.Logging": "7.0.0",
-          "Microsoft.Extensions.Logging.Abstractions": "7.0.0",
-          "Microsoft.Extensions.Options": "7.0.0"
-        },
-        "compile": {
-          "lib/net6.0/Microsoft.Extensions.Http.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net6.0/Microsoft.Extensions.Http.dll": {
             "related": ".xml"
           }
         },
@@ -1204,25 +1085,6 @@
           "lib/netcoreapp2.1/_._": {}
         }
       },
-      "System.Net.Http.Json/7.0.1": {
-        "type": "package",
-        "dependencies": {
-          "System.Text.Json": "7.0.2"
-        },
-        "compile": {
-          "lib/net6.0/System.Net.Http.Json.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net6.0/System.Net.Http.Json.dll": {
-            "related": ".xml"
-          }
-        },
-        "build": {
-          "buildTransitive/net6.0/_._": {}
-        }
-      },
       "System.Reactive/5.0.0": {
         "type": "package",
         "compile": {
@@ -1307,24 +1169,6 @@
         },
         "runtime": {
           "lib/netcoreapp2.0/_._": {}
-        }
-      },
-      "Victoria/6.0.1026": {
-        "type": "package",
-        "dependencies": {
-          "Discord.Net.WebSocket": "3.8.1",
-          "Microsoft.Extensions.DependencyInjection": "6.0.1",
-          "Microsoft.Extensions.Logging.Abstractions": "6.0.2"
-        },
-        "compile": {
-          "lib/net6.0/Victoria.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net6.0/Victoria.dll": {
-            "related": ".xml"
-          }
         }
       }
     }
@@ -1499,62 +1343,6 @@
         "lib/netstandard2.0/Instances.dll"
       ]
     },
-    "Lavalink4NET/4.0.14": {
-      "sha512": "Za59u9Gv3q/4jwhstPAzqayWNeDYXI1N+2e2XPov62T/27erwtye3KU51LKk3grFnmScxGElU5DQnSKlhdZs9w==",
-      "type": "package",
-      "path": "lavalink4net/4.0.14",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "Lavalink4NET.png",
-        "lavalink4net.4.0.14.nupkg.sha512",
-        "lavalink4net.nuspec",
-        "lib/net6.0/Lavalink4NET.dll",
-        "lib/net7.0/Lavalink4NET.dll"
-      ]
-    },
-    "Lavalink4NET.Abstractions/4.0.14": {
-      "sha512": "qmZLq2gMsbBvX1KHyvgUjwUnyMicCJguyKjXlf/N91xzA1I5Gvrc5swWbpnts29KGmqc6PrIWDqfTzpxdhknZQ==",
-      "type": "package",
-      "path": "lavalink4net.abstractions/4.0.14",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "Lavalink4NET.png",
-        "lavalink4net.abstractions.4.0.14.nupkg.sha512",
-        "lavalink4net.abstractions.nuspec",
-        "lib/net6.0/Lavalink4NET.Abstractions.dll",
-        "lib/net7.0/Lavalink4NET.Abstractions.dll"
-      ]
-    },
-    "Lavalink4NET.Protocol/4.0.14": {
-      "sha512": "/wAj+kbx2YxIyH1OG1GOA+iT6PDxSibbs6ZOzHNFXJZawjfRFjlnTnAibtK0/D2wQ9QhxzNELx13msIVnp779A==",
-      "type": "package",
-      "path": "lavalink4net.protocol/4.0.14",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "Lavalink4NET.png",
-        "lavalink4net.protocol.4.0.14.nupkg.sha512",
-        "lavalink4net.protocol.nuspec",
-        "lib/net6.0/Lavalink4NET.Protocol.dll",
-        "lib/net7.0/Lavalink4NET.Protocol.dll"
-      ]
-    },
-    "Lavalink4NET.Rest/4.0.14": {
-      "sha512": "ensxtGlYJJ1LZKC8aAtnqs1VbYF0m/UWRyOgVcPlyD0Od5lBB7SNJUY1qx9jauQb40yjZpUGB6rxz42io3E9aw==",
-      "type": "package",
-      "path": "lavalink4net.rest/4.0.14",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "Lavalink4NET.png",
-        "lavalink4net.rest.4.0.14.nupkg.sha512",
-        "lavalink4net.rest.nuspec",
-        "lib/net6.0/Lavalink4NET.Rest.dll",
-        "lib/net7.0/Lavalink4NET.Rest.dll"
-      ]
-    },
     "libsodium/1.0.19": {
       "sha512": "tupm/HViwBN6Knd/gckR+cLaJGR39GLmiU4iDMM5hp/1BoczMr8fwJhSU+3/C2V4hi9nBK/4FICRKtTLU30TCA==",
       "type": "package",
@@ -1608,60 +1396,6 @@
         "lib/netstandard2.0/Microsoft.Data.Sqlite.xml",
         "microsoft.data.sqlite.core.8.0.1.nupkg.sha512",
         "microsoft.data.sqlite.core.nuspec"
-      ]
-    },
-    "Microsoft.Extensions.Caching.Abstractions/7.0.0": {
-      "sha512": "IeimUd0TNbhB4ded3AbgBLQv2SnsiVugDyGV1MvspQFVlA07nDC7Zul7kcwH5jWN3JiTcp/ySE83AIJo8yfKjg==",
-      "type": "package",
-      "path": "microsoft.extensions.caching.abstractions/7.0.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "Icon.png",
-        "LICENSE.TXT",
-        "THIRD-PARTY-NOTICES.TXT",
-        "buildTransitive/net461/Microsoft.Extensions.Caching.Abstractions.targets",
-        "buildTransitive/net462/_._",
-        "buildTransitive/net6.0/_._",
-        "buildTransitive/netcoreapp2.0/Microsoft.Extensions.Caching.Abstractions.targets",
-        "lib/net462/Microsoft.Extensions.Caching.Abstractions.dll",
-        "lib/net462/Microsoft.Extensions.Caching.Abstractions.xml",
-        "lib/net6.0/Microsoft.Extensions.Caching.Abstractions.dll",
-        "lib/net6.0/Microsoft.Extensions.Caching.Abstractions.xml",
-        "lib/net7.0/Microsoft.Extensions.Caching.Abstractions.dll",
-        "lib/net7.0/Microsoft.Extensions.Caching.Abstractions.xml",
-        "lib/netstandard2.0/Microsoft.Extensions.Caching.Abstractions.dll",
-        "lib/netstandard2.0/Microsoft.Extensions.Caching.Abstractions.xml",
-        "microsoft.extensions.caching.abstractions.7.0.0.nupkg.sha512",
-        "microsoft.extensions.caching.abstractions.nuspec",
-        "useSharedDesignerContext.txt"
-      ]
-    },
-    "Microsoft.Extensions.Caching.Memory/7.0.0": {
-      "sha512": "xpidBs2KCE2gw1JrD0quHE72kvCaI3xFql5/Peb2GRtUuZX+dYPoK/NTdVMiM67Svym0M0Df9A3xyU0FbMQhHw==",
-      "type": "package",
-      "path": "microsoft.extensions.caching.memory/7.0.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "Icon.png",
-        "LICENSE.TXT",
-        "THIRD-PARTY-NOTICES.TXT",
-        "buildTransitive/net461/Microsoft.Extensions.Caching.Memory.targets",
-        "buildTransitive/net462/_._",
-        "buildTransitive/net6.0/_._",
-        "buildTransitive/netcoreapp2.0/Microsoft.Extensions.Caching.Memory.targets",
-        "lib/net462/Microsoft.Extensions.Caching.Memory.dll",
-        "lib/net462/Microsoft.Extensions.Caching.Memory.xml",
-        "lib/net6.0/Microsoft.Extensions.Caching.Memory.dll",
-        "lib/net6.0/Microsoft.Extensions.Caching.Memory.xml",
-        "lib/net7.0/Microsoft.Extensions.Caching.Memory.dll",
-        "lib/net7.0/Microsoft.Extensions.Caching.Memory.xml",
-        "lib/netstandard2.0/Microsoft.Extensions.Caching.Memory.dll",
-        "lib/netstandard2.0/Microsoft.Extensions.Caching.Memory.xml",
-        "microsoft.extensions.caching.memory.7.0.0.nupkg.sha512",
-        "microsoft.extensions.caching.memory.nuspec",
-        "useSharedDesignerContext.txt"
       ]
     },
     "Microsoft.Extensions.Configuration/8.0.0": {
@@ -2192,33 +1926,6 @@
         "lib/netstandard2.1/Microsoft.Extensions.Hosting.Abstractions.xml",
         "microsoft.extensions.hosting.abstractions.8.0.0.nupkg.sha512",
         "microsoft.extensions.hosting.abstractions.nuspec",
-        "useSharedDesignerContext.txt"
-      ]
-    },
-    "Microsoft.Extensions.Http/7.0.0": {
-      "sha512": "9Pq9f/CvOSz0t9yQa6g1uWpxa2sm13daLFm8EZwy9MaQUjKXWdNUXQwIxwhmba5N83UIqURiPHSNqGK1vfWF2w==",
-      "type": "package",
-      "path": "microsoft.extensions.http/7.0.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "Icon.png",
-        "LICENSE.TXT",
-        "THIRD-PARTY-NOTICES.TXT",
-        "buildTransitive/net461/Microsoft.Extensions.Http.targets",
-        "buildTransitive/net462/_._",
-        "buildTransitive/net6.0/_._",
-        "buildTransitive/netcoreapp2.0/Microsoft.Extensions.Http.targets",
-        "lib/net462/Microsoft.Extensions.Http.dll",
-        "lib/net462/Microsoft.Extensions.Http.xml",
-        "lib/net6.0/Microsoft.Extensions.Http.dll",
-        "lib/net6.0/Microsoft.Extensions.Http.xml",
-        "lib/net7.0/Microsoft.Extensions.Http.dll",
-        "lib/net7.0/Microsoft.Extensions.Http.xml",
-        "lib/netstandard2.0/Microsoft.Extensions.Http.dll",
-        "lib/netstandard2.0/Microsoft.Extensions.Http.xml",
-        "microsoft.extensions.http.7.0.0.nupkg.sha512",
-        "microsoft.extensions.http.nuspec",
         "useSharedDesignerContext.txt"
       ]
     },
@@ -2895,33 +2602,6 @@
         "version.txt"
       ]
     },
-    "System.Net.Http.Json/7.0.1": {
-      "sha512": "ni8+BJnndbJI9AXme/qCYXg1s4RpdRJx3gKp5WzcWuLt4l3syuscgk5Becis6x4E7HbQk4z6A7FNXFQD75F+wQ==",
-      "type": "package",
-      "path": "system.net.http.json/7.0.1",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "Icon.png",
-        "LICENSE.TXT",
-        "THIRD-PARTY-NOTICES.TXT",
-        "buildTransitive/net461/System.Net.Http.Json.targets",
-        "buildTransitive/net462/_._",
-        "buildTransitive/net6.0/_._",
-        "buildTransitive/netcoreapp2.0/System.Net.Http.Json.targets",
-        "lib/net462/System.Net.Http.Json.dll",
-        "lib/net462/System.Net.Http.Json.xml",
-        "lib/net6.0/System.Net.Http.Json.dll",
-        "lib/net6.0/System.Net.Http.Json.xml",
-        "lib/net7.0/System.Net.Http.Json.dll",
-        "lib/net7.0/System.Net.Http.Json.xml",
-        "lib/netstandard2.0/System.Net.Http.Json.dll",
-        "lib/netstandard2.0/System.Net.Http.Json.xml",
-        "system.net.http.json.7.0.1.nupkg.sha512",
-        "system.net.http.json.nuspec",
-        "useSharedDesignerContext.txt"
-      ]
-    },
     "System.Reactive/5.0.0": {
       "sha512": "erBZjkQHWL9jpasCE/0qKAryzVBJFxGHVBAvgRN1bzM0q2s1S4oYREEEL0Vb+1kA/6BKb5FjUZMp5VXmy+gzkQ==",
       "type": "package",
@@ -3127,20 +2807,6 @@
         "useSharedDesignerContext.txt",
         "version.txt"
       ]
-    },
-    "Victoria/6.0.1026": {
-      "sha512": "bvL6yYusVnFOTaEb5wO4mzBlRj+DdA29i8e//wCFZZRQZKW/Cd40DwmTldM/r/U6YZvaPCThxWas1pMm5Yfy1Q==",
-      "type": "package",
-      "path": "victoria/6.0.1026",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "Logo.png",
-        "lib/net6.0/Victoria.dll",
-        "lib/net6.0/Victoria.xml",
-        "victoria.6.0.1026.nupkg.sha512",
-        "victoria.nuspec"
-      ]
     }
   },
   "projectFileDependencyGroups": {
@@ -3149,14 +2815,12 @@
       "Discord.Net.Commands >= 3.13.0",
       "Discord.Net.Rest >= 3.13.0",
       "FFMpegCore >= 5.1.0",
-      "Lavalink4NET >= 4.0.14",
       "Microsoft.Data.Sqlite >= 8.0.1",
       "Microsoft.Extensions.Configuration >= 8.0.0",
       "Microsoft.Extensions.Hosting >= 8.0.0",
       "Microsoft.Extensions.Hosting.Abstractions >= 8.0.0",
       "Opus >= 1.0.0",
       "SQLite >= 3.13.0",
-      "Victoria >= 6.0.1026",
       "libsodium >= 1.0.19"
     ]
   },
@@ -3213,10 +2877,6 @@
             "target": "Package",
             "version": "[5.1.0, )"
           },
-          "Lavalink4NET": {
-            "target": "Package",
-            "version": "[4.0.14, )"
-          },
           "Microsoft.Data.Sqlite": {
             "target": "Package",
             "version": "[8.0.1, )"
@@ -3240,10 +2900,6 @@
           "SQLite": {
             "target": "Package",
             "version": "[3.13.0, )"
-          },
-          "Victoria": {
-            "target": "Package",
-            "version": "[6.0.1026, )"
           },
           "libsodium": {
             "target": "Package",
