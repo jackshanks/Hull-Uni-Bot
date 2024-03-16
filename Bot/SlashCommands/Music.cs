@@ -64,28 +64,13 @@ namespace Bot.SlashCommands
                 {
                     if (response.IsSuccessStatusCode)
                     {
-                        var audioStream = await response.Content.ReadAsStreamAsync();
+                         var process = Process.Start("ffmpeg", $"-i - -acodec pcm_s16le -f s16le -");
+            process.StandardInput.BaseStream.CopyToAsync(await response.Content.ReadAsStreamAsync()).Wait();
+            process.StandardOutput.BaseStream.CopyToAsync(_discord.GetGuild(1153315295306465381)
+                .AudioClient.CreatePCMStream(AudioApplication.Music)).Wait();
+            await process.WaitForExitAsync();
 
-                        // Create a PCM stream from the downloaded audio
-                        var pcmStream = _discord.GetGuild(1153315295306465381).AudioClient.CreatePCMStream(AudioApplication.Music);
-
-                        // Start sending audio data asynchronously
-                        Task musicTask = Task.Run(async () =>
-                        {
-                            try
-                            {
-                                await audioStream.CopyToAsync(pcmStream);
-                            }
-                            finally
-                            {
-                                // Cleanup after playback is complete
-                                pcmStream.Dispose();
-                                await _discord.GetGuild(1153315295306465381).AudioClient.StopAsync(); // Stop audio output if necessary
-                            }
-                        });
-
-                        await RespondAsync($"Now playing: {audioUrl}");
-                        await musicTask; // Wait for the music playback to finish
+            await RespondAsync($"Now playing: {audioUrl}");
                     }
                     else
                     {
