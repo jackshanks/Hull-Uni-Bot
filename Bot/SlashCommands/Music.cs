@@ -57,35 +57,40 @@ namespace Bot.SlashCommands
             var user = Context.User as IGuildUser;
             var audioUrl = "https://codeskulptor-demos.commondatastorage.googleapis.com/GalaxyInvaders/theme_01.mp3";
 
-            // Download audio stream (avoid creating temporary file)
-            using (var httpClient = new HttpClient())
+            try
             {
-                using (var response = await httpClient.GetAsync(audioUrl))
+                using (var httpClient = new HttpClient())
                 {
-                    if (response.IsSuccessStatusCode)
+                    using (var response = await httpClient.GetAsync(audioUrl))
                     {
-                        var processStartInfo = new ProcessStartInfo
+                        if (response.IsSuccessStatusCode)
                         {
-                            FileName = "ffmpeg", 
-                            Arguments = "-i - -acodec pcm_s16le -f s16le -", 
-                            RedirectStandardInput = true, 
-                        };
+                            using (var memoryStream = new MemoryStream())
+                            {
+                                await response.Content.CopyToAsync(memoryStream);
+                                memoryStream.Position = 0; // Reset position for reading
 
-                        var process = Process.Start(processStartInfo);
+                                var process = Process.Start("ffmpeg", $"-i - -acodec pcm_s16le -f s16le -");
+                                process.StandardInput.BaseStream.WriteAsync(memoryStream.ToArray(), 0, (int)memoryStream.Length).Wait(); // Write to ffmpeg
 
-                        
-            process.StandardInput.BaseStream.CopyToAsync(await response.Content.ReadAsStreamAsync()).Wait();
-            process.StandardOutput.BaseStream.CopyToAsync(_discord.GetGuild(1153315295306465381)
-                .AudioClient.CreatePCMStream(AudioApplication.Music)).Wait();
-            await process.WaitForExitAsync();
+                                await process.StandardOutput.BaseStream.CopyToAsync(_discord.GetGuild(1153315295306465381)
+                                    .AudioClient.CreatePCMStream(AudioApplication.Music));
+                                await process.WaitForExitAsync();
+                            }
 
-            await RespondAsync($"Now playing: {audioUrl}");
-                    }
-                    else
-                    {
-                        await ReplyAsync($"Failed to download audio: {response.StatusCode}");
+                            await RespondAsync($"Now playing: {audioUrl}");
+                        }
+                        else
+                        {
+                            await ReplyAsync($"Failed to download audio: {response.StatusCode}");
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error playing audio: {ex.Message}");
+                await ReplyAsync("An error occurred while playing audio.");
             }
         }
     }
