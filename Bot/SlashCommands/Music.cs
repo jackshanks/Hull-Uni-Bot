@@ -81,7 +81,7 @@ namespace Bot.SlashCommands
                                     var audioClient = (await user.VoiceChannel.ConnectAsync());
                                     var audioOutStream = audioClient.CreateOpusStream((int)AudioApplication.Mixed);
                                     
-                                    const int chunkSize = 1024; // Adjust chunk size as needed
+                                    const int chunkSize = 2048; // Adjust chunk size as needed
                                     byte[] buffer = new byte[chunkSize];
                                     int bytesRead;
                                     while ((bytesRead = await ms.ReadAsync(buffer, 0, chunkSize)) > 0)
