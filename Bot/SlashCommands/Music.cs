@@ -66,7 +66,7 @@ namespace Bot.SlashCommands
             var mp3FilePath = $"{Directory.GetCurrentDirectory()}/mp3.mp3";
 
             ydl.OverwriteFiles = true;
-            ydl.OutputFileTemplate = "mp3.%(ext)s";
+            ydl.OutputFileTemplate = "mp3.mp3";
             ydl.YoutubeDLPath = "/usr/bin/yt-dlp";
             ydl.OutputFolder = "Hull-Uni-Bot/Bot";
             var result = await ydl.RunAudioDownload("https://www.youtube.com/watch?v=0iN-hemcKc8", AudioConversionFormat.Mp3);
@@ -124,17 +124,7 @@ namespace Bot.SlashCommands
             process.Start();
             await process.WaitForExitAsync();
         }
-
-        public static class ProcessExtensions
-        {
-            public static Task WaitForExitAsync(Process process)
-            {
-                var tcs = new TaskCompletionSource<object>();
-                process.EnableRaisingEvents = true;
-                process.Exited += (sender, args) => tcs.SetResult(null);
-                return tcs.Task;
-            }
-        }
+        
     }
 }
 
