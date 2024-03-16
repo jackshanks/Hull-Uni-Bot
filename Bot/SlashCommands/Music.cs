@@ -53,7 +53,6 @@ namespace Bot.SlashCommands
                 await ReplyAsync("You are not connected to a voice channel.");
             }
         }
-
         [SlashCommand("play", "Play your music!", runMode: Discord.Interactions.RunMode.Async)]
         public async Task Play()
         {
@@ -75,7 +74,14 @@ namespace Bot.SlashCommands
                                     using var audioClient = await user.VoiceChannel.ConnectAsync();
                                     var audioOutStream = audioClient.CreatePCMStream(AudioApplication.Mixed);
 
-                                    await ms.CopyToAsync(audioOutStream);
+                                    const int chunkSize = 1024; // Adjust chunk size as needed
+                                    byte[] buffer = new byte[chunkSize];
+                                    int bytesRead;
+                                    while ((bytesRead = await ms.ReadAsync(buffer, 0, chunkSize)) > 0)
+                                    {
+                                        await audioOutStream.WriteAsync(buffer, 0, bytesRead);
+                                    }
+
                                     await audioOutStream.FlushAsync();
                                     await ReplyAsync("Finished playing audio.");
                                 }
@@ -98,6 +104,7 @@ namespace Bot.SlashCommands
                 await ReplyAsync("You are not connected to a voice channel.");
             }
         }
+
     }
 }
 
