@@ -31,8 +31,7 @@ namespace Bot.SlashCommands
             DiscordSocketClient discord,
             InteractionService interactions,
             IServiceProvider services,
-            ILogger<InteractionService> logger,
-            IAudioClient audioClient)
+            ILogger<InteractionService> logger)
         {
             _discord = discord;
             _audioClient = _discord.GetGuild(1153315295306465381).AudioClient;
