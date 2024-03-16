@@ -49,9 +49,12 @@ namespace Bot.SlashCommands
                 await user.VoiceChannel.ConnectAsync();
                 Console.WriteLine($"Joined voice channel: {user.VoiceChannel.Name}");
             }
-            else { await ReplyAsync("You are not connected to a voice channel."); }
+            else
+            {
+                await ReplyAsync("You are not connected to a voice channel.");
+            }
         }
-        
+
         [SlashCommand("play", "Play your music!", runMode: Discord.Interactions.RunMode.Async)]
 public async Task Play()
 {
@@ -68,28 +71,30 @@ public async Task Play()
                 {
                     using (var ms = new MemoryStream(await response.Content.ReadAsByteArrayAsync()))
                     {
-                        using (var audioFileReader = new Mp3FileReader(ms))
+                        using (var audioFileReader = new WaveFileReader(ms))
                         {
-                            // Convert to 48 kHz stereo PCM format
-                            var waveStream = WaveFormatConversionStream.CreatePcmStream(audioFileReader);
-
-                            var audioClient = await user.VoiceChannel.ConnectAsync();
-                            var pcmStream = audioClient.CreatePCMStream(AudioApplication.Music);
-
-                            try
+                            // Check if format is compatible (may need manual conversion on Linux)
+                            if (audioFileReader.WaveFormat.Encoding == WaveFormatEncoding.Pcm)
                             {
-                                byte[] buffer = new byte[4096];
+                                var audioClient = await user.VoiceChannel.ConnectAsync();
+                                var pcmStream = audioClient.CreatePCMStream(AudioApplication.Music);
+
+                                // You might need to adjust buffer size based on your system
+                                var buffer = new byte[audioFileReader.WaveFormat.AverageBytesPerSecond / 10];
                                 int bytesRead;
 
-                                while ((bytesRead = await waveStream.ReadAsync(buffer, 0, buffer.Length)) > 0)
+                                while ((bytesRead = await audioFileReader.ReadAsync(buffer, 0, buffer.Length)) > 0)
                                 {
                                     await pcmStream.WriteAsync(buffer, 0, bytesRead);
                                 }
-                            }
-                            finally
-                            {
-                                pcmStream.Dispose();
+
+                                await pcmStream.FlushAsync();
                                 await audioClient.StopAsync();
+                            }
+                            else
+                            {
+                                Console.WriteLine("Unsupported audio format. Consider manual conversion on Linux.");
+                                await ReplyAsync("Unsupported audio format. Please try a different file.");
                             }
                         }
                     }

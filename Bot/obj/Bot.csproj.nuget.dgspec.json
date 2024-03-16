@@ -74,7 +74,7 @@
               "target": "Package",
               "version": "[8.0.0, )"
             },
-            "NAudio": {
+            "NAudio.Core": {
               "target": "Package",
               "version": "[2.2.1, )"
             },
