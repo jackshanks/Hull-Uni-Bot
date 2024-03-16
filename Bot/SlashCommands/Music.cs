@@ -65,7 +65,9 @@ namespace Bot.SlashCommands
 
             var mp3FilePath = $"{Directory.GetCurrentDirectory()}/mp3.mp3";
 
-            ydl.YoutubeDLPath = mp3FilePath;
+            ydl.OverwriteFiles = true;
+            ydl.OutputFileTemplate = "mp3.%(ext)s";
+            ydl.OutputFolder = Directory.GetCurrentDirectory();
             var result = await ydl.RunAudioDownload("https://www.youtube.com/watch?v=9_WYvlxQJlI", AudioConversionFormat.Mp3);
             
             var pcmFilePath = $"{Directory.GetCurrentDirectory()}/pcm.pcm";
