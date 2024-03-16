@@ -34,7 +34,7 @@ namespace Bot.SlashCommands
             _interactions.Log += Msg => LogHelper.OnLogAsync(logger, Msg);
         }
 
-        [SlashCommand("Join", "Join your voice channel.")]
+        [SlashCommand("join", "Join your voice channel.")]
         public async Task Join()
         {
             var User = Context.User as IGuildUser;
