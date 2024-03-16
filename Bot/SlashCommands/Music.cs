@@ -75,13 +75,9 @@ namespace Bot.SlashCommands
                             {
                                 using (var ms = new MemoryStream(await response.Content.ReadAsByteArrayAsync()))
                                 {
-                                    // Download complete, handle audio data
-
-                                    // (Optional) Decode audio if needed (using NAudio or similar)
-                                    // byte[] decodedAudioData = DecodeAudio(ms.ToArray());
 
                                     var audioClient = (await user.VoiceChannel.ConnectAsync());
-                                    var audioOutStream = audioClient.CreatePCMStream(AudioApplication.Mixed);
+                                    var audioOutStream = audioClient.CreateOpusStream((int)AudioApplication.Mixed);
 
                                     await ms.CopyToAsync(audioOutStream);
                                     await ReplyAsync("Finished playing audio.");
