@@ -62,10 +62,26 @@ namespace Bot.SlashCommands
             var mp3FilePath = $"{Directory.GetCurrentDirectory()}/mp3.mp3";
             using (var httpClient = new HttpClient())
             {
-                await httpClient.GetAsync(
-                    "http://codeskulptor-demos.commondatastorage.googleapis.com/descent/background%20music.mp3");
+                // Download the MP3 content from the provided URL
+                using (var response = await httpClient.GetAsync("http://codeskulptor-demos.commondatastorage.googleapis.com/descent/background%20music.mp3"))
+                {
+                    // Ensure the request was successful
+                    if (response.IsSuccessStatusCode)
+                    {
+                        // Read the content and save it to the MP3 file
+                        using (var mp3FileStream = File.Create(mp3FilePath))
+                        {
+                            await response.Content.CopyToAsync(mp3FileStream);
+                        }
+                    }
+                    else
+                    {
+                        // Handle unsuccessful request
+                        await ReplyAsync($"Failed to download the MP3 file: {response.StatusCode}");
+                        return;
+                    }
+                }
             }
-
 
             var pcmFilePath = $"{Directory.GetCurrentDirectory()}/pcm.pcm";
 
