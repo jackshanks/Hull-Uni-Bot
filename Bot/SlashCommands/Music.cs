@@ -75,9 +75,17 @@ namespace Bot.SlashCommands
                             {
                                 using (var ms = new MemoryStream(await response.Content.ReadAsByteArrayAsync()))
                                 {
-
+                                    
                                     var audioClient = (await user.VoiceChannel.ConnectAsync());
                                     var audioOutStream = audioClient.CreateOpusStream((int)AudioApplication.Mixed);
+                                    
+                                    const int chunkSize = 4096; // Adjust chunk size as needed
+                                    byte[] buffer = new byte[chunkSize];
+                                    int bytesRead;
+                                    while ((bytesRead = await ms.ReadAsync(buffer, 0, chunkSize)) > 0)
+                                    {
+                                        await audioOutStream.WriteAsync(buffer, 0, bytesRead);
+                                    }
 
                                     await ms.CopyToAsync(audioOutStream);
                                     await ReplyAsync("Finished playing audio.");
