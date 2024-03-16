@@ -68,7 +68,7 @@ namespace Bot.SlashCommands
                             var processStartInfo = new ProcessStartInfo
                             {
                                 FileName = "ffmpeg",
-                                Arguments = "-i - -acodec pcm_s16le -f s16le -",
+                                Arguments = "-i - -acodec pcm_s16le -f s16le -ar 48000 -ac 2 -",
                                 RedirectStandardInput = true,
                                 RedirectStandardOutput = true,
                                 RedirectStandardError = true
