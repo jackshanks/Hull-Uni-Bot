@@ -14,7 +14,8 @@ using Discord.WebSocket;
 using Discord.Audio;
 using Discord.Net;
 using Microsoft.Extensions.Logging;
-using Alsa.Net;
+using NAudio;
+using NAudio.Wave;
 using RunMode = Discord.Commands.RunMode;
 
 namespace Bot.SlashCommands
@@ -52,66 +53,59 @@ namespace Bot.SlashCommands
         }
         
         [SlashCommand("play", "Play your music!", runMode: Discord.Interactions.RunMode.Async)]
-        public async Task Play()
+public async Task Play()
+{
+    var user = Context.User as IGuildUser;
+    var audioUrl = "https://codeskulptor-demos.commondatastorage.googleapis.com/GalaxyInvaders/theme_01.mp3";
+
+    try
+    {
+        using (var httpClient = new HttpClient())
         {
-            var user = Context.User as IGuildUser;
-            var audioUrl = "https://codeskulptor-demos.commondatastorage.googleapis.com/GalaxyInvaders/theme_01.mp3";
-
-            try
+            using (var response = await httpClient.GetAsync(audioUrl))
             {
-                using (var httpClient = new HttpClient())
+                if (response.IsSuccessStatusCode)
                 {
-                    using (var response = await httpClient.GetAsync(audioUrl))
+                    using (var ms = new MemoryStream(await response.Content.ReadAsByteArrayAsync()))
                     {
-                        if (response.IsSuccessStatusCode)
+                        using (var audioFileReader = new Mp3FileReader(ms))
                         {
-                            var processStartInfo = new ProcessStartInfo
-                            {
-                                FileName = "ffmpeg",
-                                Arguments = "-i - -acodec pcm_s16le -f s16le -ar 48000 -ac 2 -",
-                                RedirectStandardInput = true,
-                                RedirectStandardOutput = true,
-                                RedirectStandardError = true
+                            // Convert to 48 kHz stereo PCM format
+                            var waveStream = WaveFormatConversionStream.CreatePcmStream(audioFileReader);
 
-                            };
-                            using (var process = Process.Start(processStartInfo))
+                            var audioClient = await user.VoiceChannel.ConnectAsync();
+                            var pcmStream = audioClient.CreatePCMStream(AudioApplication.Music);
+
+                            try
                             {
-                                using (var processOutputStream = process.StandardOutput.BaseStream)
+                                byte[] buffer = new byte[4096];
+                                int bytesRead;
+
+                                while ((bytesRead = await waveStream.ReadAsync(buffer, 0, buffer.Length)) > 0)
                                 {
-                                    var audioClient = await user.VoiceChannel.ConnectAsync();
-                                    var pcmStream = audioClient.CreatePCMStream(AudioApplication.Music);
-
-                                    try
-                                    {
-                                        byte[] buffer = new byte[4096]; // Adjust buffer size if needed
-                                        int bytesRead;
-
-                                        while ((bytesRead =
-                                                   await processOutputStream.ReadAsync(buffer, 0, buffer.Length)) > 0)
-                                        {
-                                            await pcmStream.WriteAsync(buffer, 0, bytesRead);
-                                        }
-                                    }
-                                    finally
-                                    {
-                                        pcmStream.Dispose();
-                                        audioClient.StopAsync().Wait();
-                                    }
+                                    await pcmStream.WriteAsync(buffer, 0, bytesRead);
                                 }
                             }
-                        }
-                        else
-                        {
-                            await ReplyAsync($"Failed to download audio: {response.StatusCode}");
+                            finally
+                            {
+                                pcmStream.Dispose();
+                                await audioClient.StopAsync();
+                            }
                         }
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error playing audio: {ex.Message}");
-                await ReplyAsync($"An error occurred while playing audio. {ex.Message}");
+                else
+                {
+                    await ReplyAsync($"Failed to download audio: {response.StatusCode}");
+                }
             }
         }
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error playing audio: {ex.Message}");
+        await ReplyAsync($"An error occurred while playing audio. {ex.Message}");
+    }
+}
     }
 }
