@@ -67,7 +67,7 @@ namespace Bot.SlashCommands
             }
 
 
-            var pcmFilePath = $"{Directory.GetCurrentDirectory()}/pcm.pcn";
+            var pcmFilePath = $"{Directory.GetCurrentDirectory()}/pcm.pcm";
 
             if (user?.VoiceChannel != null)
             {
