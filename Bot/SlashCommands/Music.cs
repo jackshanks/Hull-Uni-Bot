@@ -70,7 +70,15 @@ namespace Bot.SlashCommands
                                 await response.Content.CopyToAsync(memoryStream);
                                 memoryStream.Position = 0; // Reset position for reading
 
-                                var process = Process.Start("ffmpeg", $"-i - -acodec pcm_s16le -f s16le -");
+                                var processStartInfo = new ProcessStartInfo
+                                {
+                                    FileName = "ffmpeg", // Program name
+                                    Arguments = "-i - -acodec pcm_s16le -f s16le -", // Arguments as a single string
+                                    RedirectStandardInput = true, // Optional, for writing to standard input
+                                    // ... other properties
+                                };
+
+                                var process = Process.Start(processStartInfo);
                                 process.StandardInput.BaseStream.WriteAsync(memoryStream.ToArray(), 0, (int)memoryStream.Length).Wait(); // Write to ffmpeg
 
                                 await process.StandardOutput.BaseStream.CopyToAsync(_discord.GetGuild(1153315295306465381)
