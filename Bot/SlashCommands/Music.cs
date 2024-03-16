@@ -105,7 +105,7 @@ namespace Bot.SlashCommands
             catch (Exception ex)
             {
                 Console.WriteLine($"Error playing audio: {ex.Message}");
-                await ReplyAsync("An error occurred while playing audio.");
+                await ReplyAsync($"An error occurred while playing audio. {ex.Message}");
             }
         }
     }
