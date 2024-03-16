@@ -57,7 +57,7 @@ namespace Bot.SlashCommands
         public async Task Play()
         {
             var user = Context.User as IGuildUser;
-            var audioUrl = "https://soundcloud.com/teenagecoder/thomas-the-dank-engine?utm_source=clipboard&utm_source=text&utm_campaign=social_sharing";
+            var audioUrl = "https://codeskulptor-demos.commondatastorage.googleapis.com/GalaxyInvaders/theme_01.mp3";
 
             // Download audio to temporary file
             var tempFilePath = Path.Combine(Directory.GetCurrentDirectory(), "audio.mp3");
@@ -99,38 +99,6 @@ namespace Bot.SlashCommands
                 }
             }
             File.Delete(tempFilePath);
-        }
-        
-        
-        public static async Task<Stream> GetAudioStreamAsync(string url)
-        {
-            var tempFilePath = Path.Combine(Directory.GetCurrentDirectory(), "audio.pcm");
-            var ffmpegCommand = $"-y -i {url} -vn -ar 48000 -ac 2 -acodec pcm_s16le {tempFilePath}";
-
-
-            try
-            {
-                var process = Process.Start("ffmpeg", ffmpegCommand);
-
-                process.WaitForExit();
-                
-                if (process.ExitCode != 0)
-                {
-                    throw new Exception("FFmpeg decoding failed.");
-                }
-                
-                using (var fileStream = File.OpenRead(tempFilePath))
-                {
-                    return fileStream;
-                }
-            }
-            finally
-            {
-                if (File.Exists(tempFilePath))
-                {
-                    File.Delete(tempFilePath);
-                }
-            }
         }
     }
 }
