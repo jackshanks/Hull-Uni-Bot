@@ -14,7 +14,9 @@ using Discord.WebSocket;
 using Discord.Audio;
 using System.Net.Http.Headers;
 using Discord.Net;
+using YoutubeDLSharp.Options;
 using Microsoft.Extensions.Logging;
+using YoutubeDLSharp;
 using RunMode = Discord.Commands.RunMode;
 
 namespace Bot.SlashCommands
@@ -24,6 +26,7 @@ namespace Bot.SlashCommands
         private readonly DiscordSocketClient _discord;
         private readonly InteractionService _interactions;
         private readonly IServiceProvider _services;
+        private YoutubeDL ydl;
         private static readonly IEnumerable<int> Range = Enumerable.Range(1900, 2000);
 
         public Music(
@@ -36,6 +39,7 @@ namespace Bot.SlashCommands
             _interactions = interactions;
             _services = services;
             _interactions.Log += Msg => LogHelper.OnLogAsync(logger, Msg);
+            ydl = new YoutubeDL();
         }
 
         [SlashCommand("join", "Join your voice channel.", runMode: Discord.Interactions.RunMode.Async)]
@@ -65,30 +69,10 @@ namespace Bot.SlashCommands
             {
                 File.Delete(mp3FilePath);
             }
-            
-            using (var httpClient = new HttpClient())
-            {
-                // Download the MP3 content from the provided URL
-                using (var response = await httpClient.GetAsync("http://codeskulptor-demos.commondatastorage.googleapis.com/descent/background%20music.mp3"))
-                {
-                    // Ensure the request was successful
-                    if (response.IsSuccessStatusCode)
-                    {
-                        // Read the content and save it to the MP3 file
-                        using (var mp3FileStream = File.Create(mp3FilePath))
-                        {
-                            await response.Content.CopyToAsync(mp3FileStream);
-                        }
-                    }
-                    else
-                    {
-                        // Handle unsuccessful request
-                        await ReplyAsync($"Failed to download the MP3 file: {response.StatusCode}");
-                        return;
-                    }
-                }
-            }
 
+            ydl.YoutubeDLPath = mp3FilePath;
+            var result = await ydl.RunAudioDownload("https://www.youtube.com/watch?v=9_WYvlxQJlI", AudioConversionFormat.Mp3);
+            
             var pcmFilePath = $"{Directory.GetCurrentDirectory()}/pcm.pcm";
             
             if (File.Exists(pcmFilePath))
