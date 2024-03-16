@@ -12,6 +12,7 @@ using Bot.HostingServices;
 using Bot.LogHandle;
 using Discord.WebSocket;
 using Discord.Audio;
+using System.Net.Http.Headers;
 using Discord.Net;
 using Microsoft.Extensions.Logging;
 using RunMode = Discord.Commands.RunMode;
@@ -69,6 +70,7 @@ namespace Bot.SlashCommands
                 {
                     using (var httpClient = new HttpClient())
                     {
+                        
                         using (var response = await httpClient.GetAsync(audioUrl))
                         {
                             if (response.IsSuccessStatusCode)
@@ -84,8 +86,8 @@ namespace Bot.SlashCommands
                                     int bytesRead;
                                     while ((bytesRead = await ms.ReadAsync(buffer, 0, chunkSize)) > 0)
                                     {
-                                        int bytesToWrite = (int)Math.Min(bytesRead, ms.Length - ms.Position);
-                                        await audioOutStream.WriteAsync(buffer, 0, bytesToWrite);
+                                        // Write only the number of bytes actually read
+                                        await audioOutStream.WriteAsync(buffer, 0, bytesRead);
                                     }
 
                                     await ms.CopyToAsync(audioOutStream);
