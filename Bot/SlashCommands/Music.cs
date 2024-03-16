@@ -65,7 +65,16 @@ namespace Bot.SlashCommands
             {
                 using (var response = await httpClient.GetAsync(audioUrl))
                 {
-                    await response.Content.CopyToAsync(File.OpenWrite(tempFilePath));
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await response.Content.CopyToAsync(memoryStream);
+                        memoryStream.Position = 0; // Reset stream position for reading
+
+                        using (var waveReader = new WaveFileReader(memoryStream))
+                        {
+                            // ... rest of the code using waveReader
+                        }
+                    }
                 }
             }
 
