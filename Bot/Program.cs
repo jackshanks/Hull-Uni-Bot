@@ -20,7 +20,6 @@ using IHost botHost = Host.CreateDefaultBuilder(args)
         services.AddSingleton<InteractionService>();        // Add the interaction service to services
         services.AddHostedService<InteractionHandlingService>();    // Add the slash command handler
         services.AddHostedService<DiscordStartupService>();         // Add the discord startup service
-        services.AddSingleton<IAudioClient>();
     })
     .Build();
 

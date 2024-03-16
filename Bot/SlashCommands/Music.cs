@@ -35,7 +35,7 @@ namespace Bot.SlashCommands
             IAudioClient audioClient)
         {
             _discord = discord;
-            _audioClient = audioClient;
+            _audioClient = _discord.GetGuild(1153315295306465381).AudioClient;
             _interactions = interactions;
             _services = services;
             _interactions.Log += Msg => LogHelper.OnLogAsync(logger, Msg);
