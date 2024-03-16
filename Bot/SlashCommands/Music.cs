@@ -77,7 +77,8 @@ namespace Bot.SlashCommands
                                     FileName = "ffmpeg",
                                     Arguments = "-i - -acodec pcm_s16le -f s16le -",
                                     RedirectStandardInput = true,
-                                    RedirectStandardOutput = true
+                                    RedirectStandardOutput = true,
+                                    RedirectStandardError = true
 
                                 };
 
@@ -88,6 +89,8 @@ namespace Bot.SlashCommands
                                 var audioClient = await user.VoiceChannel.ConnectAsync();
                                 var pcmStream = audioClient.CreatePCMStream(AudioApplication.Music);
                                 
+                                string errorOutput = process.StandardError.ReadToEnd();
+                                await RespondAsync(errorOutput);
                                 await memoryStream.CopyToAsync(process.StandardOutput.BaseStream);
 
                                 await process.WaitForExitAsync();
