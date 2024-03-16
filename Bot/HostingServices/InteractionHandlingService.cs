@@ -6,7 +6,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Bot.LogHandle;
-using Victoria.Node;
 
 namespace Bot.HostingServices
 {
@@ -15,26 +14,22 @@ namespace Bot.HostingServices
         private readonly DiscordSocketClient _Discord;
         private readonly InteractionService _Interactions;
         private readonly IServiceProvider _Services;
-        private readonly LavaNode _lavaNode;
 
         public InteractionHandlingService(
             DiscordSocketClient Discord,
             InteractionService Interactions,
             IServiceProvider Services,
-            LavaNode lavaNode,
             ILogger<InteractionService> Logger)
         {
             _Discord = Discord;
             _Interactions = Interactions;
             _Services = Services;
-            _lavaNode = lavaNode;
             _Interactions.Log += Msg => LogHelper.OnLogAsync(Logger, Msg);
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
             _Discord.Ready += () => _Interactions.RegisterCommandsToGuildAsync(1153315295306465381);
-            _Discord.Ready += () => _lavaNode.ConnectAsync();
 
             _Discord.InteractionCreated += OnInteractionAsync;
             _Discord.UserJoined += HandleUserJoin;
