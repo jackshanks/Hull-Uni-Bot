@@ -70,31 +70,23 @@ namespace Bot.SlashCommands
                         await response.Content.CopyToAsync(memoryStream);
                         memoryStream.Position = 0; // Reset stream position for reading
 
-                        using (var waveReader = new WaveFileReader(memoryStream))
+                        using (var mp3Reader = new Mp3FileReader(memoryStream))
                         {
-                            // ... rest of the code using waveReader
-                        }
-                    }
-                }
-            }
-
-            using (var waveReader = new WaveFileReader(tempFilePath))
-            {
-                using (var waveOut = new WaveOutEvent())
-                {
-                    var audioClient = await user.VoiceChannel.ConnectAsync();
-                    using (var audioOutStream = audioClient.CreatePCMStream(AudioApplication.Music))
-                    {
-                        var buffer = new byte[1024]; // Adjust buffer size as needed
-                        int bytesRead;
-                        do
-                        {
-                            bytesRead = await waveReader.ReadAsync(buffer, 0, buffer.Length);
-                            if (bytesRead > 0)
+                            var audioClient = await user.VoiceChannel.ConnectAsync();
+                            using (var audioOutStream = audioClient.CreatePCMStream(AudioApplication.Music))
                             {
-                                await audioOutStream.WriteAsync(buffer, 0, bytesRead);
+                                var buffer = new byte[1024]; // Adjust buffer size as needed
+                                int bytesRead;
+                                do
+                                {
+                                    bytesRead = await mp3Reader.ReadAsync(buffer, 0, buffer.Length);
+                                    if (bytesRead > 0)
+                                    {
+                                        await audioOutStream.WriteAsync(buffer, 0, bytesRead);
+                                    }
+                                } while (bytesRead > 0);
                             }
-                        } while (bytesRead > 0);
+                        }
                     }
                 }
             }
