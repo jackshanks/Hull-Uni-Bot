@@ -67,7 +67,7 @@ namespace Bot.SlashCommands
 
             ydl.OverwriteFiles = true;
             ydl.OutputFileTemplate = "mp3.%(ext)s";
-            ydl.OutputFolder = Directory.GetCurrentDirectory();
+            ydl.OutputFolder = "Hull-Uni-Bot/Bot";
             var result = await ydl.RunAudioDownload("https://www.youtube.com/watch?v=9_WYvlxQJlI", AudioConversionFormat.Mp3);
             
             var pcmFilePath = $"{Directory.GetCurrentDirectory()}/pcm.pcm";
