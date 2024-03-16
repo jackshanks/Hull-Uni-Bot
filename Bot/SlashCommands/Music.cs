@@ -53,45 +53,38 @@ namespace Bot.SlashCommands
                 await ReplyAsync("You are not connected to a voice channel.");
             }
         }
+
         [SlashCommand("play", "Play your music!", runMode: Discord.Interactions.RunMode.Async)]
         public async Task Play()
         {
             var user = Context.User as IGuildUser;
-            var audioUrl = "http://codeskulptor-demos.commondatastorage.googleapis.com/descent/background%20music.mp3";
+
+            var mp3FilePath = $"{Directory.GetCurrentDirectory()}/mp3.mp3";
+            using (var httpClient = new HttpClient())
+            {
+                await httpClient.GetAsync(
+                    "http://codeskulptor-demos.commondatastorage.googleapis.com/descent/background%20music.mp3");
+            }
+
+
+            var pcmFilePath = $"{Directory.GetCurrentDirectory()}/pcm.pcn";
 
             if (user?.VoiceChannel != null)
             {
                 try
                 {
-                    using (var httpClient = new HttpClient())
+                    await ConvertMp3ToPcm(mp3FilePath, pcmFilePath);
+
+                    using var audioClient = await user.VoiceChannel.ConnectAsync();
+                    var audioOutStream = audioClient.CreatePCMStream(AudioApplication.Mixed);
+
+                    using (var pcmFileStream = File.OpenRead(pcmFilePath))
                     {
-                        using (var response = await httpClient.GetAsync(audioUrl))
-                        {
-                            if (response.IsSuccessStatusCode)
-                            {
-                                using (var ms = new MemoryStream(await response.Content.ReadAsByteArrayAsync()))
-                                {
-                                    using var audioClient = await user.VoiceChannel.ConnectAsync();
-                                    var audioOutStream = audioClient.CreatePCMStream(AudioApplication.Mixed);
-
-                                    const int chunkSize = 1024; // Adjust chunk size as needed
-                                    byte[] buffer = new byte[chunkSize];
-                                    int bytesRead;
-                                    while ((bytesRead = await ms.ReadAsync(buffer, 0, chunkSize)) > 0)
-                                    {
-                                        await audioOutStream.WriteAsync(buffer, 0, bytesRead);
-                                    }
-
-                                    await audioOutStream.FlushAsync();
-                                    await ReplyAsync("Finished playing audio.");
-                                }
-                            }
-                            else
-                            {
-                                await ReplyAsync($"Failed to download audio: {response.StatusCode}");
-                            }
-                        }
+                        await pcmFileStream.CopyToAsync(audioOutStream);
+                        await audioOutStream.FlushAsync();
                     }
+
+                    await ReplyAsync("Finished playing audio.");
                 }
                 catch (Exception ex)
                 {
@@ -105,6 +98,34 @@ namespace Bot.SlashCommands
             }
         }
 
+        private async Task ConvertMp3ToPcm(string mp3FilePath, string pcmFilePath)
+        {
+            var process = new Process
+            {
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = "ffmpeg",
+                    Arguments = $"-i \"{mp3FilePath}\" -f s16le -acodec pcm_s16le -ar 44100 \"{pcmFilePath}\"",
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    CreateNoWindow = true
+                }
+            };
+
+            process.Start();
+            await process.WaitForExitAsync();
+        }
+
+        public static class ProcessExtensions
+        {
+            public static Task WaitForExitAsync(Process process)
+            {
+                var tcs = new TaskCompletionSource<object>();
+                process.EnableRaisingEvents = true;
+                process.Exited += (sender, args) => tcs.SetResult(null);
+                return tcs.Task;
+            }
+        }
     }
 }
 
