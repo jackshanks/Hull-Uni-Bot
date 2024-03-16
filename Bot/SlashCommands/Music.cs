@@ -60,6 +60,12 @@ namespace Bot.SlashCommands
             var user = Context.User as IGuildUser;
 
             var mp3FilePath = $"{Directory.GetCurrentDirectory()}/mp3.mp3";
+            
+            if (File.Exists(mp3FilePath))
+            {
+                File.Delete(mp3FilePath);
+            }
+            
             using (var httpClient = new HttpClient())
             {
                 // Download the MP3 content from the provided URL
