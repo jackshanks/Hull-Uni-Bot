@@ -38,6 +38,10 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "Alsa.Net": {
+              "target": "Package",
+              "version": "[1.0.8, )"
+            },
             "Discord.Net": {
               "target": "Package",
               "version": "[3.13.0, )"
@@ -69,10 +73,6 @@
             "Microsoft.Extensions.Hosting.Abstractions": {
               "target": "Package",
               "version": "[8.0.0, )"
-            },
-            "NAudio": {
-              "target": "Package",
-              "version": "[2.2.1, )"
             },
             "Opus": {
               "target": "Package",

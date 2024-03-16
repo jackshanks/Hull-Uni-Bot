@@ -14,9 +14,7 @@ using Discord.WebSocket;
 using Discord.Audio;
 using Discord.Net;
 using Microsoft.Extensions.Logging;
-using NAudio.Wave;
-using NAudio.MediaFoundation;
-using NAudio.Codecs;
+using Alsa.Net;
 using RunMode = Discord.Commands.RunMode;
 
 namespace Bot.SlashCommands
@@ -26,15 +24,18 @@ namespace Bot.SlashCommands
         private readonly DiscordSocketClient _discord;
         private readonly InteractionService _interactions;
         private readonly IServiceProvider _services;
+        private readonly IAudioClient _audioClient;
         private static readonly IEnumerable<int> Range = Enumerable.Range(1900, 2000);
 
         public Music(
             DiscordSocketClient discord,
             InteractionService interactions,
             IServiceProvider services,
-            ILogger<InteractionService> logger)
+            ILogger<InteractionService> logger,
+            IAudioClient audioClient)
         {
             _discord = discord;
+            _audioClient = audioClient;
             _interactions = interactions;
             _services = services;
             _interactions.Log += Msg => LogHelper.OnLogAsync(logger, Msg);
@@ -52,45 +53,49 @@ namespace Bot.SlashCommands
             }
             else { await ReplyAsync("You are not connected to a voice channel."); }
         }
-
-        [SlashCommand("play", "Play your music!")]
+        
+        [SlashCommand("play", "Play your music!", runMode: Discord.Interactions.RunMode.Async)]
         public async Task Play()
         {
             var user = Context.User as IGuildUser;
             var audioUrl = "https://codeskulptor-demos.commondatastorage.googleapis.com/GalaxyInvaders/theme_01.mp3";
 
-            // Download audio to temporary file
-            var tempFilePath = Path.Combine(Directory.GetCurrentDirectory(), "audio.mp3");
+            // Download audio stream (avoid creating temporary file)
             using (var httpClient = new HttpClient())
             {
                 using (var response = await httpClient.GetAsync(audioUrl))
                 {
-                    using (var memoryStream = new MemoryStream())
+                    if (response.IsSuccessStatusCode)
                     {
-                        await response.Content.CopyToAsync(memoryStream);
-                        memoryStream.Position = 0; // Reset stream position for reading
+                        var audioStream = await response.Content.ReadAsStreamAsync();
 
-                        using (var mp3Reader = new Mp3FileReader(memoryStream))
+                        // Create a PCM stream from the downloaded audio
+                        var pcmStream = _audioClient.CreatePCMStream(AudioApplication.Music);
+
+                        // Start sending audio data asynchronously
+                        Task musicTask = Task.Run(async () =>
                         {
-                            var audioClient = await user.VoiceChannel.ConnectAsync();
-                            using (var audioOutStream = audioClient.CreatePCMStream(AudioApplication.Music))
+                            try
                             {
-                                var buffer = new byte[1024]; // Adjust buffer size as needed
-                                int bytesRead;
-                                do
-                                {
-                                    bytesRead = await mp3Reader.ReadAsync(buffer, 0, buffer.Length);
-                                    if (bytesRead > 0)
-                                    {
-                                        await audioOutStream.WriteAsync(buffer, 0, bytesRead);
-                                    }
-                                } while (bytesRead > 0);
+                                await audioStream.CopyToAsync(pcmStream);
                             }
-                        }
+                            finally
+                            {
+                                // Cleanup after playback is complete
+                                pcmStream.Dispose();
+                                await _audioClient.StopAsync(); // Stop audio output if necessary
+                            }
+                        });
+
+                        await RespondAsync($"Now playing: {audioUrl}");
+                        await musicTask; // Wait for the music playback to finish
+                    }
+                    else
+                    {
+                        await ReplyAsync($"Failed to download audio: {response.StatusCode}");
                     }
                 }
             }
-            File.Delete(tempFilePath);
         }
     }
 }
