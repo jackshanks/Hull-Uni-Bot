@@ -57,7 +57,7 @@ namespace Bot.SlashCommands
         public async Task Play()
         {
             var user = Context.User as IGuildUser;
-            var audioUrl = "https://codeskulptor-demos.commondatastorage.googleapis.com/GalaxyInvaders/theme_01.mp3";
+            var audioUrl = "http://codeskulptor-demos.commondatastorage.googleapis.com/descent/background%20music.mp3";
 
             if (user?.VoiceChannel != null)
             {
