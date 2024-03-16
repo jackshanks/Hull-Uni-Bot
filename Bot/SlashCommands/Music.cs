@@ -65,38 +65,40 @@ namespace Bot.SlashCommands
                     {
                         if (response.IsSuccessStatusCode)
                         {
-                            using (var memoryStream = new MemoryStream())
+                            var processStartInfo = new ProcessStartInfo
                             {
-                                const int BufferSize = 4096; // Adjust buffer size based on your needs
-                                byte[] buffer = new byte[BufferSize];
-                                await response.Content.CopyToAsync(memoryStream);
-                                memoryStream.Position = 0;
+                                FileName = "ffmpeg",
+                                Arguments = "-i - -acodec pcm_s16le -f s16le -",
+                                RedirectStandardInput = true,
+                                RedirectStandardOutput = true,
+                                RedirectStandardError = true
 
-                                var processStartInfo = new ProcessStartInfo
+                            };
+                            using (var process = Process.Start(processStartInfo))
+                            {
+                                using (var processOutputStream = process.StandardOutput.BaseStream)
                                 {
-                                    FileName = "ffmpeg",
-                                    Arguments = "-i - -acodec pcm_s16le -f s16le -",
-                                    RedirectStandardInput = true,
-                                    RedirectStandardOutput = true,
-                                    RedirectStandardError = true
+                                    var audioClient = await user.VoiceChannel.ConnectAsync();
+                                    var pcmStream = audioClient.CreatePCMStream(AudioApplication.Music);
 
-                                };
+                                    try
+                                    {
+                                        byte[] buffer = new byte[4096]; // Adjust buffer size if needed
+                                        int bytesRead;
 
-                                var process = Process.Start(processStartInfo);
-                                var processOutputStream = process.StandardOutput.BaseStream;
-                                var processErrorStream = process.StandardError.BaseStream;
-
-                                var audioClient = await user.VoiceChannel.ConnectAsync();
-                                var pcmStream = audioClient.CreatePCMStream(AudioApplication.Music);
-                                
-                                string errorOutput = process.StandardError.ReadToEnd();
-                                await RespondAsync(errorOutput);
-                                await memoryStream.CopyToAsync(process.StandardOutput.BaseStream);
-
-                                await process.WaitForExitAsync();
+                                        while ((bytesRead =
+                                                   await processOutputStream.ReadAsync(buffer, 0, buffer.Length)) > 0)
+                                        {
+                                            await pcmStream.WriteAsync(buffer, 0, bytesRead);
+                                        }
+                                    }
+                                    finally
+                                    {
+                                        pcmStream.Dispose();
+                                        audioClient.StopAsync().Wait();
+                                    }
+                                }
                             }
-
-                            await RespondAsync($"Now playing: {audioUrl}");
                         }
                         else
                         {
