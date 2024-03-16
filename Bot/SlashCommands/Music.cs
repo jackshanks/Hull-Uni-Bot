@@ -37,11 +37,12 @@ namespace Bot.SlashCommands
         [SlashCommand("join", "Join your voice channel.", runMode: Discord.Interactions.RunMode.Async)]
         public async Task Join()
         {
-            var User = Context.User as IGuildUser;
-            if (User?.VoiceChannel != null)
+            var user = Context.User as IGuildUser;
+            if (user?.VoiceChannel != null)
             {
-                await User.VoiceChannel.ConnectAsync();
-                Console.WriteLine($"Joined voice channel: {User.VoiceChannel.Name}");
+                await ReplyAsync($"Connected to {user.VoiceChannel.Name}");
+                await user.VoiceChannel.ConnectAsync();
+                Console.WriteLine($"Joined voice channel: {user.VoiceChannel.Name}");
             }
             else { await ReplyAsync("You are not connected to a voice channel."); }
         }
