@@ -62,35 +62,21 @@ namespace Bot.SlashCommands
 
             if (user?.VoiceChannel != null)
             {
-                await RespondAsync($"Connected to {user.VoiceChannel.Name}");
-                await user.VoiceChannel.ConnectAsync();
-                Console.WriteLine($"Joined voice channel: {user.VoiceChannel.Name}");
-
                 try
                 {
                     using (var httpClient = new HttpClient())
                     {
-                        
                         using (var response = await httpClient.GetAsync(audioUrl))
                         {
                             if (response.IsSuccessStatusCode)
                             {
                                 using (var ms = new MemoryStream(await response.Content.ReadAsByteArrayAsync()))
                                 {
-                                    
-                                    var audioClient = (await user.VoiceChannel.ConnectAsync());
-                                    var audioOutStream = audioClient.CreateOpusStream((int)AudioApplication.Mixed);
-                                    
-                                    const int chunkSize = 64; // Adjust chunk size as needed
-                                    byte[] buffer = new byte[chunkSize];
-                                    int bytesRead;
-                                    while ((bytesRead = await ms.ReadAsync(buffer, 0, chunkSize)) > 0)
-                                    {
-                                        // Write only the number of bytes actually read
-                                        await audioOutStream.WriteAsync(buffer, 0, bytesRead);
-                                    }
+                                    using var audioClient = await user.VoiceChannel.ConnectAsync();
+                                    var audioOutStream = audioClient.CreatePCMStream(AudioApplication.Mixed);
 
                                     await ms.CopyToAsync(audioOutStream);
+                                    await audioOutStream.FlushAsync();
                                     await ReplyAsync("Finished playing audio.");
                                 }
                             }
@@ -114,3 +100,4 @@ namespace Bot.SlashCommands
         }
     }
 }
+
