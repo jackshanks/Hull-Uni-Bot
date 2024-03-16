@@ -83,8 +83,13 @@ namespace Bot.SlashCommands
 
                                 var process = Process.Start(processStartInfo);
                                 var processOutputStream = process.StandardOutput.BaseStream;
+                                var processErrorStream = process.StandardError.BaseStream;
+
                                 var audioClient = await user.VoiceChannel.ConnectAsync();
                                 var pcmStream = audioClient.CreatePCMStream(AudioApplication.Music);
+                                
+                                await memoryStream.CopyToAsync(process.StandardOutput.BaseStream);
+
                                 await process.WaitForExitAsync();
                             }
 
