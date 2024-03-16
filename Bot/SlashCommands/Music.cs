@@ -84,7 +84,8 @@ namespace Bot.SlashCommands
                                     int bytesRead;
                                     while ((bytesRead = await ms.ReadAsync(buffer, 0, chunkSize)) > 0)
                                     {
-                                        await audioOutStream.WriteAsync(buffer, 0, bytesRead);
+                                        int bytesToWrite = (int)Math.Min(bytesRead, ms.Length - ms.Position);
+                                        await audioOutStream.WriteAsync(buffer, 0, bytesToWrite);
                                     }
 
                                     await ms.CopyToAsync(audioOutStream);
