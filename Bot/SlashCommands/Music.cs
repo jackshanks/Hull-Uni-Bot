@@ -64,11 +64,6 @@ namespace Bot.SlashCommands
             var user = Context.User as IGuildUser;
 
             var mp3FilePath = $"{Directory.GetCurrentDirectory()}/mp3.mp3";
-            
-            if (File.Exists(mp3FilePath))
-            {
-                File.Delete(mp3FilePath);
-            }
 
             ydl.YoutubeDLPath = mp3FilePath;
             var result = await ydl.RunAudioDownload("https://www.youtube.com/watch?v=9_WYvlxQJlI", AudioConversionFormat.Mp3);
