@@ -90,6 +90,11 @@ namespace Bot.SlashCommands
             }
 
             var pcmFilePath = $"{Directory.GetCurrentDirectory()}/pcm.pcm";
+            
+            if (File.Exists(pcmFilePath))
+            {
+                File.Delete(pcmFilePath);
+            }
 
             if (user?.VoiceChannel != null)
             {
