@@ -67,22 +67,24 @@ namespace Bot.SlashCommands
                         {
                             using (var memoryStream = new MemoryStream())
                             {
+                                const int BufferSize = 4096; // Adjust buffer size based on your needs
+                                byte[] buffer = new byte[BufferSize];
                                 await response.Content.CopyToAsync(memoryStream);
-                                memoryStream.Position = 0; // Reset position for reading
+                                memoryStream.Position = 0;
 
                                 var processStartInfo = new ProcessStartInfo
                                 {
-                                    FileName = "ffmpeg", // Program name
-                                    Arguments = "-i - -acodec pcm_s16le -f s16le -", // Arguments as a single string
-                                    RedirectStandardInput = true, // Optional, for writing to standard input
-                                    // ... other properties
+                                    FileName = "ffmpeg",
+                                    Arguments = "-i - -acodec pcm_s16le -f s16le -",
+                                    RedirectStandardInput = true,
+                                    RedirectStandardOutput = true
+
                                 };
 
                                 var process = Process.Start(processStartInfo);
-                                process.StandardInput.BaseStream.WriteAsync(memoryStream.ToArray(), 0, (int)memoryStream.Length).Wait(); // Write to ffmpeg
-
-                                await process.StandardOutput.BaseStream.CopyToAsync(_discord.GetGuild(1153315295306465381)
-                                    .AudioClient.CreatePCMStream(AudioApplication.Music));
+                                var processOutputStream = process.StandardOutput.BaseStream;
+                                var audioClient = await user.VoiceChannel.ConnectAsync();
+                                var pcmStream = audioClient.CreatePCMStream(AudioApplication.Music);
                                 await process.WaitForExitAsync();
                             }
 
