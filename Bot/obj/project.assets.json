@@ -820,19 +820,6 @@
           "buildTransitive/net6.0/_._": {}
         }
       },
-      "NAudio.Core/2.2.1": {
-        "type": "package",
-        "compile": {
-          "lib/netstandard2.0/NAudio.Core.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/netstandard2.0/NAudio.Core.dll": {
-            "related": ".xml"
-          }
-        }
-      },
       "Newtonsoft.Json/13.0.2": {
         "type": "package",
         "compile": {
@@ -2327,20 +2314,6 @@
         "useSharedDesignerContext.txt"
       ]
     },
-    "NAudio.Core/2.2.1": {
-      "sha512": "GgkdP6K/7FqXFo7uHvoqGZTJvW4z8g2IffhOO4JHaLzKCdDOUEzVKtveoZkCuUX8eV2HAINqi7VFqlFndrnz/g==",
-      "type": "package",
-      "path": "naudio.core/2.2.1",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "lib/netstandard2.0/NAudio.Core.dll",
-        "lib/netstandard2.0/NAudio.Core.xml",
-        "naudio-icon.png",
-        "naudio.core.2.2.1.nupkg.sha512",
-        "naudio.core.nuspec"
-      ]
-    },
     "Newtonsoft.Json/13.0.2": {
       "sha512": "R2pZ3B0UjeyHShm9vG+Tu0EBb2lC8b0dFzV9gVn50ofHXh9Smjk6kTn7A/FdAsC8B5cKib1OnGYOXxRBz5XQDg==",
       "type": "package",
@@ -2873,7 +2846,6 @@
       "Microsoft.Extensions.Configuration >= 8.0.0",
       "Microsoft.Extensions.Hosting >= 8.0.0",
       "Microsoft.Extensions.Hosting.Abstractions >= 8.0.0",
-      "NAudio.Core >= 2.2.1",
       "Opus >= 1.0.0",
       "SQLite >= 3.13.0",
       "libsodium >= 1.0.19"
@@ -2951,10 +2923,6 @@
           "Microsoft.Extensions.Hosting.Abstractions": {
             "target": "Package",
             "version": "[8.0.0, )"
-          },
-          "NAudio.Core": {
-            "target": "Package",
-            "version": "[2.2.1, )"
           },
           "Opus": {
             "target": "Package",

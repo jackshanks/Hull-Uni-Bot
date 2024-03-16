@@ -13,9 +13,8 @@ using Bot.LogHandle;
 using Discord.WebSocket;
 using Discord.Audio;
 using Discord.Net;
+using PortAudioSharp;
 using Microsoft.Extensions.Logging;
-using NAudio;
-using NAudio.Wave;
 using RunMode = Discord.Commands.RunMode;
 
 namespace Bot.SlashCommands
@@ -55,62 +54,68 @@ namespace Bot.SlashCommands
             }
         }
 
-        [SlashCommand("play", "Play your music!", runMode: Discord.Interactions.RunMode.Async)]
-public async Task Play()
-{
-    var user = Context.User as IGuildUser;
-    var audioUrl = "https://codeskulptor-demos.commondatastorage.googleapis.com/GalaxyInvaders/theme_01.mp3";
-
-    try
+    [SlashCommand("play", "Play your music!", runMode: Discord.Interactions.RunMode.Async)]
+    public async Task Play()
     {
-        using (var httpClient = new HttpClient())
+        var user = Context.User as IGuildUser;
+        var audioUrl = "https://codeskulptor-demos.commondatastorage.googleapis.com/GalaxyInvaders/theme_01.mp3";
+
+        try
         {
-            using (var response = await httpClient.GetAsync(audioUrl))
+            using (var httpClient = new HttpClient())
             {
-                if (response.IsSuccessStatusCode)
+                using (var response = await httpClient.GetAsync(audioUrl))
                 {
-                    using (var ms = new MemoryStream(await response.Content.ReadAsByteArrayAsync()))
+                    if (response.IsSuccessStatusCode)
                     {
-                        using (var audioFileReader = new WaveFileReader(ms))
+                        using (var ms = new MemoryStream(await response.Content.ReadAsByteArrayAsync()))
                         {
-                            // Check if format is compatible (may need manual conversion on Linux)
-                            if (audioFileReader.WaveFormat.Encoding == WaveFormatEncoding.Pcm)
+                            // Initialize PortAudio
+                            int deviceId = Pa_GetDefaultOutputDevice(); // Get default output device
+                            int sampleRate = 48000; // Adjust as needed (common rate)
+                            int channels = 2; // Adjust for stereo/mono
+                            int framesPerBuffer = 1024; // Adjust buffer size based on your system
+
+                            var stream = Pa_OpenStream(deviceId, channels, PaStreamFlags.paNoInput,
+                                sampleRate, framesPerBuffer, null, null);
+
+                            if (stream == IntPtr.Zero)
                             {
-                                var audioClient = await user.VoiceChannel.ConnectAsync();
-                                var pcmStream = audioClient.CreatePCMStream(AudioApplication.Music);
+                                Console.WriteLine("Failed to open PortAudio stream!");
+                                await ReplyAsync("An error occurred while initializing audio playback.");
+                                return;
+                            }
 
-                                // You might need to adjust buffer size based on your system
-                                var buffer = new byte[audioFileReader.WaveFormat.AverageBytesPerSecond / 10];
-                                int bytesRead;
+                            // Play audio data in a loop
 
-                                while ((bytesRead = await audioFileReader.ReadAsync(buffer, 0, buffer.Length)) > 0)
+                            int bytesRead;
+                            byte[] buffer = new byte[framesPerBuffer * channels * (sizeof(short))]; // Assuming 16-bit PCM
+
+                            while ((bytesRead = await ms.ReadAsync(buffer, 0, buffer.Length)) > 0)
+                            {
+                                int result = Pa_StreamWrite(stream, buffer, bytesRead);
+                                if (result != 0)
                                 {
-                                    await pcmStream.WriteAsync(buffer, 0, bytesRead);
+                                    Console.WriteLine($"PortAudio error: {Pa_GetErrorText(result)}");
+                                    break;
                                 }
+                            }
 
-                                await pcmStream.FlushAsync();
-                                await audioClient.StopAsync();
-                            }
-                            else
-                            {
-                                Console.WriteLine("Unsupported audio format. Consider manual conversion on Linux.");
-                                await ReplyAsync("Unsupported audio format. Please try a different file.");
-                            }
+                            // Clean up
+                            Pa_CloseStream(stream);
+                            await ReplyAsync("Finished playing audio.");
                         }
                     }
-                }
-                else
-                {
-                    await ReplyAsync($"Failed to download audio: {response.StatusCode}");
+                    else
+                    {
+                        await ReplyAsync($"Failed to download audio: {response.StatusCode}");
+                    }
                 }
             }
         }
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine($"Error playing audio: {ex.Message}");
-        await ReplyAsync($"An error occurred while playing audio. {ex.Message}");
-    }
-}
-    }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error playing audio: {ex.Message}");
+            await ReplyAsync($"An error occurred while playing audio. {ex.Message}");
+        }
 }
