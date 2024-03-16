@@ -55,7 +55,7 @@ namespace Bot.SlashCommands
         public async Task Play()
         {
             var user = Context.User as IGuildUser;
-            var audioUrl = "https://www.youtube.com/watch?v=otwRNo9b4Ao&pp=ygUWcG9ybmh1YiBub2lzZSAyNCBob3Vycw%3D%3D";
+            var audioUrl = "https://soundcloud.com/teenagecoder/thomas-the-dank-engine?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing";
 
             await using (var pcmStream = await GetAudioStreamAsync(audioUrl))
             {
@@ -85,7 +85,7 @@ namespace Bot.SlashCommands
                 
                 if (process.ExitCode != 0)
                 {
-                    throw new Exception($"FFmpeg decoding failed.{Directory.GetCurrentDirectory()}");
+                    throw new Exception("FFmpeg decoding failed.");
                 }
                 
                 using (var fileStream = File.OpenRead(tempFilePath))
