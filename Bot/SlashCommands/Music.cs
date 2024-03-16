@@ -55,7 +55,7 @@ namespace Bot.SlashCommands
         public async Task Play()
         {
             var user = Context.User as IGuildUser;
-            var audioUrl = "https://soundcloud.com/teenagecoder/thomas-the-dank-engine?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing";
+            var audioUrl = "https://codeskulptor-demos.commondatastorage.googleapis.com/GalaxyInvaders/theme_01.mp3";
 
             await using (var pcmStream = await GetAudioStreamAsync(audioUrl))
             {
