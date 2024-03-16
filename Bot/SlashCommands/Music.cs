@@ -64,7 +64,7 @@ namespace Bot.SlashCommands
                 {
                     if (response.IsSuccessStatusCode)
                     {
-                         var process = Process.Start("ffmpeg", $"-i - -acodec pcm_s16le -f s16le -");
+                        var process = Process.Start("ffmpeg", $"-i - -acodec pcm_s16le -f s16le -");
             process.StandardInput.BaseStream.CopyToAsync(await response.Content.ReadAsStreamAsync()).Wait();
             process.StandardOutput.BaseStream.CopyToAsync(_discord.GetGuild(1153315295306465381)
                 .AudioClient.CreatePCMStream(AudioApplication.Music)).Wait();
