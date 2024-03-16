@@ -79,6 +79,9 @@ namespace Bot.SlashCommands
             try
             {
                 var process = Process.Start("ffmpeg", ffmpegCommand);
+                process.OutputDataReceived += (sender, e) => Console.WriteLine(e.Data);
+                process.ErrorDataReceived += (sender, e) => Console.WriteLine(e.Data);
+
                 process.WaitForExit();
                 
                 if (process.ExitCode != 0)
