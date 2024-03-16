@@ -15,6 +15,8 @@ using Discord.Audio;
 using Discord.Net;
 using Microsoft.Extensions.Logging;
 using NAudio.Wave;
+using NAudio.MediaFoundation;
+using NAudio.Codecs;
 using RunMode = Discord.Commands.RunMode;
 
 namespace Bot.SlashCommands
@@ -55,19 +57,39 @@ namespace Bot.SlashCommands
         public async Task Play()
         {
             var user = Context.User as IGuildUser;
-            var audioUrl = "https://codeskulptor-demos.commondatastorage.googleapis.com/GalaxyInvaders/theme_01.mp3";
+            var audioUrl = "https://soundcloud.com/teenagecoder/thomas-the-dank-engine?utm_source=clipboard&utm_source=text&utm_campaign=social_sharing";
 
-            await using (var pcmStream = await GetAudioStreamAsync(audioUrl))
+            // Download audio to temporary file
+            var tempFilePath = Path.Combine(Directory.GetCurrentDirectory(), "audio.mp3");
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(audioUrl))
+                {
+                    await response.Content.CopyToAsync(File.OpenWrite(tempFilePath));
+                }
+            }
+
+            using (var waveReader = new WaveFileReader(tempFilePath))
             {
                 using (var waveOut = new WaveOutEvent())
                 {
                     var audioClient = await user.VoiceChannel.ConnectAsync();
-                    await using (var audioOutStream = audioClient.CreatePCMStream(AudioApplication.Music))
+                    using (var audioOutStream = audioClient.CreatePCMStream(AudioApplication.Music))
                     {
-                        await pcmStream.CopyToAsync(audioOutStream);
+                        var buffer = new byte[1024]; // Adjust buffer size as needed
+                        int bytesRead;
+                        do
+                        {
+                            bytesRead = await waveReader.ReadAsync(buffer, 0, buffer.Length);
+                            if (bytesRead > 0)
+                            {
+                                await audioOutStream.WriteAsync(buffer, 0, bytesRead);
+                            }
+                        } while (bytesRead > 0);
                     }
                 }
             }
+            File.Delete(tempFilePath);
         }
         
         
