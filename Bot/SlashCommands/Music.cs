@@ -74,7 +74,8 @@ namespace Bot.SlashCommands
         public static async Task<Stream> GetAudioStreamAsync(string url)
         {
             var tempFilePath = Path.Combine(Directory.GetCurrentDirectory(), "audio.pcm");
-            var ffmpegCommand = $"-i {url} -vn -ar 48000 -ac 2 -acodec pcm_s16le {tempFilePath}";
+            var ffmpegCommand = $"-y -i {url} -vn -ar 48000 -ac 2 -acodec pcm_s16le {tempFilePath}";
+
 
             try
             {
