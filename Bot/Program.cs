@@ -19,7 +19,9 @@ var lavaconfig = new NodeConfiguration
 {
     Port = 2332,
     Authorization = "youshallnotpass",
-    Hostname = "127.0.0.1"
+    Hostname = "127.0.0.1",
+    SelfDeaf    = false,
+    IsSecure = false
 };
 
 var builder = new HostApplicationBuilder(args);
