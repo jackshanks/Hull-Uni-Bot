@@ -1,28 +1,33 @@
 ﻿using Bot.HostingServices;
-using Discord;
 using Discord.Interactions;
 using Discord.WebSocket;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Discord;
+using Discord.Audio;
 using Lavalink4NET;
 using Lavalink4NET.Clients;
 using Lavalink4NET.Extensions;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Lavalink4NET.Rest;
 
 var config = new DiscordSocketConfig
 {
     GatewayIntents = GatewayIntents.All
 };
-    
-var builder = new HostApplicationBuilder(args);
-builder.Services.AddSingleton<DiscordSocketClient>();
-builder.Services.AddSingleton<InteractionService>();
-builder.Services.AddHostedService<DiscordStartupService>();
-builder.Services.AddHostedService<InteractionHandlingService>(); 
-builder.Services.AddSingleton<IAudioService>();
 
-builder.Services.AddLavalink<IDiscordClientWrapper>();
-builder.Services.AddLogging(x => x.AddConsole().SetMinimumLevel(LogLevel.Trace));
+using IHost botHost = Host.CreateDefaultBuilder(args)
+    .ConfigureServices(services =>
+    {
+        
+        services.AddSingleton(new DiscordSocketClient(config));
+        services.AddSingleton<InteractionService>();        // Add the interaction service to services
+        services.AddHostedService<InteractionHandlingService>();    // Add the slash command handler
+        services.AddHostedService<DiscordStartupService>();         // Add the discord startup service
+        services.AddSingleton<IAudioService>();
+        services.AddLavalinkCore();
 
+    })
+    .Build();
 
-builder.Build().Run();  
+await botHost.RunAsync();
