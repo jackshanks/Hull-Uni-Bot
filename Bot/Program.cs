@@ -30,6 +30,7 @@ builder.Services.AddHostedService<DiscordStartupService>();
 builder.Services.AddHostedService<InteractionHandlingService>();
 builder.Services.AddSingleton<LavaNode>();
 builder.Services.AddSingleton(lavaconfig);
+builder.Services.AddSingleton<AudioService>();
 
 
 var app = builder.Build();
