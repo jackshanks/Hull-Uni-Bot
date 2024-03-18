@@ -17,7 +17,7 @@ var config = new DiscordSocketConfig
 };
 var lavaconfig = new NodeConfiguration
 {
-    Port = 2332,
+    Port = 80,
     Authorization = "youshallnotpass",
     Hostname = "127.0.0.1",
     SelfDeaf    = false,

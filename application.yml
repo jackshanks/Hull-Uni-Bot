@@ -1,5 +1,5 @@
 ﻿server: 
-  port: 2333
+  port: 80
   address: 127.0.0.1
   http2:
     enabled: false # Whether to enable HTTP/2 support
