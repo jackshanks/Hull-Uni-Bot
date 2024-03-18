@@ -22,6 +22,6 @@ builder.Services.AddSingleton(new DiscordSocketClient(config));
 builder.Services.AddSingleton<InteractionService>();
 builder.Services.AddHostedService<DiscordStartupService>();
 builder.Services.AddHostedService<InteractionHandlingService>();
-builder.Services.AddLavalinkCore();
+builder.Services.AddLavalink<IDiscordClientWrapper>();
 
 builder.Build().Run();
