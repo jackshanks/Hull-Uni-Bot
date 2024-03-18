@@ -26,6 +26,7 @@ using IHost botHost = Host.CreateDefaultBuilder(args)
         services.AddHostedService<DiscordStartupService>();         // Add the discord startup service
         services.AddLavalink<IDiscordClientWrapper>();
         services.AddSingleton<IAudioService>();
+
     })
     .Build();
 
