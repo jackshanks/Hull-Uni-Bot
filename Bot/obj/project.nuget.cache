@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "XLyy6f4cSzj0jZOaYRLV/gE4ryHhXj6o7XCydYggvrcD8vUW/d0kjyUYEu9f4fBUnAhcv2In7NeqZYMppy2SGA==",
+  "dgSpecHash": "gA0r29dNsN/xzge+2EJO+EzuFy/ouWX2d+Zk/Hv1Nda1sS3qv5/yEdoqHzYCpTGA2SP2/4k+K6xaBBpjHMMovQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\jackl\\Documents\\.Code\\Hull-Uni-Bot\\Bot\\Bot.csproj",
   "expectedPackageFiles": [
@@ -51,7 +51,7 @@
     "C:\\Users\\jackl\\.nuget\\packages\\microsoft.extensions.options\\8.0.2\\microsoft.extensions.options.8.0.2.nupkg.sha512",
     "C:\\Users\\jackl\\.nuget\\packages\\microsoft.extensions.options.configurationextensions\\8.0.0\\microsoft.extensions.options.configurationextensions.8.0.0.nupkg.sha512",
     "C:\\Users\\jackl\\.nuget\\packages\\microsoft.extensions.primitives\\8.0.0\\microsoft.extensions.primitives.8.0.0.nupkg.sha512",
-    "C:\\Users\\jackl\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
+    "C:\\Users\\jackl\\.nuget\\packages\\newtonsoft.json\\13.0.2\\newtonsoft.json.13.0.2.nupkg.sha512",
     "C:\\Users\\jackl\\.nuget\\packages\\opus\\1.0.0\\opus.1.0.0.nupkg.sha512",
     "C:\\Users\\jackl\\.nuget\\packages\\sqlite\\3.13.0\\sqlite.3.13.0.nupkg.sha512",
     "C:\\Users\\jackl\\.nuget\\packages\\sqlitepclraw.bundle_e_sqlite3\\2.1.6\\sqlitepclraw.bundle_e_sqlite3.2.1.6.nupkg.sha512",
@@ -70,7 +70,6 @@
     "C:\\Users\\jackl\\.nuget\\packages\\system.text.encodings.web\\8.0.0\\system.text.encodings.web.8.0.0.nupkg.sha512",
     "C:\\Users\\jackl\\.nuget\\packages\\system.text.json\\8.0.3\\system.text.json.8.0.3.nupkg.sha512",
     "C:\\Users\\jackl\\.nuget\\packages\\system.valuetuple\\4.5.0\\system.valuetuple.4.5.0.nupkg.sha512",
-    "C:\\Users\\jackl\\.nuget\\packages\\youtubedlsharp\\1.1.0\\youtubedlsharp.1.1.0.nupkg.sha512",
     "C:\\Users\\jackl\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.27\\microsoft.netcore.app.ref.6.0.27.nupkg.sha512",
     "C:\\Users\\jackl\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.27\\microsoft.windowsdesktop.app.ref.6.0.27.nupkg.sha512",
     "C:\\Users\\jackl\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.27\\microsoft.aspnetcore.app.ref.6.0.27.nupkg.sha512",

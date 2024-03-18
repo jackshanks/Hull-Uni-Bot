@@ -21,7 +21,6 @@
       <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0" />
       <PackageReference Include="Opus" Version="1.0.0" />
       <PackageReference Include="SQLite" Version="3.13.0" />
-      <PackageReference Include="YoutubeDLSharp" Version="1.1.0" />
     </ItemGroup>
 
 </Project>

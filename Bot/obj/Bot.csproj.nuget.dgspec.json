@@ -86,10 +86,6 @@
               "target": "Package",
               "version": "[3.13.0, )"
             },
-            "YoutubeDLSharp": {
-              "target": "Package",
-              "version": "[1.1.0, )"
-            },
             "libsodium": {
               "target": "Package",
               "version": "[1.0.19, )"
