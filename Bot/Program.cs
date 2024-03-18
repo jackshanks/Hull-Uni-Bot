@@ -16,18 +16,15 @@ var config = new DiscordSocketConfig
     GatewayIntents = GatewayIntents.All
 };
 
-using IHost botHost = Host.CreateDefaultBuilder(args)
-    .ConfigureServices(services =>
-    {
-        
-        services.AddSingleton(new DiscordSocketClient(config));
-        services.AddSingleton<InteractionService>();        // Add the interaction service to services
-        services.AddHostedService<InteractionHandlingService>();    // Add the slash command handler
-        services.AddHostedService<DiscordStartupService>();         // Add the discord startup service
-        services.AddSingleton<IAudioService>();
-        services.AddLavalinkCore();
+var builder = new HostApplicationBuilder(args);
 
-    })
-    .Build();
+builder.Services.AddSingleton(new DiscordSocketClient(config));
+builder.Services.AddSingleton<InteractionService>();
+builder.Services.AddHostedService<DiscordStartupService>();
+builder.Services.AddHostedService<InteractionHandlingService>();
+builder.Services.AddLavalinkCore();
 
-await botHost.RunAsync();
+var app = builder.Build();
+var audioService = app.Services.GetRequiredService<IAudioService>();
+
+builder.Build().Run();
