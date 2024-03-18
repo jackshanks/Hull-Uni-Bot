@@ -25,30 +25,7 @@ builder.Services.AddSingleton(new DiscordSocketClient(config));
 builder.Services.AddSingleton<InteractionService>();
 builder.Services.AddHostedService<DiscordStartupService>();
 builder.Services.AddHostedService<InteractionHandlingService>();
-builder.Services.AddLavalink<YourDiscordClientWrapperImplementation>();
+builder.Services.AddLavalink<IDiscordClientWrapper>();
 var app = builder.Build();
 app.Services.GetRequiredService<IAudioService>();
 app.Run();
-
-public class YourDiscordClientWrapperImplementation : IDiscordClientWrapper
-{
-    public ValueTask<ImmutableArray<ulong>> GetChannelUsersAsync(ulong guildId, ulong voiceChannelId, bool includeBots = false,
-        CancellationToken cancellationToken = new CancellationToken())
-    {
-        throw new NotImplementedException();
-    }
-
-    public ValueTask SendVoiceUpdateAsync(ulong guildId, ulong? voiceChannelId, bool selfDeaf = false, bool selfMute = false,
-        CancellationToken cancellationToken = new CancellationToken())
-    {
-        throw new NotImplementedException();
-    }
-
-    public ValueTask<ClientInformation> WaitForReadyAsync(CancellationToken cancellationToken = new CancellationToken())
-    {
-        throw new NotImplementedException();
-    }
-
-    public event AsyncEventHandler<VoiceServerUpdatedEventArgs>? VoiceServerUpdated;
-    public event AsyncEventHandler<VoiceStateUpdatedEventArgs>? VoiceStateUpdated;
-}
