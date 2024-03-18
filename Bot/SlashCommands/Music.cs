@@ -48,6 +48,33 @@ namespace Bot.SlashCommands
             _lavaNode = lavaNode;
         }
 
+        [SlashCommand("join", "Join the voice channel", runMode: Discord.Interactions.RunMode.Async)]
+        public async Task JoinAsync()
+        {
+            if (_lavaNode.HasPlayer(Context.Guild))
+            {
+                await ReplyAsync("I'm already connected to a voice channel!");
+                return;
+            }
+
+            var voiceState = Context.User as IVoiceState;
+            if (voiceState?.VoiceChannel == null)
+            {
+                await ReplyAsync("You must be connected to a voice channel!");
+                return;
+            }
+            
+            try
+            {
+                await _lavaNode.JoinAsync(voiceState.VoiceChannel, Context.Channel as ITextChannel);
+                await ReplyAsync($"Joined {voiceState.VoiceChannel.Name}!");
+            }
+            catch (Exception exception)
+            {
+                await ReplyAsync(exception.Message);
+            }
+        }
+
         [SlashCommand("play", "Play your music!", runMode: Discord.Interactions.RunMode.Async)]
         public async Task PlayAsync([Remainder] string searchQuery) {
             if (string.IsNullOrWhiteSpace(searchQuery)) {
