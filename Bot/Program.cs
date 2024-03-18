@@ -20,7 +20,11 @@ var lavaconfig = new NodeConfiguration
     Port = 80,
     Authorization = "youshallnotpass",
     Hostname = "127.0.0.1",
-    SelfDeaf    = false
+    SelfDeaf    = true,
+    IsSecure = false,
+    EnableResume = true,
+    ResumeKey = "Victoria",
+    
 };
 
 var builder = new HostApplicationBuilder(args);
