@@ -24,6 +24,4 @@ builder.Services.AddHostedService<DiscordStartupService>();
 builder.Services.AddHostedService<InteractionHandlingService>();
 builder.Services.AddLavalinkCore();
 
-var app = builder.Build();
-
 builder.Build().Run();
