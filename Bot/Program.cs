@@ -9,6 +9,7 @@ using Discord;
 using Victoria;
 using Discord.Audio;
 using Victoria.Node;
+using Victoria.WebSocket;
 
 var config = new DiscordSocketConfig
 {
