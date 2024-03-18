@@ -15,15 +15,13 @@ var config = new DiscordSocketConfig
 {
     GatewayIntents = GatewayIntents.All
 };
-var lavaconfig = new NodeConfiguration
+
+var lavalinkConfig = new NodeConfiguration()
 {
-    Port = 80,
+    Hostname = "127.0.0.1", // From your server configuration.
+    Port = 80, // From your server configuration
     Authorization = "youshallnotpass",
-    Hostname = "127.0.0.1",
-    SelfDeaf    = true,
-    IsSecure = false,
-    EnableResume = true,
-    ResumeKey = "Victoria",
+    
     
 };
 
@@ -34,7 +32,7 @@ builder.Services.AddSingleton<InteractionService>();
 builder.Services.AddHostedService<DiscordStartupService>();
 builder.Services.AddHostedService<InteractionHandlingService>();
 builder.Services.AddSingleton<LavaNode>();
-builder.Services.AddSingleton(lavaconfig);
+builder.Services.AddSingleton(lavalinkConfig);
 builder.Services.AddSingleton<AudioService>();
 
 
