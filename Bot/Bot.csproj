@@ -13,7 +13,6 @@
       <PackageReference Include="Discord.Net.Commands" Version="3.13.0" />
       <PackageReference Include="Discord.Net.Rest" Version="3.13.0" />
       <PackageReference Include="FFMpegCore" Version="5.1.0" />
-      <PackageReference Include="Lavalink4NET" Version="4.0.18-beta.3" />
       <PackageReference Include="libsodium" Version="1.0.19" />
       <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.1" />
       <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
@@ -21,6 +20,7 @@
       <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0" />
       <PackageReference Include="Opus" Version="1.0.0" />
       <PackageReference Include="SQLite" Version="3.13.0" />
+      <PackageReference Include="Victoria" Version="6.0.1026" />
     </ItemGroup>
 
 </Project>
