@@ -26,9 +26,9 @@ builder.Services.AddSingleton<InteractionService>();
 builder.Services.AddHostedService<DiscordStartupService>();
 builder.Services.AddHostedService<InteractionHandlingService>();
 builder.Services.AddLavalink<YourDiscordClientWrapperImplementation>();
-
-
-builder.Build().Run();
+var app = builder.Build();
+app.Services.GetRequiredService<IAudioService>();
+app.Run();
 
 public class YourDiscordClientWrapperImplementation : IDiscordClientWrapper
 {

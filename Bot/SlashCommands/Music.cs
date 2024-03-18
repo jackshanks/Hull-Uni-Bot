@@ -28,18 +28,19 @@ namespace Bot.SlashCommands
     {
         private readonly DiscordSocketClient _discord;
         private readonly InteractionService _interactions;
-        private static readonly IServiceProvider _services;
+        private readonly IServiceProvider _services;
+        private readonly IAudioService _audioService;
         private static readonly IEnumerable<int> Range = Enumerable.Range(1900, 2000);
-        private readonly IAudioService _audioService = _services.GetRequiredService<IAudioService>();
 
         public Music(DiscordSocketClient discord,
             InteractionService interactions,
             IServiceProvider services,
-            ILogger<InteractionService> logger
-            )
+            ILogger<InteractionService> logger, IAudioService audioService)
         {
             _discord = discord;
             _interactions = interactions;
+            _services = services;
+            _audioService = audioService;
             _interactions.Log += Msg => LogHelper.OnLogAsync(logger, Msg);
         }
 
