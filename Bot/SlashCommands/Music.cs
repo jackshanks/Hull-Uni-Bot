@@ -19,6 +19,7 @@ using Lavalink4NET;
 using Lavalink4NET.Extensions;
 using Lavalink4NET.Players;
 using Lavalink4NET.Players.Queued;
+using Microsoft.Extensions.DependencyInjection;
 using RunMode = Discord.Commands.RunMode;
 
 namespace Bot.SlashCommands
@@ -27,21 +28,19 @@ namespace Bot.SlashCommands
     {
         private readonly DiscordSocketClient _discord;
         private readonly InteractionService _interactions;
-        private readonly IServiceProvider _services;
+        private static readonly IServiceProvider _services;
         private static readonly IEnumerable<int> Range = Enumerable.Range(1900, 2000);
-        private readonly IAudioService _audioService;
+        private readonly IAudioService _audioService = _services.GetRequiredService<IAudioService>();
 
         public Music(DiscordSocketClient discord,
             InteractionService interactions,
             IServiceProvider services,
-            ILogger<InteractionService> logger, 
-            IAudioService audioService)
+            ILogger<InteractionService> logger
+            )
         {
             _discord = discord;
             _interactions = interactions;
-            _services = services;
             _interactions.Log += Msg => LogHelper.OnLogAsync(logger, Msg);
-            _audioService = audioService;
         }
 
         [SlashCommand("join", "Join your voice channel.", runMode: Discord.Interactions.RunMode.Async)]

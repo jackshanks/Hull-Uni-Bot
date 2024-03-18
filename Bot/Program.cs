@@ -25,6 +25,5 @@ builder.Services.AddHostedService<InteractionHandlingService>();
 builder.Services.AddLavalinkCore();
 
 var app = builder.Build();
-var audioService = app.Services.GetRequiredService<IAudioService>();
 
 builder.Build().Run();
