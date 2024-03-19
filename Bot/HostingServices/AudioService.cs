@@ -24,7 +24,7 @@ namespace Bot.HostingServices {
             _lavaNode.OnUpdateReceived += OnPlayerUpdated;
             _lavaNode.OnStatsReceived += OnStatsReceived;
             _lavaNode.OnTrackEnd += OnTrackEnded;
-            _lavaNode.OnTrackStart += OnTrackStarted;
+            //_lavaNode.OnTrackStart += OnTrackStarted;
             _lavaNode.OnTrackException += OnTrackException;
             _lavaNode.OnTrackStuck += OnTrackStuck;
             _lavaNode.OnWebSocketClosed += OnWebSocketClosed;
@@ -42,7 +42,7 @@ namespace Bot.HostingServices {
             return Task.CompletedTask;
         }
 
-        private async Task OnTrackStarted(TrackStartEventArg<LavaPlayer<LavaTrack>, LavaTrack> arg) {
+        /*private async Task OnTrackStarted(TrackStartEventArg<LavaPlayer<LavaTrack>, LavaTrack> arg) {
             if (!_disconnectTokens.TryGetValue(arg.Player.VoiceChannel.Id, out var value)) {
                 return;
             }
@@ -53,7 +53,7 @@ namespace Bot.HostingServices {
 
             value.Cancel(true);
             await arg.Player.TextChannel.SendMessageAsync("Auto disconnect has been cancelled!");
-        }
+        }*/
 
         private async Task OnTrackEnded(TrackEndEventArg<LavaPlayer<LavaTrack>, LavaTrack> args) {
 
@@ -62,7 +62,7 @@ namespace Bot.HostingServices {
                 await player.TextChannel.SendMessageAsync("Queue completed! Please add more tracks to rock n' roll!");
                 return;
             }
-
+    
             if (!(queueable is LavaTrack track)) {
                 await player.TextChannel.SendMessageAsync("Next item in queue is not a track.");
                 return;
