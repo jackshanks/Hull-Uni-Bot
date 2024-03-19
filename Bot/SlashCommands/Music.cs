@@ -121,7 +121,7 @@ namespace Bot.SlashCommands
                             await ReplyAsync($"Now Playing: {track.Title}");
                         }
                         else {
-                            player.Vueue.Enqueue(searchResponse.Tracks.First());
+                            player.Vueue.Enqueue(searchResponse.Tracks.ElementAtOrDefault(i));
                         }
                     }
 
