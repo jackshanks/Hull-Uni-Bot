@@ -97,16 +97,40 @@ namespace Bot.SlashCommands
 
             var yes = _lavaNode.TryGetPlayer(Context.Guild, out var player);
 
-            if (player.PlayerState == PlayerState.Playing || player.PlayerState == PlayerState.Paused) 
-            {
-                var track = searchResponse.Tracks.First();
-                player.Vueue.Enqueue(track);
-                await ReplyAsync($"Enqueued: {track.Title}");
+            if (player.PlayerState == PlayerState.Playing || player.PlayerState == PlayerState.Paused) {
+                if (!string.IsNullOrWhiteSpace(searchResponse.Playlist.Name)) {
+                    foreach (var track in searchResponse.Tracks) {
+                        player.Vueue.Enqueue(track);
+                    }
+
+                    await ReplyAsync($"Enqueued {searchResponse.Tracks.Count} tracks.");
+                }
+                else {
+                    var track = searchResponse.Tracks.First();
+                    player.Vueue.Enqueue(track);
+                    await ReplyAsync($"Enqueued: {track.Title}");
+                }
             }
             else {
                 var track = searchResponse.Tracks.First();
-                await player.PlayAsync(track);
-                await ReplyAsync($"Now Playing: {track.Title}");
+
+                if (!string.IsNullOrWhiteSpace(searchResponse.Playlist.Name)) {
+                    for (var i = 0; i < searchResponse.Tracks.Count; i++) {
+                        if (i == 0) {
+                            await player.PlayAsync(track);
+                            await ReplyAsync($"Now Playing: {track.Title}");
+                        }
+                        else {
+                            player.Vueue.Enqueue(searchResponse.Tracks.First());
+                        }
+                    }
+
+                    await ReplyAsync($"Enqueued {searchResponse.Tracks.Count} tracks.");
+                }
+                else {
+                    await player.PlayAsync(track);
+                    await ReplyAsync($"Now Playing: {track.Title}");
+                }
             }
         }
     }
