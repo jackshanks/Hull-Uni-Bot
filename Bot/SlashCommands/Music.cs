@@ -86,29 +86,27 @@ namespace Bot.SlashCommands
                 await ReplyAsync("I'm not connected to a voice channel.");
                 return;
             }
+            
+            var searchResponse = await _lavaNode.SearchAsync(default, searchQuery);
+            if (searchResponse.Status == SearchStatus.LoadFailed ||
+                searchResponse.Status == SearchStatus.NoMatches) 
+            { 
+                await ReplyAsync($"I wasn't able to find anything for `{searchQuery}`.");
+                return;
+            }
 
-            var queries = searchQuery.Split(' ');
-            foreach (var query in queries) {
-                var searchResponse = await _lavaNode.SearchAsync(default, query);
-                if (searchResponse.Status == SearchStatus.LoadFailed ||
-                    searchResponse.Status == SearchStatus.NoMatches) {
-                    await ReplyAsync($"I wasn't able to find anything for `{query}`.");
-                    return;
-                }
+            var yes = _lavaNode.TryGetPlayer(Context.Guild, out var player);
 
-                var yes = _lavaNode.TryGetPlayer(Context.Guild, out var player);
-
-                if (player.PlayerState == PlayerState.Playing || player.PlayerState == PlayerState.Paused) 
-                {
-                    var track = searchResponse.Tracks.First();
-                    player.Vueue.Enqueue(track);
-                    await ReplyAsync($"Enqueued: {track.Title}");
-                }
-                else {
-                    var track = searchResponse.Tracks.First();
-                    await player.PlayAsync(track);
-                    await ReplyAsync($"Now Playing: {track.Title}");
-                }
+            if (player.PlayerState == PlayerState.Playing || player.PlayerState == PlayerState.Paused) 
+            {
+                var track = searchResponse.Tracks.First();
+                player.Vueue.Enqueue(track);
+                await ReplyAsync($"Enqueued: {track.Title}");
+            }
+            else {
+                var track = searchResponse.Tracks.First();
+                await player.PlayAsync(track);
+                await ReplyAsync($"Now Playing: {track.Title}");
             }
         }
     }
