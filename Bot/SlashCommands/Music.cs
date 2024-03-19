@@ -57,15 +57,23 @@ namespace Bot.SlashCommands
                 await ReplyAsync("You must be connected to a voice channel!");
                 return;
             }
-            
-            try
+
+            if (_lavaNode.TryGetPlayer(Context.Guild, out var player))
             {
+                await _lavaNode.LeaveAsync(player.VoiceChannel);
                 await _lavaNode.JoinAsync(voiceState.VoiceChannel, Context.Channel as ITextChannel);
-                await ReplyAsync($"Joined {voiceState.VoiceChannel.Name}!");
             }
-            catch (Exception exception)
+            else
             {
-                await ReplyAsync(exception.Message);
+                try
+                {
+                    await _lavaNode.JoinAsync(voiceState.VoiceChannel, Context.Channel as ITextChannel);
+                    await ReplyAsync($"Joined {voiceState.VoiceChannel.Name}!");
+                }
+                catch (Exception exception)
+                {
+                    await ReplyAsync(exception.Message);
+                }
             }
         }
 
@@ -76,8 +84,9 @@ namespace Bot.SlashCommands
                 return;
             }
 
-            if (!_lavaNode.HasPlayer(Context.Guild)) {
-                await ReplyAsync("I'm not connected to a voice channel.");
+            if (!_lavaNode.HasPlayer(Context.Guild))
+            {
+                await JoinAsync();
                 return;
             }
             
