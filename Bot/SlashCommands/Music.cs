@@ -155,12 +155,9 @@ namespace Bot.SlashCommands
                 else {
                     await player.PlayAsync(track);
 
-                    var embed = new EmbedBuilder
-                        {
-                            Description = track.Author
-                        }
+                    var embed = new EmbedBuilder { }
                         .WithTitle(track.Title)
-                        .WithDescription($"As request by {Context.User.Mention}")
+                        .WithDescription($"As requested by {Context.User.Mention}")
                         .WithFooter($"Length: {track.Duration.ToString()}");
                         
 
