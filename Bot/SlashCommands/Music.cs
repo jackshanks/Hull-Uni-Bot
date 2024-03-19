@@ -51,12 +51,6 @@ namespace Bot.SlashCommands
         [SlashCommand("join", "Join the voice channel", runMode: Discord.Interactions.RunMode.Async)]
         public async Task JoinAsync()
         {
-            if (_lavaNode.HasPlayer(Context.Guild))
-            {
-                await ReplyAsync("I'm already connected to a voice channel!");
-                return;
-            }
-
             var voiceState = Context.User as IVoiceState;
             if (voiceState?.VoiceChannel == null)
             {
