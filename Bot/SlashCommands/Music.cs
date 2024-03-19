@@ -76,6 +76,29 @@ namespace Bot.SlashCommands
                 }
             }
         }
+        
+        [SlashCommand("leave","Leave the voice channel")]
+        public async Task LeaveAsync() {
+            if (!_lavaNode.TryGetPlayer(Context.Guild, out var player)) {
+                await ReplyAsync("I'm not connected to any voice channels!");
+                return;
+            }
+
+            var voiceChannel = (Context.User as IVoiceState).VoiceChannel ?? player.VoiceChannel;
+            if (voiceChannel == null) {
+                await ReplyAsync("Not sure which voice channel to disconnect from.");
+                return;
+            }
+
+            try
+            {
+                await _lavaNode.LeaveAsync(voiceChannel);
+                await ReplyAsync($"I've left {voiceChannel.Name}!");
+            }
+            catch (Exception exception) {
+                await ReplyAsync(exception.Message);
+            }
+        }
 
         [SlashCommand("play", "Play your music!", runMode: Discord.Interactions.RunMode.Async)]
         public async Task PlayAsync([Remainder] string searchQuery) {
