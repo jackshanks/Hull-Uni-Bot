@@ -154,7 +154,18 @@ namespace Bot.SlashCommands
                 }
                 else {
                     await player.PlayAsync(track);
-                    await ReplyAsync($"Now Playing: {track.Title}");
+
+                    var embed = new EmbedBuilder
+                        {
+                            Description = track.Author
+                        }
+                        .WithTitle(track.Title)
+                        .WithDescription($"As request by {Context.User.Mention}")
+                        .WithFooter($"Length: {track.Duration.ToString()}");
+                        
+
+                    
+                    await ReplyAsync(embed: embed.Build());
                 }
             }
         }
