@@ -110,7 +110,6 @@ namespace Bot.SlashCommands
             if (!_lavaNode.HasPlayer(Context.Guild))
             {
                 await JoinAsync();
-                return;
             }
             
             var searchResponse = await _lavaNode.SearchAsync(default, searchQuery);
