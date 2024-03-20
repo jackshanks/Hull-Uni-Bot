@@ -133,7 +133,8 @@ namespace Bot.SlashCommands
                 else {
                     var track = searchResponse.Tracks.First();
                     player.Vueue.Enqueue(track);
-                    await ReplyAsync($"Enqueued: {track.Title}");
+                    var embed = await EmbedMaker(track, true);
+                    await ReplyAsync(embed: embed.Build());
                 }
             }
             else {
@@ -155,17 +156,28 @@ namespace Bot.SlashCommands
                 else {
                     await player.PlayAsync(track);
 
-                    var embed = new EmbedBuilder { }
-                        .WithTitle(track.Title)
-                        .WithDescription($"As requested by {Context.User.Mention}")
-                        .WithFooter($"Length: {track.Duration.ToString()}");
-                        
 
+                    var embed = await EmbedMaker(track, false);
                     
                     await ReplyAsync(embed: embed.Build());
                 }
             }
         }
+
+        private Task<EmbedBuilder> EmbedMaker(LavaTrack track, bool queue)
+        {
+
+            var embed = new EmbedBuilder { }
+                .AddField(track.Author, true)
+                .WithTitle(track.Title)
+                .WithDescription($"Requested by {Context.User.Mention}")
+                .WithFooter(queue ? $"Length: {track.Duration}" : $"Queue Position: {track.Position}| Length: {track.Duration}")
+                .WithColor(queue ? Color.Magenta : Color.Red);
+            
+
+            return Task.FromResult(embed);
+        }
+        
     }
 }
 
