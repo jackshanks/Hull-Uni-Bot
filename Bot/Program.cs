@@ -1,4 +1,5 @@
 ﻿using System.Collections.Immutable;
+using Bot.EmbedMaker;
 using Bot.HostingServices;
 using Discord.Interactions;
 using Discord.WebSocket;
@@ -34,7 +35,7 @@ builder.Services.AddHostedService<InteractionHandlingService>();
 builder.Services.AddSingleton<LavaNode>();
 builder.Services.AddSingleton(lavalinkConfig);
 builder.Services.AddSingleton<AudioService>();
-
+builder.Services.AddSingleton<EmbedMaker>();
 
 var app = builder.Build();
 app.Run();

@@ -20,6 +20,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Victoria.Node;
 using Victoria.Player;
 using Victoria.Responses.Search;
+using Bot.EmbedMaker;
 using RunMode = Discord.Commands.RunMode;
 
 namespace Bot.SlashCommands
@@ -31,6 +32,7 @@ namespace Bot.SlashCommands
         private readonly IServiceProvider _services;
         private readonly AudioService _audioService;
         private readonly LavaNode _lavaNode;
+        private readonly EmbedMaker.EmbedMaker _embedMaker;
         private static readonly IEnumerable<int> Range = Enumerable.Range(1900, 2000);
 
         public Music(DiscordSocketClient discord,
@@ -38,13 +40,15 @@ namespace Bot.SlashCommands
             IServiceProvider services,
             ILogger<InteractionService> logger,
             LavaNode lavaNode,
-            AudioService audioService)
+            AudioService audioService, 
+            EmbedMaker.EmbedMaker embedMaker)
         {
             _discord = discord;
             _interactions = interactions;
             _services = services;
             _interactions.Log += Msg => LogHelper.OnLogAsync(logger, Msg);
             _audioService = audioService;
+            _embedMaker = embedMaker;
             _lavaNode = lavaNode;
         }
 
@@ -54,7 +58,8 @@ namespace Bot.SlashCommands
             var voiceState = Context.User as IVoiceState;
             if (voiceState?.VoiceChannel == null)
             {
-                await RespondAsync("You must be connected to a voice channel!");
+                var embed = await _embedMaker.ErrorMessage("You must be connected to a voice channel!");
+                await RespondAsync(embed: embed.Build());
                 return;
             }
 
@@ -69,7 +74,7 @@ namespace Bot.SlashCommands
                 {
                     await _lavaNode.JoinAsync(voiceState.VoiceChannel, Context.Channel as ITextChannel);
                     
-                    var embed = await JoinLeave(true);
+                    var embed = await _embedMaker.JoinLeave(Context.User, true);
                     await RespondAsync(embed: embed.Build());
                 }
                 catch (Exception exception)
@@ -82,21 +87,23 @@ namespace Bot.SlashCommands
         [SlashCommand("leave","Leave the voice channel")]
         public async Task LeaveAsync() {
             if (!_lavaNode.TryGetPlayer(Context.Guild, out var player)) {
-                await RespondAsync("I'm not connected to any voice channels!");
+                var embed = await _embedMaker.ErrorMessage("I'm not connected to any voice channels!");
+                await RespondAsync(embed: embed.Build());
                 return;
             }
 
             var voiceChannel = (Context.User as IVoiceState).VoiceChannel ?? player.VoiceChannel;
             if (voiceChannel == null) {
-                await RespondAsync("Not sure which voice channel to disconnect from.");
+                var embed = await _embedMaker.ErrorMessage("Not sure which voice channel to disconnect from.");
+                await RespondAsync(embed: embed.Build());
                 return;
             }
 
             try
             {
                 await _lavaNode.LeaveAsync(voiceChannel);
-                
-                var embed = await JoinLeave(false);
+
+                var embed = await _embedMaker.JoinLeave(Context.User, false);
                 await RespondAsync(embed: embed.Build());
             }
             catch (Exception exception) {
@@ -104,23 +111,11 @@ namespace Bot.SlashCommands
             }
         }
         
-        private Task<EmbedBuilder> JoinLeave(bool join)
-        {
-
-            var embed = new EmbedBuilder { }
-                .WithTitle(join ? "Connected!" : "Disconnected!")
-                .WithDescription(join
-                    ? $"Connected to {(Context.User as IVoiceState).VoiceChannel.Mention}."
-                    : $"Left {(Context.User as IVoiceState).VoiceChannel.Mention}.")
-                .WithColor(join ? Color.Green : Color.Red);
-            
-
-            return Task.FromResult(embed);
-        }
         [SlashCommand("play", "Play your music!", runMode: Discord.Interactions.RunMode.Async)]
         public async Task PlayAsync([Remainder] string searchQuery) {
             if (string.IsNullOrWhiteSpace(searchQuery)) {
-                await RespondAsync("Please provide search terms.");
+                var embed = await _embedMaker.ErrorMessage("Please provide search terms.");
+                await RespondAsync(embed: embed.Build());
                 return;
             }
 
@@ -133,7 +128,8 @@ namespace Bot.SlashCommands
             if (searchResponse.Status == SearchStatus.LoadFailed ||
                 searchResponse.Status == SearchStatus.NoMatches) 
             { 
-                await RespondAsync($"I wasn't able to find anything for `{searchQuery}`.");
+                var embed = await _embedMaker.ErrorMessage($"I wasn't able to find anything for `{searchQuery}`.");
+                await RespondAsync(embed: embed.Build());
                 return;
             }
 
@@ -150,7 +146,7 @@ namespace Bot.SlashCommands
                 else {
                     var track = searchResponse.Tracks.First();
                     player.Vueue.Enqueue(track);
-                    var embed = await EmbedMaker(track, true, player.Vueue.Count);
+                    var embed = await _embedMaker.PlayQueue(track, true, Context.User, player.Vueue.Count);
                     await RespondAsync(embed: embed.Build());
                 }
             }
@@ -161,7 +157,7 @@ namespace Bot.SlashCommands
                     for (var i = 0; i < searchResponse.Tracks.Count; i++) {
                         if (i == 0) {
                             await player.PlayAsync(track);
-                            var embed = await EmbedMaker(track, false);
+                            var embed = await _embedMaker.PlayQueue(track, false, Context.User);
                             await RespondAsync(embed: embed.Build());
                         }
                         else {
@@ -175,30 +171,12 @@ namespace Bot.SlashCommands
                     await player.PlayAsync(track);
 
 
-                    var embed = await EmbedMaker(track, false);
+                    var embed = await _embedMaker.PlayQueue(track, false, Context.User);
                     
                     await RespondAsync(embed: embed.Build());
                 }
             }
         }
-
-        private Task<EmbedBuilder> EmbedMaker(LavaTrack track, bool queue, int queuePosition = 0)
-        {
-
-            var embed = new EmbedBuilder { }
-                .WithAuthor(track.Author)
-                .WithTitle(track.Title)
-                .WithDescription($"Requested by {Context.User.Mention}")
-                .WithFooter(queue
-                    ? $"Queue Position: {queuePosition} | Length: {track.Duration}"
-                    : $"Length: {track.Duration}")
-                .WithColor(queue ? Color.Gold : Color.Teal)
-                .WithImageUrl(track.FetchArtworkAsync().Result);
-            
-
-            return Task.FromResult(embed);
-        }
-        
     }
 }
 
