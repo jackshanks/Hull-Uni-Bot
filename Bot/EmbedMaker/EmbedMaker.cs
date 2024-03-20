@@ -58,5 +58,18 @@ public class EmbedMaker
             
         return Task.FromResult(embed);
     }
+    
+    public Task<EmbedBuilder> Skip(LavaTrack newTrack, LavaTrack oldTrack, SocketUser? user)
+    {
+        var embed = new EmbedBuilder { }
+            .WithAuthor(newTrack.Author)
+            .WithTitle(newTrack.Title)
+            .WithDescription($"Skipped {oldTrack.Title} | Requested by {user?.Mention}")
+            .WithFooter($"Length: {newTrack.Duration}")
+            .WithColor(Color.Teal)
+            .WithImageUrl(newTrack.FetchArtworkAsync().Result);
+
+        return Task.FromResult(embed);
+    }
 
 }

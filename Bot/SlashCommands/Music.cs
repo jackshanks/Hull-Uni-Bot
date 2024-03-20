@@ -169,12 +169,86 @@ namespace Bot.SlashCommands
                 }
                 else {
                     await player.PlayAsync(track);
-
-
-                    var embed = await _embedMaker.PlayQueue(track, false, Context.User);
                     
+                    var embed = await _embedMaker.PlayQueue(track, false, Context.User);
                     await RespondAsync(embed: embed.Build());
                 }
+            }
+        }
+        
+        [Command("Pause")]
+        public async Task PauseAsync() {
+            if (!_lavaNode.TryGetPlayer(Context.Guild, out var player))
+            {
+                var embed = await _embedMaker.ErrorMessage("I'm not connected to a voice channel.");
+                await RespondAsync(embed : embed.Build());
+                return;
+            }
+
+            if (player.PlayerState != PlayerState.Playing) {
+                var embed = await _embedMaker.ErrorMessage("I cannot pause when I'm not playing anything!");
+                await RespondAsync(embed : embed.Build());
+                return;
+            }
+
+            try {
+                await player.PauseAsync();
+                var embed = await _embedMaker.Update($"Paused: {player.Track.Title}");
+                await RespondAsync(embed : embed.Build());
+            }
+            catch (Exception exception) {
+                var embed = await _embedMaker.Update(exception.Message);
+                await RespondAsync(embed : embed.Build());
+            }
+        }
+        
+        [Command("Resume")]
+        public async Task ResumeAsync() {
+            if (!_lavaNode.TryGetPlayer(Context.Guild, out var player)) {
+                var embed = await _embedMaker.ErrorMessage("I'm not connected to a voice channel.");
+                await RespondAsync(embed : embed.Build());
+                return;
+            }
+
+            if (player.PlayerState != PlayerState.Paused) {
+                var embed = await _embedMaker.ErrorMessage("I cannot resume when I'm not playing anything!");
+                await RespondAsync(embed : embed.Build());
+                return;
+            }
+
+            try {
+                await player.ResumeAsync();
+                var embed = await _embedMaker.Update($"Resumed: {player.Track.Title}");
+                await RespondAsync(embed : embed.Build());
+            }
+            catch (Exception exception) {
+                var embed = await _embedMaker.Update(exception.Message);
+                await RespondAsync(embed : embed.Build());
+            }
+        }
+        
+        [Command("Skip")]
+        public async Task SkipAsync() {
+            if (!_lavaNode.TryGetPlayer(Context.Guild, out var player)) {
+                var embed = await _embedMaker.ErrorMessage("I'm not connected to a voice channel.");
+                await RespondAsync(embed : embed.Build());
+                return;
+            }
+
+            if (player.PlayerState != PlayerState.Playing) {
+                var embed = await _embedMaker.ErrorMessage("I cannot skip when I'm not playing anything!");
+                await RespondAsync(embed : embed.Build());
+                return;
+            }
+            
+            try {
+                var tracks = await player.SkipAsync();
+                
+                var embed = await _embedMaker.Skip(tracks.Item2, tracks.Item1, Context.User);
+                await RespondAsync(embed: embed.Build());
+            }
+            catch (Exception exception) {
+                await ReplyAsync(exception.Message);
             }
         }
     }
