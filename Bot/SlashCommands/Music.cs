@@ -309,7 +309,7 @@ namespace Bot.SlashCommands
             }
             try
             {
-                player.Volume.Equals(volume);
+                await player.SetVolumeAsync(volume);
                 var embed = await _embedMaker.Update($"Changed the volume to {volume}%");
                 await RespondAsync(embed : embed.Build());
             }
