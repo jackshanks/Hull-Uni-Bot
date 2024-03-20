@@ -300,6 +300,24 @@ namespace Bot.SlashCommands
                 await RespondAsync(embed : embed.Build());
             }
         }
+        [SlashCommand("volume", "Choose a volume between 1 and 100")]
+        public async Task Volume(int volume) {
+            if (!_lavaNode.TryGetPlayer(Context.Guild, out var player)) {
+                var embed = await _embedMaker.ErrorMessage("I'm not connected to a voice channel.");
+                await RespondAsync(embed : embed.Build());
+                return;
+            }
+            try
+            {
+                player.Volume.Equals(volume);
+                var embed = await _embedMaker.Update($"Changed the volume to {volume}%");
+                await RespondAsync(embed : embed.Build());
+            }
+            catch (Exception exception) {
+                var embed = await _embedMaker.Update(exception.Message);
+                await RespondAsync(embed : embed.Build());
+            }
+        }
     }
 }
 
