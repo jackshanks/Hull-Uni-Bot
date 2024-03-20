@@ -133,7 +133,7 @@ namespace Bot.SlashCommands
                 else {
                     var track = searchResponse.Tracks.First();
                     player.Vueue.Enqueue(track);
-                    var embed = await EmbedMaker(track, true);
+                    var embed = await EmbedMaker(track, true, player.Vueue.Count);
                     await ReplyAsync(embed: embed.Build());
                 }
             }
@@ -144,7 +144,8 @@ namespace Bot.SlashCommands
                     for (var i = 0; i < searchResponse.Tracks.Count; i++) {
                         if (i == 0) {
                             await player.PlayAsync(track);
-                            await ReplyAsync($"Now Playing: {track.Title}");
+                            var embed = await EmbedMaker(track, false);
+                            await RespondAsync(embed: embed.Build());
                         }
                         else {
                             player.Vueue.Enqueue(searchResponse.Tracks.ElementAtOrDefault(i));
@@ -159,12 +160,12 @@ namespace Bot.SlashCommands
 
                     var embed = await EmbedMaker(track, false);
                     
-                    await ReplyAsync(embed: embed.Build());
+                    await RespondAsync(embed: embed.Build());
                 }
             }
         }
 
-        private Task<EmbedBuilder> EmbedMaker(LavaTrack track, bool queue)
+        private Task<EmbedBuilder> EmbedMaker(LavaTrack track, bool queue, int queuePosition = 0)
         {
 
             var embed = new EmbedBuilder { }
@@ -172,7 +173,7 @@ namespace Bot.SlashCommands
                 .WithTitle(track.Title)
                 .WithDescription($"Requested by {Context.User.Mention}")
                 .WithFooter(queue
-                    ? $"Queue Position: {track.Position} | Length: {track.Duration}"
+                    ? $"Queue Position: {queuePosition} | Length: {track.Duration}"
                     : $"Length: {track.Duration}")
                 .WithColor(queue ? Color.Gold : Color.Red)
                 .WithImageUrl(track.FetchArtworkAsync().Result);
