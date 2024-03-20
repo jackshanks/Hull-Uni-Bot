@@ -38,14 +38,25 @@ public class EmbedMaker
         return Task.FromResult(embed);
     }
     
-    public Task<EmbedBuilder> ErrorMessage(string ErrorMessage)
+    public Task<EmbedBuilder> ErrorMessage(string errorMessage)
     {
 
         var embed = new EmbedBuilder { }
             .WithTitle("Error!")
-            .WithDescription(ErrorMessage);
+            .WithDescription(errorMessage);
             
         return Task.FromResult(embed);
     }
     
+    public Task<EmbedBuilder> Update(string updateMessage)
+    {
+
+        var embed = new EmbedBuilder { }
+            .WithTitle("Update!")
+            .WithDescription(updateMessage)
+            .WithColor(Color.LightOrange);
+            
+        return Task.FromResult(embed);
+    }
+
 }

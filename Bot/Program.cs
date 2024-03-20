@@ -29,13 +29,13 @@ var lavalinkConfig = new NodeConfiguration()
 var builder = new HostApplicationBuilder(args);
 
 builder.Services.AddSingleton(new DiscordSocketClient(config));
+builder.Services.AddSingleton<EmbedMaker>();
 builder.Services.AddSingleton<InteractionService>();
 builder.Services.AddHostedService<DiscordStartupService>();
 builder.Services.AddHostedService<InteractionHandlingService>();
 builder.Services.AddSingleton<LavaNode>();
 builder.Services.AddSingleton(lavalinkConfig);
 builder.Services.AddSingleton<AudioService>();
-builder.Services.AddSingleton<EmbedMaker>();
 
 var app = builder.Build();
 app.Run();

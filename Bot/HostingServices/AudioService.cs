@@ -8,16 +8,19 @@ using Microsoft.Extensions.Logging;
 using Victoria.Node;
 using Victoria.Node.EventArgs;
 using Victoria.Player;
+using Bot.EmbedMaker;
 
 namespace Bot.HostingServices {
     public sealed class AudioService {
         private readonly LavaNode _lavaNode;
+        private readonly EmbedMaker.EmbedMaker _embedMaker;
         private readonly ILogger _logger;
         public readonly HashSet<ulong> VoteQueue;
         private readonly ConcurrentDictionary<ulong, CancellationTokenSource> _disconnectTokens;
 
-        public AudioService(LavaNode lavaNode, ILoggerFactory loggerFactory) {
+        public AudioService(LavaNode lavaNode, ILoggerFactory loggerFactory, EmbedMaker.EmbedMaker embedMaker) {
             _lavaNode = lavaNode;
+            _embedMaker = embedMaker;
             _logger = loggerFactory.CreateLogger<LavaNode>();
             _disconnectTokens = new ConcurrentDictionary<ulong, CancellationTokenSource>();
 
@@ -58,54 +61,40 @@ namespace Bot.HostingServices {
         private async Task OnTrackEnded(TrackEndEventArg<LavaPlayer<LavaTrack>, LavaTrack> args) {
 
             var player = args.Player;
-            if (!player.Vueue.TryDequeue(out var queueable)) {
-                await player.TextChannel.SendMessageAsync("Queue completed! Please add more tracks to rock n' roll!");
+            if (!player.Vueue.TryDequeue(out var queueable))
+            {
+                var embed = await _embedMaker.Update("Queue completed! Please add more tracks to rock n' roll!");
+                await player.TextChannel.SendMessageAsync(embed : embed.Build());
                 return;
             }
     
             if (!(queueable is LavaTrack track)) {
-                await player.TextChannel.SendMessageAsync("Next item in queue is not a track.");
+                var embed = await _embedMaker.ErrorMessage("Next item in queue is not a track.");
+                await player.TextChannel.SendMessageAsync(embed : embed.Build());
                 return;
             }
-
             await args.Player.PlayAsync(queueable);
-            await args.Player.TextChannel.SendMessageAsync(
-                $"{args.Track}: {args.Track.Title}\nNow playing: {track.Title}");
-        }
-
-        private async Task InitiateDisconnectAsync(LavaPlayer player, TimeSpan timeSpan) {
-            if (!_disconnectTokens.TryGetValue(player.VoiceChannel.Id, out var value)) {
-                value = new CancellationTokenSource();
-                _disconnectTokens.TryAdd(player.VoiceChannel.Id, value);
-            }
-            else if (value.IsCancellationRequested) {
-                _disconnectTokens.TryUpdate(player.VoiceChannel.Id, new CancellationTokenSource(), value);
-                value = _disconnectTokens[player.VoiceChannel.Id];
-            }
-
-            await player.TextChannel.SendMessageAsync($"Auto disconnect initiated! Disconnecting in {timeSpan}...");
-            var isCancelled = SpinWait.SpinUntil(() => value.IsCancellationRequested, timeSpan);
-            if (isCancelled) {
-                return;
-            }
-
-            await _lavaNode.LeaveAsync(player.VoiceChannel);
-            await player.TextChannel.SendMessageAsync("Invite me again sometime, sugar.");
+            
+                        
+            var embed2 = await _embedMaker.Update($"{args.Track}: {args.Track.Title}\nNow playing: {track.Title}");
+            await player.TextChannel.SendMessageAsync(embed : embed2.Build());
         }
 
         private async Task OnTrackException(TrackExceptionEventArg<LavaPlayer<LavaTrack>, LavaTrack> arg) {
             _logger.LogError($"Track {arg.Track.Title} threw an exception. Please check Lavalink console/logs.");
             arg.Player.Vueue.Enqueue(arg.Track);
-            await arg.Player.TextChannel?.SendMessageAsync(
-                $"{arg.Track.Title} has been re-added to queue after throwing an exception.");
+            
+            var embed = await _embedMaker.ErrorMessage($"{arg.Track.Title} has been re-added to queue after throwing an exception.");
+            await arg.Player.TextChannel.SendMessageAsync(embed : embed.Build());
         }
 
         private async Task OnTrackStuck(TrackStuckEventArg<LavaPlayer<LavaTrack>, LavaTrack> arg) {
             _logger.LogError(
                 $"Track {arg.Track.Title} got stuck for {arg.Threshold}ms. Please check Lavalink console/logs.");
             arg.Player.Vueue.Enqueue(arg.Track);
-            await arg.Player.TextChannel?.SendMessageAsync(
-                $"{arg.Track.Title} has been re-added to queue after getting stuck.");
+            
+            var embed = await _embedMaker.ErrorMessage($"{arg.Track.Title} has been re-added to queue after getting stuck.");
+            await arg.Player.TextChannel.SendMessageAsync(embed : embed.Build());
         }
 
         private Task OnWebSocketClosed(WebSocketClosedEventArg arg) {
