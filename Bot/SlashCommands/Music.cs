@@ -171,8 +171,11 @@ namespace Bot.SlashCommands
                 .WithAuthor(track.Author)
                 .WithTitle(track.Title)
                 .WithDescription($"Requested by {Context.User.Mention}")
-                .WithFooter(queue ? $"Queue Position: {track.Position} | Length: {track.Duration}": "Length: {track.Duration}")
-                .WithColor(queue ? Color.Magenta : Color.Red);
+                .WithFooter(queue
+                    ? $"Queue Position: {track.Position} | Length: {track.Duration}"
+                    : $"Length: {track.Duration}")
+                .WithColor(queue ? Color.Gold : Color.Red)
+                .WithImageUrl(track.FetchArtworkAsync().Result);
             
 
             return Task.FromResult(embed);

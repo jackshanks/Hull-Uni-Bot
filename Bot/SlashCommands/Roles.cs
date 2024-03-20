@@ -6,7 +6,6 @@ using System.Runtime.Loader;
 using System.Threading.Tasks;
 using Bot.LogHandle;
 using Discord.Commands;
-using Discord.WebSocket;
 using Microsoft.Extensions.Logging;
 
 namespace Bot.SlashCommands;
