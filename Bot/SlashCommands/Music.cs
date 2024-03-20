@@ -96,7 +96,7 @@ namespace Bot.SlashCommands
             {
                 await _lavaNode.LeaveAsync(voiceChannel);
                 
-                var embed = await JoinLeave(true);
+                var embed = await JoinLeave(false);
                 await RespondAsync(embed: embed.Build());
             }
             catch (Exception exception) {
@@ -111,7 +111,8 @@ namespace Bot.SlashCommands
                 .WithTitle(join ? "Connected!" : "Disconnected!")
                 .WithDescription(join
                     ? $"Connected to {(Context.User as IVoiceState).VoiceChannel.Mention}."
-                    : $"Left {(Context.User as IVoiceState).VoiceChannel.Mention}.");
+                    : $"Left {(Context.User as IVoiceState).VoiceChannel.Mention}.")
+                .WithColor(join ? Color.Green : Color.Red);
             
 
             return Task.FromResult(embed);
@@ -191,7 +192,7 @@ namespace Bot.SlashCommands
                 .WithFooter(queue
                     ? $"Queue Position: {queuePosition} | Length: {track.Duration}"
                     : $"Length: {track.Duration}")
-                .WithColor(queue ? Color.Gold : Color.Red)
+                .WithColor(queue ? Color.Gold : Color.Teal)
                 .WithImageUrl(track.FetchArtworkAsync().Result);
             
 
