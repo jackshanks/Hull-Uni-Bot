@@ -176,7 +176,7 @@ namespace Bot.SlashCommands
             }
         }
         
-        [Command("Pause")]
+        [SlashCommand("Pause", "Pause a song!")]
         public async Task PauseAsync() {
             if (!_lavaNode.TryGetPlayer(Context.Guild, out var player))
             {
@@ -202,7 +202,7 @@ namespace Bot.SlashCommands
             }
         }
         
-        [Command("Resume")]
+        [SlashCommand("Resume", "Resume a song!")]
         public async Task ResumeAsync() {
             if (!_lavaNode.TryGetPlayer(Context.Guild, out var player)) {
                 var embed = await _embedMaker.ErrorMessage("I'm not connected to a voice channel.");
@@ -227,7 +227,7 @@ namespace Bot.SlashCommands
             }
         }
         
-        [Command("Skip")]
+        [SlashCommand("Skip", "Skip a song!")]
         public async Task SkipAsync() {
             if (!_lavaNode.TryGetPlayer(Context.Guild, out var player)) {
                 var embed = await _embedMaker.ErrorMessage("I'm not connected to a voice channel.");
