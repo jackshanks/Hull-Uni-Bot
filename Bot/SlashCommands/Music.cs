@@ -54,7 +54,7 @@ namespace Bot.SlashCommands
             var voiceState = Context.User as IVoiceState;
             if (voiceState?.VoiceChannel == null)
             {
-                await ReplyAsync("You must be connected to a voice channel!");
+                await RespondAsync("You must be connected to a voice channel!");
                 return;
             }
 
@@ -68,11 +68,11 @@ namespace Bot.SlashCommands
                 try
                 {
                     await _lavaNode.JoinAsync(voiceState.VoiceChannel, Context.Channel as ITextChannel);
-                    await ReplyAsync($"Joined {voiceState.VoiceChannel.Name}!");
+                    await RespondAsync($"Joined {voiceState.VoiceChannel.Name}!");
                 }
                 catch (Exception exception)
                 {
-                    await ReplyAsync(exception.Message);
+                    await RespondAsync(exception.Message);
                 }
             }
         }
@@ -99,11 +99,23 @@ namespace Bot.SlashCommands
                 await ReplyAsync(exception.Message);
             }
         }
+        
+        private Task<EmbedBuilder> JoinLeave(bool join)
+        {
 
+            var embed = new EmbedBuilder { }
+                .WithTitle(join ? "Connected!" : "Disconnected!")
+                .WithDescription(join
+                    ? $"Connected to {(Context.User as IVoiceState).VoiceChannel.Mention}."
+                    : $"Left {(Context.User as IVoiceState).VoiceChannel.Mention}.");
+            
+
+            return Task.FromResult(embed);
+        }
         [SlashCommand("play", "Play your music!", runMode: Discord.Interactions.RunMode.Async)]
         public async Task PlayAsync([Remainder] string searchQuery) {
             if (string.IsNullOrWhiteSpace(searchQuery)) {
-                await ReplyAsync("Please provide search terms.");
+                await RespondAsync("Please provide search terms.");
                 return;
             }
 
@@ -116,7 +128,7 @@ namespace Bot.SlashCommands
             if (searchResponse.Status == SearchStatus.LoadFailed ||
                 searchResponse.Status == SearchStatus.NoMatches) 
             { 
-                await ReplyAsync($"I wasn't able to find anything for `{searchQuery}`.");
+                await RespondAsync($"I wasn't able to find anything for `{searchQuery}`.");
                 return;
             }
 
@@ -128,13 +140,13 @@ namespace Bot.SlashCommands
                         player.Vueue.Enqueue(track);
                     }
 
-                    await ReplyAsync($"Enqueued {searchResponse.Tracks.Count} tracks.");
+                    await RespondAsync($"Enqueued {searchResponse.Tracks.Count} tracks.");
                 }
                 else {
                     var track = searchResponse.Tracks.First();
                     player.Vueue.Enqueue(track);
                     var embed = await EmbedMaker(track, true, player.Vueue.Count);
-                    await ReplyAsync(embed: embed.Build());
+                    await RespondAsync(embed: embed.Build());
                 }
             }
             else {
@@ -152,7 +164,7 @@ namespace Bot.SlashCommands
                         }
                     }
 
-                    await ReplyAsync($"Enqueued {searchResponse.Tracks.Count} tracks.");
+                    await RespondAsync($"Enqueued {searchResponse.Tracks.Count} tracks.");
                 }
                 else {
                     await player.PlayAsync(track);
