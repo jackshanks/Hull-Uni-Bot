@@ -45,7 +45,7 @@ namespace Bot.HostingServices
         {
             await _Interactions.RegisterCommandsToGuildAsync(1153315295306465381);
             if (!_instanceOfLavaNode.IsConnected) {
-                _instanceOfLavaNode.ConnectAsync();
+                await _instanceOfLavaNode.ConnectAsync();
             }
             
         }

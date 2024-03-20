@@ -168,10 +168,9 @@ namespace Bot.SlashCommands
         {
 
             var embed = new EmbedBuilder { }
-                .AddField(track.Author, true)
-                .WithTitle(track.Title)
-                .WithDescription($"Requested by {Context.User.Mention}")
-                .WithFooter(queue ? $"Length: {track.Duration}" : $"Queue Position: {track.Position}| Length: {track.Duration}")
+                .WithTitle(track.Author)
+                .AddField(track.Title, $"Requested by {Context.User.Mention}", true)
+                .WithFooter(queue ? $"Queue Position: {track.Position} | Length: {track.Duration}": "Length: {track.Duration}")
                 .WithColor(queue ? Color.Magenta : Color.Red);
             
 
