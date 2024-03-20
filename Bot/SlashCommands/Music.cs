@@ -68,7 +68,9 @@ namespace Bot.SlashCommands
                 try
                 {
                     await _lavaNode.JoinAsync(voiceState.VoiceChannel, Context.Channel as ITextChannel);
-                    await RespondAsync($"Joined {voiceState.VoiceChannel.Name}!");
+                    
+                    var embed = await JoinLeave(true);
+                    await RespondAsync(embed: embed.Build());
                 }
                 catch (Exception exception)
                 {
@@ -80,23 +82,25 @@ namespace Bot.SlashCommands
         [SlashCommand("leave","Leave the voice channel")]
         public async Task LeaveAsync() {
             if (!_lavaNode.TryGetPlayer(Context.Guild, out var player)) {
-                await ReplyAsync("I'm not connected to any voice channels!");
+                await RespondAsync("I'm not connected to any voice channels!");
                 return;
             }
 
             var voiceChannel = (Context.User as IVoiceState).VoiceChannel ?? player.VoiceChannel;
             if (voiceChannel == null) {
-                await ReplyAsync("Not sure which voice channel to disconnect from.");
+                await RespondAsync("Not sure which voice channel to disconnect from.");
                 return;
             }
 
             try
             {
                 await _lavaNode.LeaveAsync(voiceChannel);
-                await ReplyAsync($"I've left {voiceChannel.Name}!");
+                
+                var embed = await JoinLeave(true);
+                await RespondAsync(embed: embed.Build());
             }
             catch (Exception exception) {
-                await ReplyAsync(exception.Message);
+                await RespondAsync(exception.Message);
             }
         }
         
