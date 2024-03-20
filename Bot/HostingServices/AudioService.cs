@@ -9,6 +9,7 @@ using Victoria.Node;
 using Victoria.Node.EventArgs;
 using Victoria.Player;
 using Bot.EmbedMaker;
+using Discord.WebSocket;
 
 namespace Bot.HostingServices {
     public sealed class AudioService {
@@ -74,9 +75,10 @@ namespace Bot.HostingServices {
                 return;
             }
             await args.Player.PlayAsync(queueable);
-            
-                        
-            var embed2 = await _embedMaker.Update($"{args.Track}: {args.Track.Title}\nNow playing: {track.Title}");
+
+
+            var embed2 = await _embedMaker.PlayQueue(track, false,
+                player.VoiceChannel.Guild.GetUserAsync(1201866907322679326).Result as SocketUser);
             await player.TextChannel.SendMessageAsync(embed : embed2.Build());
         }
 

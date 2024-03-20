@@ -7,7 +7,7 @@ namespace Bot.EmbedMaker;
 
 public class EmbedMaker
 {
-    public Task<EmbedBuilder> PlayQueue(LavaTrack track, bool queue, SocketUser user, int queuePosition = 0)
+    public Task<EmbedBuilder> PlayQueue(LavaTrack track, bool queue, SocketUser? user, int queuePosition = 0)
     {
 
         var embed = new EmbedBuilder { }
