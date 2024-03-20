@@ -149,7 +149,7 @@ namespace Bot.SlashCommands
                 }
             }
             
-            var searchResponse = await _lavaNode.SearchAsync(default, searchQuery);
+            var searchResponse = await _lavaNode.SearchAsync(SearchType.YouTube, searchQuery);
             if (searchResponse.Status == SearchStatus.LoadFailed ||
                 searchResponse.Status == SearchStatus.NoMatches) 
             { 
