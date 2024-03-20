@@ -294,9 +294,6 @@ namespace Bot.SlashCommands
             try {
                 player.Vueue.Clear();
                 await player.StopAsync();
-                
-                var embed = await _embedMaker.Update("I have cleared the queue.");
-                await RespondAsync(embed : embed.Build());
             }
             catch (Exception exception) {
                 var embed = await _embedMaker.Update(exception.Message);
