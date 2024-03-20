@@ -79,7 +79,8 @@ namespace Bot.SlashCommands
                 }
                 catch (Exception exception)
                 {
-                    await RespondAsync(exception.Message);
+                    var embed = await _embedMaker.Update(exception.Message);
+                    await RespondAsync(embed : embed.Build());
                 }
             }
         }
@@ -142,7 +143,8 @@ namespace Bot.SlashCommands
                     }
                     catch (Exception exception)
                     {
-                        await RespondAsync(exception.Message);
+                        var embed = await _embedMaker.Update(exception.Message);
+                        await RespondAsync(embed : embed.Build());
                     }
                 }
             }
@@ -272,6 +274,31 @@ namespace Bot.SlashCommands
             }
             catch (Exception exception) {
                 await ReplyAsync(exception.Message);
+            }
+        }
+        
+        [SlashCommand("clear", "Clears the queue!")]
+        public async Task StopAsync() {
+            if (!_lavaNode.TryGetPlayer(Context.Guild, out var player)) {
+                var embed = await _embedMaker.ErrorMessage("I'm not connected to a voice channel.");
+                await RespondAsync(embed : embed.Build());
+                return;
+            }
+
+            if (player.PlayerState == PlayerState.Stopped) {
+                var embed = await _embedMaker.ErrorMessage("I am already stopped.");
+                await RespondAsync(embed : embed.Build());
+                return;
+            }
+
+            try {
+                await player.StopAsync();
+                var embed = await _embedMaker.Update("I have cleared the queue.");
+                await RespondAsync(embed : embed.Build());
+            }
+            catch (Exception exception) {
+                var embed = await _embedMaker.Update(exception.Message);
+                await RespondAsync(embed : embed.Build());
             }
         }
     }
