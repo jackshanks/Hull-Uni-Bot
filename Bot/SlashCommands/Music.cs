@@ -121,7 +121,30 @@ namespace Bot.SlashCommands
 
             if (!_lavaNode.HasPlayer(Context.Guild))
             {
-                await JoinAsync();
+                var voiceState = Context.User as IVoiceState;
+                if (voiceState?.VoiceChannel == null)
+                {
+                    var embed = await _embedMaker.ErrorMessage("You must be connected to a voice channel!");
+                    await RespondAsync(embed: embed.Build());
+                    return;
+                }
+
+                if (_lavaNode.TryGetPlayer(Context.Guild, out var playerTest))
+                {
+                    await _lavaNode.LeaveAsync(playerTest.VoiceChannel);
+                    await _lavaNode.JoinAsync(voiceState.VoiceChannel, Context.Channel as ITextChannel);
+                }
+                else
+                {
+                    try
+                    {
+                        await _lavaNode.JoinAsync(voiceState.VoiceChannel, Context.Channel as ITextChannel);
+                    }
+                    catch (Exception exception)
+                    {
+                        await RespondAsync(exception.Message);
+                    }
+                }
             }
             
             var searchResponse = await _lavaNode.SearchAsync(default, searchQuery);
