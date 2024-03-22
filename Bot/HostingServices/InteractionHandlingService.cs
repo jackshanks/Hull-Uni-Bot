@@ -44,6 +44,7 @@ namespace Bot.HostingServices
         public async Task OnReadyAsync()
         {
             await _Interactions.RegisterCommandsToGuildAsync(1153315295306465381);
+            await _Interactions.RegisterCommandsToGuildAsync(1205874915203620864);
             if (!_instanceOfLavaNode.IsConnected) {
                 await _instanceOfLavaNode.ConnectAsync();
             }
