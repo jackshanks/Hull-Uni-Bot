@@ -100,7 +100,7 @@ namespace Bot.SlashCommands
                 return;
             }
 
-            var voiceChannel = (Context.User as IVoiceState).VoiceChannel ?? player.VoiceChannel;
+            var voiceChannel = player.VoiceChannel;
             if (voiceChannel == null) {
                 var embed = await _embedMaker.ErrorMessage("Not sure which voice channel to disconnect from.");
                 await RespondAsync(embed: embed.Build());
