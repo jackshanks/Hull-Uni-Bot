@@ -64,6 +64,10 @@ namespace Bot.HostingServices {
             var player = args.Player;
             if (!player.Vueue.TryDequeue(out var queueable))
             {
+                if (player.PlayerState == PlayerState.Playing)
+                {
+                    return;
+                }
                 var embed = await _embedMaker.Update("Queue completed! Please add more tracks to rock n' roll!");
                 await player.TextChannel.SendMessageAsync(embed : embed.Build());
                 return;
