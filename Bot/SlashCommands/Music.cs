@@ -66,7 +66,7 @@ namespace Bot.SlashCommands
 
                 if (_lavaNode.TryGetPlayer(Context.Guild, out var playerTest))
                 {
-                    await _lavaNode.LeaveAsync(playerTest.VoiceChannel);
+                    await LeaveAsync();
                     await _lavaNode.JoinAsync(voiceState.VoiceChannel, Context.Channel as ITextChannel);
                 }
                 else
