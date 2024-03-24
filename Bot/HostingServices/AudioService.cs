@@ -46,7 +46,7 @@ namespace Bot.HostingServices {
             return Task.CompletedTask;
         }
 
-        /*private async Task OnTrackStarted(TrackStartEventArg<LavaPlayer<LavaTrack>, LavaTrack> arg) {
+        private async Task OnTrackStarted(TrackStartEventArg<LavaPlayer<LavaTrack>, LavaTrack> arg) {
             if (!_disconnectTokens.TryGetValue(arg.Player.VoiceChannel.Id, out var value)) {
                 return;
             }
@@ -57,7 +57,7 @@ namespace Bot.HostingServices {
 
             value.Cancel(true);
             await arg.Player.TextChannel.SendMessageAsync("Auto disconnect has been cancelled!");
-        }*/
+        }
 
         private async Task OnTrackEnded(TrackEndEventArg<LavaPlayer<LavaTrack>, LavaTrack> args) {
 
