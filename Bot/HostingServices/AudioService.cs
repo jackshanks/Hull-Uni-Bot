@@ -79,8 +79,7 @@ namespace Bot.HostingServices {
                 return;
             }
             await args.Player.PlayAsync(queueable);
-
-
+            
             var embed2 = await _embedMaker.PlayQueue(track, false,
                 player.VoiceChannel.Guild.GetUserAsync(1201866907322679326).Result as SocketUser);
             await player.TextChannel.SendMessageAsync(embed : embed2.Build());

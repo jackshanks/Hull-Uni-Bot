@@ -120,7 +120,8 @@ namespace Bot.SlashCommands
                 }
                 await _lavaNode.LeaveAsync(voiceChannel);
 
-                var embed = await _embedMaker.JoinLeave(Context.Guild.GetUser(1201866907322679326), false);
+                var bot = await ((IGuild)Context.Guild).GetUserAsync(1201866907322679326) as SocketUser;
+                var embed = await _embedMaker.JoinLeave(bot, false);
                 await RespondAsync(embed: embed.Build());
             }
             catch (Exception exception) {
