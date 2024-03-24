@@ -52,7 +52,7 @@ namespace Bot.SlashCommands
             _lavaNode = lavaNode;
         }
         
-        public async Task JoinLogic(bool joinedMessage)
+        public async Task<EmbedBuilder> JoinLogic(bool joinedMessage)
         {
             if (!_lavaNode.HasPlayer(Context.Guild))
             {
@@ -60,8 +60,7 @@ namespace Bot.SlashCommands
                 if (voiceState?.VoiceChannel == null)
                 {
                     var embed = await _embedMaker.ErrorMessage("You must be connected to a voice channel!");
-                    await RespondAsync(embed: embed.Build());
-                    return;
+                    return embed;
                 }
 
                 if (_lavaNode.TryGetPlayer(Context.Guild, out var playerTest))
@@ -77,20 +76,26 @@ namespace Bot.SlashCommands
                         if (joinedMessage == true)
                         {
                             var embed = await _embedMaker.JoinLeave(Context.User, true);
-                            await RespondAsync(embed: embed.Build());
+                            return embed;
                         }
                     }
                     catch (Exception exception)
                     {
                         var embed = await _embedMaker.Update(exception.Message);
-                        await RespondAsync(embed : embed.Build());
+                        return embed;
                     }
                 }
             }
+
+            return null;
         }
 
         [SlashCommand("join", "Join the voice channel", runMode: Discord.Interactions.RunMode.Async)]
-        public async Task JoinAsync() { await JoinLogic(true); }
+        public async Task JoinAsync()
+        {
+            var embed = await JoinLogic(true);
+            await RespondAsync(embed : embed.Build());
+        }
         
         [SlashCommand("leave","Leave the voice channel")]
         public async Task LeaveAsync() {
