@@ -109,6 +109,8 @@ namespace Bot.SlashCommands
 
             try
             {
+                player.Vueue.Clear();
+                await player.StopAsync();
                 await _lavaNode.LeaveAsync(voiceChannel);
 
                 var embed = await _embedMaker.JoinLeave(Context.User, false);
