@@ -40,7 +40,7 @@ namespace Bot.SlashCommands
             IServiceProvider services,
             ILogger<InteractionService> logger,
             LavaNode lavaNode,
-            AudioService audioService, 
+            AudioService audioService,
             EmbedMaker.EmbedMaker embedMaker)
         {
             _discord = discord;
@@ -51,39 +51,46 @@ namespace Bot.SlashCommands
             _embedMaker = embedMaker;
             _lavaNode = lavaNode;
         }
-
-        [SlashCommand("join", "Join the voice channel", runMode: Discord.Interactions.RunMode.Async)]
-        public async Task JoinAsync()
+        
+        public async Task JoinLogic(bool joinedMessage)
         {
-            var voiceState = Context.User as IVoiceState;
-            if (voiceState?.VoiceChannel == null)
+            if (!_lavaNode.HasPlayer(Context.Guild))
             {
-                var embed = await _embedMaker.ErrorMessage("You must be connected to a voice channel!");
-                await RespondAsync(embed: embed.Build());
-                return;
-            }
-
-            if (_lavaNode.TryGetPlayer(Context.Guild, out var player))
-            {
-                await _lavaNode.LeaveAsync(player.VoiceChannel);
-                await _lavaNode.JoinAsync(voiceState.VoiceChannel, Context.Channel as ITextChannel);
-            }
-            else
-            {
-                try
+                var voiceState = Context.User as IVoiceState;
+                if (voiceState?.VoiceChannel == null)
                 {
-                    await _lavaNode.JoinAsync(voiceState.VoiceChannel, Context.Channel as ITextChannel);
-                    
-                    var embed = await _embedMaker.JoinLeave(Context.User, true);
+                    var embed = await _embedMaker.ErrorMessage("You must be connected to a voice channel!");
                     await RespondAsync(embed: embed.Build());
+                    return;
                 }
-                catch (Exception exception)
+
+                if (_lavaNode.TryGetPlayer(Context.Guild, out var playerTest))
                 {
-                    var embed = await _embedMaker.Update(exception.Message);
-                    await RespondAsync(embed : embed.Build());
+                    await _lavaNode.LeaveAsync(playerTest.VoiceChannel);
+                    await _lavaNode.JoinAsync(voiceState.VoiceChannel, Context.Channel as ITextChannel);
+                }
+                else
+                {
+                    try
+                    {
+                        await _lavaNode.JoinAsync(voiceState.VoiceChannel, Context.Channel as ITextChannel);
+                        if (joinedMessage == true)
+                        {
+                            var embed = await _embedMaker.JoinLeave(Context.User, true);
+                            await RespondAsync(embed: embed.Build());
+                        }
+                    }
+                    catch (Exception exception)
+                    {
+                        var embed = await _embedMaker.Update(exception.Message);
+                        await RespondAsync(embed : embed.Build());
+                    }
                 }
             }
         }
+
+        [SlashCommand("join", "Join the voice channel", runMode: Discord.Interactions.RunMode.Async)]
+        public async Task JoinAsync() { await JoinLogic(true); }
         
         [SlashCommand("leave","Leave the voice channel")]
         public async Task LeaveAsync() {
@@ -120,34 +127,7 @@ namespace Bot.SlashCommands
                 return;
             }
 
-            if (!_lavaNode.HasPlayer(Context.Guild))
-            {
-                var voiceState = Context.User as IVoiceState;
-                if (voiceState?.VoiceChannel == null)
-                {
-                    var embed = await _embedMaker.ErrorMessage("You must be connected to a voice channel!");
-                    await RespondAsync(embed: embed.Build());
-                    return;
-                }
-
-                if (_lavaNode.TryGetPlayer(Context.Guild, out var playerTest))
-                {
-                    await _lavaNode.LeaveAsync(playerTest.VoiceChannel);
-                    await _lavaNode.JoinAsync(voiceState.VoiceChannel, Context.Channel as ITextChannel);
-                }
-                else
-                {
-                    try
-                    {
-                        await _lavaNode.JoinAsync(voiceState.VoiceChannel, Context.Channel as ITextChannel);
-                    }
-                    catch (Exception exception)
-                    {
-                        var embed = await _embedMaker.Update(exception.Message);
-                        await RespondAsync(embed : embed.Build());
-                    }
-                }
-            }
+            if (!_lavaNode.HasPlayer(Context.Guild)) { await JoinLogic(false); }
             
             var searchResponse = await _lavaNode.SearchAsync(SearchType.YouTube, searchQuery);
             if (searchResponse.Status == SearchStatus.LoadFailed ||
